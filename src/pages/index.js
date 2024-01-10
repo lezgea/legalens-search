@@ -1,8 +1,3 @@
-// import Head from 'next/head';
-// import styles from '../styles/Home.module.css';
-// import Main from '../modules/main';
-
-
 import React from 'react';
 import Head from 'next/head';
 import dynamic from "next/dynamic";
