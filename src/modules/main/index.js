@@ -1,6 +1,4 @@
 import Head from 'next/head';
-// import styles from '../styles/Home.module.css';
-// import styles from '../../styles/main.scss'
 
 
 export default function MainModule() {
@@ -8,12 +6,12 @@ export default function MainModule() {
     <div>
       <Head>
         <title>Legalens | Main Search</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main>
         <div>
-          <a href="/results" >
+          <a href='/results' >
             <h3>Results &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
           </a>

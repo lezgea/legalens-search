@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 
 const ResultsModule = dynamic(
-    () => import('../../modules/results'),
+    () => import('@/modules/results'),
     { ssr: false }
 )
 
@@ -13,7 +13,8 @@ export default function ResultsPage() {
     return (
         <>
             <Head>
-                <title>Legalens / Results Page</title>
+                <title>Legalens | Results Page</title>
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <ResultsModule />
         </>

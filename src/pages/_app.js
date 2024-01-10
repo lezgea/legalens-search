@@ -1,10 +1,16 @@
-import App from 'next/app';
-import Head from 'next/head';
-import dynamic from 'next/dynamic';
-import Router, { useRouter } from 'next/router';
-import '../styles/global.css'
+import '@/styles/global.scss'
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+    subsets: ['latin'],
+    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+})
 
 
 export default function MyApp({ Component, pageProps }) {
-    return <Component {...pageProps} />
+    return (
+        <main className={poppins.className}>
+            <Component {...pageProps} />
+        </main>
+    )
 }
