@@ -16,7 +16,7 @@ import {
     ListIcon,
     StatisticsIcon
 } from '@/assets/icons';
-import { RESULTS_STATE_INITIAL } from '@/constants/initial-states';
+import { TEST_RESULTS_LIST } from '@/constants/test-data';
 
 
 
@@ -45,30 +45,57 @@ export default function ResultsModule() {
     const { searchState } = useSearchContext()
     const { resultsState, setResultsState } = useResultsContext()
 
-    // let filteredResults = React.useMemo(() =>
-    //     RESULTS_STATE_INITIAL?.list?.filter(item => item.text.toLowerCase().includes(searchState.searchValue.toLowerCase())),
-    //     [searchState.searchValue]
-    // )
 
     function getRandomRGB() {
         let o = Math.round, r = Math.random, s = 200;
         return 'rgb(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')'
     }
 
+
     function getSearchDataAndKeys() {
         let keys = []
-        let filteredResults = RESULTS_STATE_INITIAL?.list?.filter(item => item.text.toLowerCase().includes(searchState.searchValue.toLowerCase()))
-        if (!!filteredResults.length) {
-            let searchWords = searchState.searchValue?.split(' ')
-            keys = searchWords.map((item, i) => ({ id: i, label: item, color: getRandomRGB() }))
-        }
+        let searchWords = searchState.searchValue?.split(' ')
+        let filteredResults = TEST_RESULTS_LIST?.filter(item =>
+            searchWords.every(word => !!word &&
+                item.text.toLowerCase().includes(word.toLowerCase())
+            )
+        )
+        if (!!filteredResults.length)
+            keys = getKeys()
+
         setResultsState({
             searchKeys: keys,
             list: filteredResults,
         })
     }
 
-    console.log('####', Math.random())
+
+    function getKeys() {
+        let searchWords = searchState.searchValue?.split(' ')
+        return searchWords.map((item, i) => ({ id: i, label: item, color: getRandomRGB() }))
+    }
+
+
+    function highlightWords(text, words, color) {
+        const regex = new RegExp(`\\b(${words.join('|')})\\b`, 'gi')
+        return text.replace(regex, `<span class="marked" style="background-color: ${color};">$&</span>`)
+    }
+
+
+    function getMarkedText(originalText = '') {
+        if (!!resultsState.searchKeys?.length) {
+            let words = resultsState.searchKeys.map(item => item.label)
+            let colors = resultsState.searchKeys.map(item => item.color)
+            const highlightedText = highlightWords(originalText, words, colors[0]);
+            return highlightedText
+        }
+    }
+
+
+    React.useEffect(() => {
+        getMarkedText()
+    }, [])
+
 
     return (
         <div className='uniq-wrapper'>
@@ -99,8 +126,9 @@ export default function ResultsModule() {
                         {
                             resultsState?.list?.map(item =>
                                 <ResultCard
-                                    key={item.id}
                                     {...item}
+                                    key={item.id}
+                                    text={getMarkedText(item.text)}
                                 />
                             )
                         }
@@ -123,7 +151,7 @@ const ResultCard = (props) => {
                 <div className='label'>{label}</div>
                 <div className='description'>{description}</div>
                 <LinearFilter />
-                <div className='text'>{text}</div>
+                <div className='text' dangerouslySetInnerHTML={{ __html: text }}></div>
             </div>
         </div >
     )
