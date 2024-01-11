@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Image } from 'antd'
+import { Avatar, Image, Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import Icon from '@ant-design/icons';
 import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
@@ -11,6 +11,7 @@ export const Header = (props) => {
     const [state, setState] = React.useReducer(
         (prevState, newState) => ({ ...prevState, ...newState }),
         {
+            searchValue: '',
             loading: false,
             activeFilter: 'h',
         }
@@ -39,23 +40,20 @@ export const Header = (props) => {
                         />
                     )
                 }
-                <Searcher />
+                <div className='searcher'>
+                    <Input
+                        value={state.searchValue}
+                        onChange={(e) => setState({ searchValue: e.target.value })}
+                    />
+                    <div className='button'>
+                        <Icon component={SearchIcon} className='icon' />
+                        <div className='label'>Axtar</div>
+                    </div>
+                </div>
             </div>
-            <div className='user'>
-                <Icon component={NotificationIcon} />
+            <div className='profile-wrapper'>
+                <Icon component={NotificationIcon} className='icon' />
                 <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
-            </div>
-        </div>
-    )
-}
-
-
-const Searcher = () => {
-    return (
-        <div className='searcher'>
-            <div className='button'>
-                <Icon component={SearchIcon} className='icon' />
-                <div className='label'>Axtar</div>
             </div>
         </div>
     )

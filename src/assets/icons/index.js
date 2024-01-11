@@ -11,6 +11,9 @@ import EditIcon from './edit.svg'
 import FolderIcon from './folder.svg'
 import StatisticsIcon from './statistics.svg'
 import ListIcon from './list.svg'
+import HalfListIcon from './half-list.svg'
+import CirclesIcon from './circles.svg'
+import DocumentIcon from './document.svg'
 
 // FILLED ICON IMPORTS
 import FilledNotificationIcon from './filled-notification.svg'
@@ -30,6 +33,9 @@ export {
     FolderIcon,
     StatisticsIcon,
     ListIcon,
+    HalfListIcon,
+    CirclesIcon,
+    DocumentIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,

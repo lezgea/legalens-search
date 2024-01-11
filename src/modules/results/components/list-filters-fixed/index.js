@@ -1,10 +1,9 @@
 import React from 'react'
-import Icon from '@ant-design/icons';
-import { EditIcon, FilledNotificationIcon, FolderIcon, ListIcon, SearchIcon, StatisticsIcon } from '@/assets/icons'
+import { CirclesIcon, EditIcon, FilledNotificationIcon, FolderIcon, HalfListIcon, ListIcon, SearchIcon, StatisticsIcon } from '@/assets/icons'
 import { ActionButton } from '@/components/small';
 
 
-export const ListFilters = (props) => {
+export const ListFiltersFixed = (props) => {
     let { } = props
 
     let filterItems = [
@@ -17,20 +16,20 @@ export const ListFilters = (props) => {
         { id: 1, label: 'Düzəliş et', icon: EditIcon, size: 16 },
         { id: 2, label: 'Xəbərdar et', icon: FilledNotificationIcon, size: 16 },
         { id: 3, label: 'Qovluğa əlvə et', icon: FolderIcon, size: 16 },
-        { id: 4, label: '', icon: StatisticsIcon, size: 17 },
-        { id: 5, label: '', icon: ListIcon, size: 16 },
-        { id: 6, label: '', icon: SearchIcon, size: 16 },
-        { id: 7, label: '', icon: SearchIcon, size: 16 },
+        { id: 4, label: '', icon: StatisticsIcon, size: 18 },
+        { id: 5, label: '', icon: ListIcon, size: 18 },
+        { id: 6, label: '', icon: HalfListIcon, size: 18 },
+        { id: 7, label: '', icon: CirclesIcon, size: 18 },
     ]
 
 
     return (
-        <div className='list-filters-wrapper'>
+        <div className='list-filters-fixed'>
             <div className='filter-items-wrapper'>
                 {filterItems.map(item => <FilterItem key={item.id} {...item} />)}
             </div>
             <div className='action-buttons-wrapper'>
-                {actionButtons.map(item => <ActionButton key={item.id} {...item} />)}
+                {actionButtons.map(item => <ActionButton key={item.id} color='gray' {...item} />)}
             </div>
         </div>
     )

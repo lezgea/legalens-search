@@ -1,2 +1,2 @@
 export * from './side-filter-bar'
-export * from './list-filters'
+export * from './list-filters-fixed'

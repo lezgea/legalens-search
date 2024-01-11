@@ -3,12 +3,13 @@ import Icon from '@ant-design/icons';
 
 
 export const ActionButton = (props) => {
-    let { id, label, icon, size, onClick } = props
+    let { id, color, label, icon, size, onClick } = props
 
     return (
-        <div className='action-button' onClick={onClick}>
-            <Icon component={icon} className='icon' style={{ fontSize: size }} />
+        <div className={`action-button-${color}`} onClick={onClick}>
+            {!!icon && <Icon component={icon} className='icon' style={{ fontSize: size }} />}
             {!!label && <div className='label'>{label}</div>}
         </div>
     )
+
 }

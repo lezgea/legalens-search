@@ -1,7 +1,9 @@
 import React from 'react';
 import { Checkbox } from 'antd';
 import { Header } from '@/components/large';
-import { ListFilters, SideFilterBar } from './components';
+import { ListFiltersFixed, SideFilterBar } from './components';
+import { ActionButton } from '@/components/small';
+import { ArrowDownIcon, DocumentIcon, FolderIcon } from '@/assets/icons';
 
 
 const results = [
@@ -82,22 +84,48 @@ const results = [
 
 
 export default function ResultsModule() {
+
+    let leftActions = [
+        { id: 1, label: 'Qovluğa əlavə et', icon: FolderIcon, size: 16 },
+        { id: 2, label: 'Çap versiyası', icon: DocumentIcon, size: 16 },
+    ]
+
+    let rightActions = [
+        { id: 3, label: 'Sırala', icon: null, size: 16 },
+        { id: 4, label: 'Tarix', icon: ArrowDownIcon, size: 13 },
+    ]
+
+
     return (
-        <div className='results-wrapper'>
+        <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
-                    <ListFilters />
-                    {
-                        results.map(item =>
-                            <ResultCard
-                                key={item.id}
-                                {...item}
-                            />
-                        )
-                    }
+                    <ListFiltersFixed />
+                    <div className='results-list-wrapper'>
+                        <div className='list-header-wrapper'>
+                            <Checkbox checked={false} onChange={() => { }} />
+                            <div className='list-header'>
+                                <div className='action-buttons-wrapper'>
+                                    {leftActions.map(item => <ActionButton key={item.id} color='white' {...item} />)}
+                                </div>
+                                <div className='action-buttons-wrapper'>
+                                    {rightActions.map(item => <ActionButton key={item.id} color='white' {...item} />)}
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            results.map(item =>
+                                <ResultCard
+                                    key={item.id}
+                                    {...item}
+                                />
+                            )
+                        }
+                    </div>
                 </div>
+
 
             </div>
         </div>

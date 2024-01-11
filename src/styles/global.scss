@@ -4,6 +4,15 @@ body {
   margin: 0;
   font-family:
     Nexa Bold;
+  overflow: hidden;
+  height: 100%;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 a {
@@ -18,6 +27,24 @@ a {
 img {
   max-width: 100%;
   height: auto;
+}
+
+
+.uniq-wrapper {
+  background: #f9f8f8;
+  padding: 0 20px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ant-input,
+.ant-input-focused,
+.ant-input:focus,
+.ant-input:active,
+.ant-input:hover {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 

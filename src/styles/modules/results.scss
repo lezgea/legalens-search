@@ -1,6 +1,6 @@
 .results-wrapper {
     background: #f9f8f8;
-    padding: 0 30px;
+    padding: 0 20px;
     height: 100vh;
     overflow: hidden;
 }
@@ -9,14 +9,13 @@
 // --------  LEFT FILTER BAR STYLES
 
 .side-filter-bar {
-    width: 300px;
+    width: 250px;
     padding: 20px;
     height: 100%;
     flex-shrink: 0;
     background: #fff;
     // box-shadow: 0px 0px 239.334px -96.691px rgba(16, 32, 90, 0.22);
     filter: drop-shadow(0px 0px 239.334px rgba(16, 32, 90, 0.22));
-
 
     .filter-item {
         padding: 10px 5px;
@@ -26,7 +25,7 @@
 
         .label {
             color: #212123;
-            font-size: 16px;
+            font-size: 15px;
             font-style: normal;
             font-weight: 400;
             line-height: 125%;
@@ -51,126 +50,134 @@
 .results-inner-wrapper {
     display: flex;
     height: 100%;
-    padding: 0px 6px 0px 6px;
+    padding: 0px 5px 0px 5px;
     border-radius: 6px;
     background-color: #fff;
     box-shadow: -21px 0px 56.106px -18.965px rgba(16, 32, 90, 0.07);
+    position: relative;
 }
 
 
-.list-filters-wrapper {
+.list-filters-fixed {
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    gap: 5px;
+    padding: 10px 15px 10px 50px;
+    background-color: rgba(255, 255, 255, .3);
+    backdrop-filter: blur(30px);
+}
+
+.list-header-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.list-header {
+    z-index: 6;
+    width: 100%;
+    padding-left: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 5px;
-    padding-bottom: 20px;
-    margin-left: 35px;
-
-    .action-buttons-wrapper {
-        display: flex;
-        gap: 5px;
-
-        .action-button {
-            cursor: pointer;
-            display: inline-flex;
-            height: 33px;
-            padding: 10px 13px;
-            align-items: center;
-            flex-shrink: 0;
-            border-radius: 20px;
-            background: #EFEFF1;
-            user-select: none;
-
-            .label {
-                color: #212123;
-                font-size: 11px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 125%;
-                margin-left: 7px;
-            }
-
-            .icon {
-                font-size: 13px;
-                color: #4F4F4F;
-            }
-        }
-    }
-
-
-    .filter-items-wrapper {
-        display: flex;
-        gap: 5px;
-
-        .filter-item {
-            display: flex;
-            height: 33px;
-            padding: 9px 15px;
-            align-items: center;
-            text-align: center;
-            gap: 7.774px;
-            flex-shrink: 0;
-            border-radius: 20px;
-
-            .label {
-                color: #FFF;
-                text-align: center;
-                font-size: 13px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 125%;
-            }
-        }
-    }
-
-
 }
+
+
+.action-buttons-wrapper {
+    display: flex;
+    gap: 5px;
+}
+
+
+.filter-items-wrapper {
+    display: flex;
+    gap: 5px;
+
+    .filter-item {
+        display: flex;
+        height: 35px;
+        padding: 9px 15px;
+        align-items: center;
+        text-align: center;
+        gap: 7.774px;
+        flex-shrink: 0;
+        border-radius: 20px;
+
+        .label {
+            color: #FFF;
+            text-align: center;
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 125%;
+        }
+    }
+}
+
+
 
 
 .results-content-wrapper {
-    z-index: 10;
-    padding: 10px 15px;
-    overflow-y: 'auto';
+    position: relative;
+}
+
+.results-list-wrapper {
+    z-index: 5;
+    padding: 60px 15px 150px 15px;
+    overflow: auto;
+    height: 100%;
+    position: relative;
+
+    .result-card-wrapper {
+        display: flex;
+        align-items: baseline;
+        padding-bottom: 15px;
+
+        .result-card {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 25px;
+            margin-left: 20px;
+            border-radius: 22.349px;
+            background: #FFF;
+            box-shadow: 0px 3.887px 52.472px -9.717px rgba(24, 41, 86, 0.11);
+
+            .label {
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 125%;
+                margin-bottom: 7px;
+            }
+
+            .description {
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 145%;
+            }
+
+            .text {
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 184.5%;
+            }
+        }
+    }
 }
 
 
-.result-card-wrapper {
-    display: flex;
-    align-items: baseline;
-    padding: 10px 0;
-}
 
-.result-card {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 25px;
-    margin-left: 20px;
-    border-radius: 22.349px;
-    background: #FFF;
-    box-shadow: 0px 3.887px 52.472px -9.717px rgba(24, 41, 86, 0.11);
 
-    .label {
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 125%;
-        margin-bottom: 5px;
-    }
 
-    .description {
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 145%;
-    }
-
-    .text {
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 184.5%;
-    }
-}
 
 
 .linear-filter-wrapper {
