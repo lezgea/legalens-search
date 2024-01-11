@@ -1,6 +1,6 @@
 import { Header } from '@/components/header';
 import { SideFilterBar } from './components';
-import { Checkbox, Col, Row } from 'antd';
+import { Checkbox } from 'antd';
 
 
 const results = [
@@ -105,7 +105,7 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { label, description, text, checked, date } = props
+    let { label, description, text, checked } = props
 
     return (
         <div className='result-card-wrapper'>

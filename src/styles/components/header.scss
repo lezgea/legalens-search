@@ -20,13 +20,8 @@
 
 
     .logo {
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-
-        .label {
-            margin-left: 10px;
-        }
+        height: 50px;
+        width: 140px;
     }
 
     .filter-button {
@@ -50,21 +45,6 @@
         }
 
         .icon {}
-
-
-
-        // &:active {
-        //     background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%), #000;
-
-        //     .label {
-        //         color: #fff;
-        //         font-weight: 500;
-        //     }
-
-        //     .icon {
-        //         color: #fff;
-        //     }
-        // }
     }
 
 
@@ -114,23 +94,21 @@
             padding: 7.927px 11.324px;
             justify-content: center;
             align-items: center;
-            gap: 11.324px;
+            gap: 10px;
             flex-shrink: 0;
             border-radius: 10.192px;
             background: #EBEFF8;
 
             .icon {
-                width: 13.04px;
-                height: 13.04px;
+                font-size: 18px;
                 flex-shrink: 0;
-                stroke-width: 2.265px;
                 color: #6BA6FF;
             }
 
             .label {
                 color: #000;
                 text-align: center;
-                font-size: 13px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 140%;

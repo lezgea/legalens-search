@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar, Image } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import Icon from '@ant-design/icons';
-import { SearchIcon } from '@/assets/icons';
+import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
 
 
 export const Header = (props) => {
@@ -16,22 +16,18 @@ export const Header = (props) => {
         }
     )
 
-    console.log('@@@@', state)
 
     const filtersRow = [
-        { value: 'h', label: 'Hüquqi araşdırma', icon: SearchIcon },
-        { value: 'm', label: 'Məhkəmə qərarları', icon: SearchIcon },
-        { value: 's', label: 'Spell check', icon: SearchIcon },
-        { value: 'f', label: 'Forum', icon: SearchIcon },
+        { value: 'h', label: 'Hüquqi araşdırma', icon: SearchIcon, size: 14 },
+        { value: 'm', label: 'Məhkəmə qərarları', icon: HammerIcon, size: 15 },
+        { value: 's', label: 'Spell check', icon: SpellCheckIcon, size: 14 },
+        { value: 'f', label: 'Forum', icon: ForumIcon, size: 14 },
     ]
 
 
     return (
         <div className='header-wrapper'>
-            <div className='logo'>
-                <Avatar size={45}>L</Avatar>
-                <div className='label'>Legalens</div>
-            </div>
+            <Image src='/assets/SVG/legalens-logo.svg' className='logo'/>
             <div className='search-wrapper'>
                 {
                     filtersRow.map(item =>
@@ -46,7 +42,8 @@ export const Header = (props) => {
                 <Searcher />
             </div>
             <div className='user'>
-                <Avatar icon={<UserOutlined />} size={45} />
+                <Icon component={NotificationIcon} />
+                <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
             </div>
         </div>
     )
@@ -57,7 +54,7 @@ const Searcher = () => {
     return (
         <div className='searcher'>
             <div className='button'>
-                <Icon component={UserOutlined} className='icon' />
+                <Icon component={SearchIcon} className='icon' />
                 <div className='label'>Axtar</div>
             </div>
         </div>
@@ -67,14 +64,12 @@ const Searcher = () => {
 
 
 const FilterButton = (props) => {
-    let { label, value, icon, selected, setSelected } = props
+    let { label, value, icon, size, selected, setSelected } = props
     let isSelected = selected === value
 
     return (
         <div className={`filter-button${isSelected ? '-selected' : ''}`} onClick={() => setSelected(value)}>
-            {/* <Icon component={SearchIcon} className='icon' /> */}
-            {/* <Image src={SearchIcon} className='icon' /> */}
-            {/* <SearchIcon className='icon' /> */}
+            <Icon component={icon} className='icon' style={{ fontSize: size }} />
             <div className='label'>{label}</div>
         </div>
     )

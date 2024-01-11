@@ -1,4 +1,6 @@
 import React from 'react'
+import { ArrowDownIcon, ArrowUpIcon } from '@/assets/icons'
+import Icon from '@ant-design/icons';
 
 
 export const SideFilterBar = () => {
@@ -31,7 +33,7 @@ const FilterItem = (props) => {
     return (
         <div className='filter-item'>
             <div className='label'>{label}</div>
-            <div className='icon'>i</div>
+            <Icon component={ArrowDownIcon} className='icon' />
         </div>
     )
 }
