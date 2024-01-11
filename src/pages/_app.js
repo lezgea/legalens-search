@@ -1,6 +1,7 @@
 import '@/styles/global.scss'
 import { Poppins } from 'next/font/google'
 import { SearchContextProvider } from '../context'
+import { ResultsContextProvider } from '@/context/results-context'
 
 const poppins = Poppins({
     subsets: ['latin'],
@@ -12,7 +13,9 @@ export default function MyApp({ Component, pageProps }) {
     return (
         <main className={poppins.className}>
             <SearchContextProvider>
-                <Component {...pageProps} />
+                <ResultsContextProvider>
+                    <Component {...pageProps} />
+                </ResultsContextProvider>
             </SearchContextProvider>
         </main >
     )

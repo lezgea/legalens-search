@@ -3,8 +3,8 @@ import { Checkbox } from 'antd';
 import { Header } from '@/components/large';
 import { ListFiltersFixed, SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
+import { useResultsContext } from '@/context/results-context';
 import { useSearchContext } from '@/context/search-context';
-import { RESULTS_LIST } from '@/constants/test-data';
 import {
     ArrowDownIcon,
     CirclesIcon,
@@ -16,6 +16,7 @@ import {
     ListIcon,
     StatisticsIcon
 } from '@/assets/icons';
+import { RESULTS_STATE_INITIAL } from '@/constants/initial-states';
 
 
 
@@ -41,40 +42,43 @@ const bottomRightActions = [
 
 
 export default function ResultsModule() {
-    const { searchState, searchKeys } = useSearchContext()
+    const { searchState } = useSearchContext()
+    const { resultsState, setResultsState } = useResultsContext()
 
-    const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
-        {
-            filteredResults: [],
+    // let filteredResults = React.useMemo(() =>
+    //     RESULTS_STATE_INITIAL?.list?.filter(item => item.text.toLowerCase().includes(searchState.searchValue.toLowerCase())),
+    //     [searchState.searchValue]
+    // )
+
+    function getRandomRGB() {
+        let o = Math.round, r = Math.random, s = 200;
+        return 'rgb(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')'
+    }
+
+    function getSearchDataAndKeys() {
+        let keys = []
+        let filteredResults = RESULTS_STATE_INITIAL?.list?.filter(item => item.text.toLowerCase().includes(searchState.searchValue.toLowerCase()))
+        if (!!filteredResults.length) {
+            let searchWords = searchState.searchValue?.split(' ')
+            keys = searchWords.map((item, i) => ({ id: i, label: item, color: getRandomRGB() }))
         }
-    )
-
-
-    function getSearchData() {
-        let filteredResults = RESULTS_LIST.filter(item => item.text.toLowerCase().includes(searchState.searchValue.toLowerCase()))
-        setState({ filteredResults: filteredResults })
+        setResultsState({
+            searchKeys: keys,
+            list: filteredResults,
+        })
     }
 
-
-    function getInitialTestData() {
-        setState({ filteredResults: RESULTS_LIST })
-    }
-
-
-    React.useEffect(() => {
-        getInitialTestData()
-    }, [])
-
+    console.log('####', Math.random())
 
     return (
         <div className='uniq-wrapper'>
-            <Header onClickSearch={getSearchData} />
+            <Header onSearch={getSearchDataAndKeys} />
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
                     <div className='list-filters-fixed'>
                         <div className='filter-items-wrapper'>
-                            {searchKeys.map(item => <SearchKey key={item.id} {...item} />)}
+                            {resultsState.searchKeys.map(item => <SearchKey key={item.id} {...item} />)}
                         </div>
                         <div className='action-buttons-wrapper'>
                             {topRightActions.map(item => <ActionButton key={item.id} color='gray' {...item} />)}
@@ -93,7 +97,7 @@ export default function ResultsModule() {
                             </div>
                         </div>
                         {
-                            state.filteredResults.map(item =>
+                            resultsState?.list?.map(item =>
                                 <ResultCard
                                     key={item.id}
                                     {...item}

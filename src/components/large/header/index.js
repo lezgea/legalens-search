@@ -14,22 +14,22 @@ const filtersRow = [
 
 
 export const Header = (props) => {
-    let { onClickSearch } = props
+    let { onSearch } = props
 
-    const { searchState, setSearchState, searchKeys, setSearchKeys } = useSearchContext()
+    const { searchState, setSearchState } = useSearchContext()
 
 
     // filters the searching value, splits it by existing search keys 
     // and sets them to the searchKeys state like:
     // [{ id: 3, label: 'Artım', color: '#FCBB6E' }}]
-    function getSearchKeys() {
-        // searchState.searValue.
-    }
+    // function getSearchKeys() {
+    //     // searchState.searValue.
+    // }
 
 
-    React.useEffect(() => {
-        getSearchKeys()
-    }, [searchState.value])
+    // React.useEffect(() => {
+    //     getSearchKeys()
+    // }, [searchState.value])
 
 
     return (
@@ -50,8 +50,9 @@ export const Header = (props) => {
                     <Input
                         value={searchState.searchValue}
                         onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                        onKeyDown={(e) => e.key === 'Enter' && onSearch()}
                     />
-                    <div className='button' onClick={onClickSearch}>
+                    <div className='button' onClick={onSearch}>
                         <Icon component={SearchIcon} className='icon' />
                         <div className='label'>Axtar</div>
                     </div>
