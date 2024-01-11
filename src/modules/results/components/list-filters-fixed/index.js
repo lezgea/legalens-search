@@ -26,22 +26,11 @@ export const ListFiltersFixed = (props) => {
     return (
         <div className='list-filters-fixed'>
             <div className='filter-items-wrapper'>
-                {filterItems.map(item => <FilterItem key={item.id} {...item} />)}
+                {filterItems.map(item => <SearchKey key={item.id} {...item} />)}
             </div>
             <div className='action-buttons-wrapper'>
                 {actionButtons.map(item => <ActionButton key={item.id} color='gray' {...item} />)}
             </div>
-        </div>
-    )
-}
-
-
-const FilterItem = (props) => {
-    let { id, label, color } = props
-
-    return (
-        <div className='filter-item' style={{ color: '#fff', backgroundColor: color || '#dedede' }}>
-            <div className='label'>{label}</div>
         </div>
     )
 }

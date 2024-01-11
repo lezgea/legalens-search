@@ -1,29 +1,35 @@
 import React from 'react'
 import { Avatar, Image, Input } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
 import Icon from '@ant-design/icons';
 import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
+import { useSearchContext } from '@/context/search-context';
+
+
+const filtersRow = [
+    { value: 'h', label: 'Hüquqi araşdırma', icon: SearchIcon, size: 14 },
+    { value: 'm', label: 'Məhkəmə qərarları', icon: HammerIcon, size: 15 },
+    { value: 's', label: 'Spell check', icon: SpellCheckIcon, size: 14 },
+    { value: 'f', label: 'Forum', icon: ForumIcon, size: 14 },
+]
 
 
 export const Header = (props) => {
-    let { } = props
+    let { onClickSearch } = props
 
-    const [state, setState] = React.useReducer(
-        (prevState, newState) => ({ ...prevState, ...newState }),
-        {
-            searchValue: '',
-            loading: false,
-            activeFilter: 'h',
-        }
-    )
+    const { searchState, setSearchState, searchKeys, setSearchKeys } = useSearchContext()
 
 
-    const filtersRow = [
-        { value: 'h', label: 'Hüquqi araşdırma', icon: SearchIcon, size: 14 },
-        { value: 'm', label: 'Məhkəmə qərarları', icon: HammerIcon, size: 15 },
-        { value: 's', label: 'Spell check', icon: SpellCheckIcon, size: 14 },
-        { value: 'f', label: 'Forum', icon: ForumIcon, size: 14 },
-    ]
+    // filters the searching value, splits it by existing search keys 
+    // and sets them to the searchKeys state like:
+    // [{ id: 3, label: 'Artım', color: '#FCBB6E' }}]
+    function getSearchKeys() {
+        // searchState.searValue.
+    }
+
+
+    React.useEffect(() => {
+        getSearchKeys()
+    }, [searchState.value])
 
 
     return (
@@ -34,18 +40,18 @@ export const Header = (props) => {
                     filtersRow.map(item =>
                         <FilterButton
                             key={item.value}
-                            selected={state.activeFilter}
-                            setSelected={(v) => setState({ activeFilter: v })}
+                            selected={searchState.activeFilter}
+                            setSelected={(v) => setSearchState({ activeFilter: v })}
                             {...item}
                         />
                     )
                 }
                 <div className='searcher'>
                     <Input
-                        value={state.searchValue}
-                        onChange={(e) => setState({ searchValue: e.target.value })}
+                        value={searchState.searchValue}
+                        onChange={(e) => setSearchState({ searchValue: e.target.value })}
                     />
-                    <div className='button'>
+                    <div className='button' onClick={onClickSearch}>
                         <Icon component={SearchIcon} className='icon' />
                         <div className='label'>Axtar</div>
                     </div>
