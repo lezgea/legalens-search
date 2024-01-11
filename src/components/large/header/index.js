@@ -27,7 +27,7 @@ export const Header = (props) => {
 
     return (
         <div className='header-wrapper'>
-            <Image src='/assets/SVG/legalens-logo.svg' className='logo'/>
+            <Image src='/assets/SVG/legalens-logo.svg' className='logo' />
             <div className='search-wrapper'>
                 {
                     filtersRow.map(item =>

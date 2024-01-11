@@ -1,6 +1,7 @@
-import { Header } from '@/components/header';
-import { SideFilterBar } from './components';
+import React from 'react';
 import { Checkbox } from 'antd';
+import { Header } from '@/components/large';
+import { ListFilters, SideFilterBar } from './components';
 
 
 const results = [
@@ -87,6 +88,7 @@ export default function ResultsModule() {
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
+                    <ListFilters />
                     {
                         results.map(item =>
                             <ResultCard
@@ -113,8 +115,22 @@ const ResultCard = (props) => {
             <div className='result-card'>
                 <div className='label'>{label}</div>
                 <div className='description'>{description}</div>
+                <LinearFilter />
                 <div className='text'>{text}</div>
             </div>
         </div >
     )
 }
+
+
+
+const LinearFilter = (props) => {
+    let { } = props
+
+    return (
+        <div className='linear-filter-wrapper'>
+            <div className='linear-filter'></div>
+        </div>
+    )
+}
+
