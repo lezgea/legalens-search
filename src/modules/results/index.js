@@ -1,10 +1,9 @@
 import React from 'react';
-import { Checkbox } from 'antd';
+import { Checkbox, Modal } from 'antd';
 import { Header } from '@/components/large';
-import { ListFiltersFixed, SideFilterBar } from './components';
+import { SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
 import { useResultsContext } from '@/context/results-context';
-import { useSearchContext } from '@/context/search-context';
 import {
     ArrowDownIcon,
     CirclesIcon,
@@ -14,17 +13,20 @@ import {
     FolderIcon,
     HalfListIcon,
     ListIcon,
+    NotificationIcon,
     StatisticsIcon
 } from '@/assets/icons';
-import { TEST_RESULTS_LIST } from '@/constants/test-data';
 import { Empty } from 'antd';
 import Link from 'next/link';
+import { Input } from 'antd';
+
+const { Search } = Input;
 
 
 
 const topRightActions = [
     { id: 1, label: 'Düzəliş et', icon: EditIcon, size: 16 },
-    { id: 2, label: 'Xəbərdar et', icon: FilledNotificationIcon, size: 16 },
+    { id: 2, label: 'Xəbərdar et', icon: NotificationIcon, size: 16 },
     { id: 3, label: 'Qovluğa əlvə et', icon: FolderIcon, size: 16 },
     { id: 4, label: '', icon: StatisticsIcon, size: 18 },
     { id: 5, label: '', icon: ListIcon, size: 18 },
@@ -44,32 +46,8 @@ const bottomRightActions = [
 
 
 export default function ResultsModule() {
-    const { searchState } = useSearchContext()
-    const { resultsState, setResultsState, colors } = useResultsContext()
-
-
-    function getSearchDataAndKeys() {
-        let keys = []
-        let searchWords = searchState.searchValue?.split(' ')
-        let filteredResults = TEST_RESULTS_LIST?.filter(item =>
-            searchWords.every(word => !!word &&
-                item.text.toLowerCase().includes(word.toLowerCase())
-            )
-        )
-        if (!!filteredResults.length)
-            keys = getKeys()
-
-        setResultsState({
-            searchKeys: keys,
-            list: filteredResults,
-        })
-    }
-
-
-    function getKeys() {
-        let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
-        return words.map((item, i) => ({ id: i, label: item, color: colors[i] }))
-    }
+    const { resultsState } = useResultsContext()
+    const [showModal, setShowModal] = React.useState(false)
 
 
     function highlightWords(text, searchKeys) {
@@ -85,16 +63,29 @@ export default function ResultsModule() {
     function getMarkedText(originalText = '') {
         if (!!resultsState.searchKeys?.length) {
             const highlightedText = highlightWords(originalText, resultsState.searchKeys)
-            // countWordOccurrences(originalText)
             return highlightedText
         }
     }
 
 
+    function handleShowModal() {
+        setShowModal(true)
+    }
+
+
+    function handleOk() {
+        setShowModal(false)
+    }
+
+
+    function handleCancel() {
+        setShowModal(false)
+    }
+
 
     return (
         <div className='uniq-wrapper'>
-            <Header onSearch={getSearchDataAndKeys} />
+            <Header />
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
@@ -103,7 +94,7 @@ export default function ResultsModule() {
                             {resultsState.searchKeys.map(item => <SearchKey key={item.id} {...item} />)}
                         </div>
                         <div className='action-buttons-wrapper'>
-                            {topRightActions.map(item => <ActionButton key={item.id} color='gray' {...item} />)}
+                            {topRightActions.map(item => <ActionButton key={item.id} color='gray' onClick={handleShowModal} {...item} />)}
                         </div>
                     </div>
                     <div className='results-list-wrapper'>
@@ -111,10 +102,10 @@ export default function ResultsModule() {
                             <Checkbox checked={false} onChange={() => { }} />
                             <div className='list-header'>
                                 <div className='action-buttons-wrapper'>
-                                    {bottomLeftActions.map(item => <ActionButton key={item.id} color='white' {...item} />)}
+                                    {bottomLeftActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)}
                                 </div>
                                 <div className='action-buttons-wrapper'>
-                                    {bottomRightActions.map(item => <ActionButton key={item.id} color='white' {...item} />)}
+                                    {bottomRightActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)}
                                 </div>
                             </div>
                         </div>
@@ -135,6 +126,17 @@ export default function ResultsModule() {
                         }
                     </div>
                 </div>
+
+
+                <Modal
+                    width={800}
+                    title="Edit Item"
+                    open={showModal}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                >
+                    <div style={{ height: 400 }}></div>
+                </Modal>
             </div>
         </div>
     )
@@ -144,7 +146,7 @@ export default function ResultsModule() {
 
 const ResultCard = (props) => {
     let { label, description, text, checked } = props
-    const { resultsState, setResultsState } = useResultsContext()
+    const { resultsState } = useResultsContext()
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -190,7 +192,7 @@ const ResultCard = (props) => {
         <div className='result-card-wrapper'>
             <Checkbox checked={checked} onChange={() => { }} />
             <div className='result-card'>
-                <Link className='label' href='/result-detail'>{label}</Link>
+                <Link className='label' href='/result-details'>{label}</Link>
                 <div className='description'>{description}</div>
                 <div className='linear-filter-wrapper'>
                     <div className='linear-filter'>
@@ -205,7 +207,7 @@ const ResultCard = (props) => {
                 </div>
                 <div className='text' dangerouslySetInnerHTML={{ __html: text }}></div>
             </div>
-        </div >
+        </div>
     )
 }
 

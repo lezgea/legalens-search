@@ -37,6 +37,7 @@
         background: #FFF;
         cursor: pointer;
         user-select: none;
+        transition: .4s ease-in-out;
 
         .label {
             color: #000;
@@ -48,6 +49,22 @@
         }
 
         .icon {}
+
+
+        &:hover {
+            background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%);
+
+            .label {
+                color: #fff;
+                transform: scale(1.05);
+            }
+
+            .icon {
+                color: #fff;
+                transform: scale(1.2);
+                animation: buttonAnimation .4s ease-in-out;
+            }
+        }
     }
 
 
@@ -60,7 +77,8 @@
         border-radius: 13.849px;
         cursor: pointer;
         user-select: none;
-        background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%), #000;
+        background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%);
+        transition: 0.4s ease-in-out;
 
         .label {
             text-align: center;
@@ -73,6 +91,7 @@
 
         .icon {
             color: #fff;
+            transform: scale(1.1);
         }
     }
 
@@ -118,14 +137,17 @@
             }
 
             &:hover {
-                background: #6BA6FF;
-
-                .icon {
-                    color: #fff;
-                }
+                background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%);
 
                 .label {
                     color: #fff;
+                    transform: scale(1.05);
+                }
+
+                .icon {
+                    color: #fff;
+                    transform: scale(1.1);
+                    animation: buttonAnimation .4s ease-in-out;
                 }
             }
 

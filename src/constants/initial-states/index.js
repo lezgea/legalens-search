@@ -27,3 +27,117 @@ export const RESULTS_STATE_INITIAL = {
         // },
     ],
 }
+
+
+export const SIDEBAR_INITIAL = {
+    data: [
+        {
+            opened: false,
+            label: 'Məhkəmə qərarları',
+            children: [
+                { id: 'a1', type: 'checkbox', label: 'Qüvvədə', checked: false },
+                { id: 'a2', type: 'checkbox', label: 'Qüvvədən düşmüş', checked: false },
+            ]
+        },
+        {
+            opened: false,
+            label: 'Məhkəmə',
+            children: [
+                { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
+                { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
+                { id: 'c3', type: 'checkbox', label: 'Prezidentin Sərəncamları', checked: false },
+                { id: 'c4', type: 'checkbox', label: 'Milli Məclisin qərarları', checked: false },
+                { id: 'c5', type: 'checkbox', label: 'NK qərarları', checked: false },
+                { id: 'c6', type: 'checkbox', label: 'Beynəlxalq Müqavilələr', checked: false },
+                { id: 'c7', type: 'checkbox', label: 'Məcəllələr', checked: false },
+                { id: 'c8', type: 'checkbox', label: 'Maliyyə Nazirliyinin', checked: false },
+                { id: 'c9', type: 'checkbox', label: 'Ali Məhkəmənin uzun descriiiiiiiptionnnnnnnnnnnnnnnn', checked: false },
+            ]
+        },
+        {
+            opened: false,
+            label: 'Case type',
+            children: [
+                { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
+                { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
+                { id: 'c3', type: 'checkbox', label: 'Prezidentin Sərəncamları', checked: false },
+                { id: 'c4', type: 'checkbox', label: 'Milli Məclisin qərarları', checked: false },
+                { id: 'c5', type: 'checkbox', label: 'NK qərarları', checked: false },
+                { id: 'c6', type: 'checkbox', label: 'Beynəlxalq Müqavilələr', checked: false },
+                { id: 'c7', type: 'checkbox', label: 'Məcəllələr', checked: false },
+                { id: 'c8', type: 'checkbox', label: 'Maliyyə Nazirliyinin', checked: false },
+                { id: 'c9', type: 'checkbox', label: 'Ali Məhkəmənin uzun descriiiiiiiptionnnnnnnnnnnnnnnn', checked: false },
+            ]
+        },
+        {
+            opened: false,
+            label: 'Mənbələr',
+            children: [
+                { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
+                { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
+                { id: 'c3', type: 'checkbox', label: 'Prezidentin Sərəncamları', checked: false },
+                { id: 'c4', type: 'checkbox', label: 'Milli Məclisin qərarları', checked: false },
+                { id: 'c5', type: 'checkbox', label: 'NK qərarları', checked: false },
+                { id: 'c6', type: 'checkbox', label: 'Beynəlxalq Müqavilələr', checked: false },
+                { id: 'c7', type: 'checkbox', label: 'Məcəllələr', checked: false },
+                { id: 'c8', type: 'checkbox', label: 'Maliyyə Nazirliyinin', checked: false },
+                { id: 'c9', type: 'checkbox', label: 'Ali Məhkəmənin uzun descriiiiiiiptionnnnnnnnnnnnnnnn', checked: false },
+            ]
+        },
+        {
+            opened: false,
+            label: 'Tarix aralığı',
+            children: []
+        },
+        {
+            opened: false,
+            label: 'Təsnifatlar',
+            children: [
+                { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
+                { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
+                { id: 'c3', type: 'checkbox', label: 'Prezidentin Sərəncamları', checked: false },
+                { id: 'c4', type: 'checkbox', label: 'Milli Məclisin qərarları', checked: false },
+                { id: 'c5', type: 'checkbox', label: 'NK qərarları', checked: false },
+                { id: 'c6', type: 'checkbox', label: 'Beynəlxalq Müqavilələr', checked: false },
+                { id: 'c7', type: 'checkbox', label: 'Məcəllələr', checked: false },
+                { id: 'c8', type: 'checkbox', label: 'Maliyyə Nazirliyinin', checked: false },
+                { id: 'c9', type: 'checkbox', label: 'Ali Məhkəmənin uzun descriiiiiiiptionnnnnnnnnnnnnnnn', checked: false },
+            ]
+        },
+        {
+            opened: false,
+            label: 'İstinadlar',
+            children: [
+                { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
+                { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
+                { id: 'c3', type: 'checkbox', label: 'Prezidentin Sərəncamları', checked: false },
+                { id: 'c4', type: 'checkbox', label: 'Milli Məclisin qərarları', checked: false },
+                { id: 'c5', type: 'checkbox', label: 'NK qərarları', checked: false },
+                { id: 'c6', type: 'checkbox', label: 'Beynəlxalq Müqavilələr', checked: false },
+                { id: 'c7', type: 'checkbox', label: 'Məcəllələr', checked: false },
+                { id: 'c8', type: 'checkbox', label: 'Maliyyə Nazirliyinin', checked: false },
+                { id: 'c9', type: 'checkbox', label: 'Ali Məhkəmənin uzun descriiiiiiiptionnnnnnnnnnnnnnnn', checked: false },
+            ]
+        },
+        {
+            opened: false,
+            label: 'Açar sözlər',
+            children: []
+        },
+        {
+            opened: false,
+            label: 'Nəşrlər',
+            children: [
+                { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
+                { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
+                { id: 'c3', type: 'checkbox', label: 'Prezidentin Sərəncamları', checked: false },
+                { id: 'c4', type: 'checkbox', label: 'Milli Məclisin qərarları', checked: false },
+                { id: 'c5', type: 'checkbox', label: 'NK qərarları', checked: false },
+                { id: 'c6', type: 'checkbox', label: 'Beynəlxalq Müqavilələr', checked: false },
+                { id: 'c7', type: 'checkbox', label: 'Məcəllələr', checked: false },
+                { id: 'c8', type: 'checkbox', label: 'Maliyyə Nazirliyinin', checked: false },
+                { id: 'c9', type: 'checkbox', label: 'Ali Məhkəmənin uzun descriiiiiiiptionnnnnnnnnnnnnnnn', checked: false },
+            ]
+        },
+    ],
+}

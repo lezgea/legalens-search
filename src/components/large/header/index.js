@@ -3,6 +3,9 @@ import { Avatar, Image, Input } from 'antd'
 import Icon from '@ant-design/icons';
 import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
 import { useSearchContext } from '@/context/search-context';
+import { TEST_RESULTS_LIST } from '@/constants/test-data';
+import { useResultsContext } from '@/context/results-context';
+import { useRouter } from 'next/router';
 
 
 const filtersRow = [
@@ -14,22 +17,36 @@ const filtersRow = [
 
 
 export const Header = (props) => {
-    let { onSearch } = props
-
+    let { } = props
+    const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
+    const { setResultsState, colors } = useResultsContext()
 
 
-    // filters the searching value, splits it by existing search keys 
-    // and sets them to the searchKeys state like:
-    // [{ id: 3, label: 'Artım', color: '#FCBB6E' }}]
-    // function getSearchKeys() {
-    //     // searchState.searValue.
-    // }
+    function getSearchDataAndKeys() {
+        router.push('/results')
+        let keys = []
+        let searchWords = searchState.searchValue?.split(' ')
+        let filteredResults = TEST_RESULTS_LIST?.filter(item =>
+            searchWords.every(word => !!word &&
+                item.text.toLowerCase().includes(word.toLowerCase())
+            )
+        )
+        if (!!filteredResults.length)
+            keys = getKeys()
+
+        setResultsState({
+            searchKeys: keys,
+            list: filteredResults,
+        })
+    }
 
 
-    // React.useEffect(() => {
-    //     getSearchKeys()
-    // }, [searchState.value])
+    function getKeys() {
+        let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
+        return words.map((item, i) => ({ id: i, label: item, color: colors[i] }))
+    }
+
 
 
     return (
@@ -50,9 +67,9 @@ export const Header = (props) => {
                     <Input
                         value={searchState.searchValue}
                         onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                        onKeyDown={(e) => e.key === 'Enter' && onSearch()}
+                        onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                     />
-                    <div className='button' onClick={onSearch}>
+                    <div className='button' onClick={getSearchDataAndKeys}>
                         <Icon component={SearchIcon} className='icon' />
                         <div className='label'>Axtar</div>
                     </div>
