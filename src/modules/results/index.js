@@ -17,6 +17,8 @@ import {
     StatisticsIcon
 } from '@/assets/icons';
 import { TEST_RESULTS_LIST } from '@/constants/test-data';
+import { Empty } from 'antd';
+import Link from 'next/link';
 
 
 
@@ -43,13 +45,7 @@ const bottomRightActions = [
 
 export default function ResultsModule() {
     const { searchState } = useSearchContext()
-    const { resultsState, setResultsState } = useResultsContext()
-
-
-    function getRandomRGB() {
-        let o = Math.round, r = Math.random, s = 200;
-        return 'rgb(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')'
-    }
+    const { resultsState, setResultsState, colors } = useResultsContext()
 
 
     function getSearchDataAndKeys() {
@@ -71,30 +67,29 @@ export default function ResultsModule() {
 
 
     function getKeys() {
-        let searchWords = searchState.searchValue?.split(' ')
-        return searchWords.map((item, i) => ({ id: i, label: item, color: getRandomRGB() }))
+        let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
+        return words.map((item, i) => ({ id: i, label: item, color: colors[i] }))
     }
 
 
-    function highlightWords(text, words, color) {
-        const regex = new RegExp(`\\b(${words.join('|')})\\b`, 'gi')
-        return text.replace(regex, `<span class="marked" style="background-color: ${color};">$&</span>`)
+    function highlightWords(text, searchKeys) {
+        let highlightedText = text
+        searchKeys.forEach(item => {
+            const regex = new RegExp(`\\b${item.label}\\b`, 'gi')
+            highlightedText = highlightedText.replace(regex, `<span class="marked" style="background-color: ${item.color};">$&</span>`)
+        })
+        return highlightedText
     }
 
 
     function getMarkedText(originalText = '') {
         if (!!resultsState.searchKeys?.length) {
-            let words = resultsState.searchKeys.map(item => item.label)
-            let colors = resultsState.searchKeys.map(item => item.color)
-            const highlightedText = highlightWords(originalText, words, colors[0]);
+            const highlightedText = highlightWords(originalText, resultsState.searchKeys)
+            // countWordOccurrences(originalText)
             return highlightedText
         }
     }
 
-
-    React.useEffect(() => {
-        getMarkedText()
-    }, [])
 
 
     return (
@@ -132,6 +127,12 @@ export default function ResultsModule() {
                                 />
                             )
                         }
+                        {
+                            !resultsState?.list?.length &&
+                            <div className='empty-content'>
+                                <Empty description={'No Results'} />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -143,29 +144,69 @@ export default function ResultsModule() {
 
 const ResultCard = (props) => {
     let { label, description, text, checked } = props
+    const { resultsState, setResultsState } = useResultsContext()
+
+    const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        {
+            data: [],
+            step: 0,
+        }
+    )
+
+
+    function countWordOccurrences() {
+        const words = text.toLowerCase().match(/\b\w+\b/g)
+        let data = []
+        let step = 0
+        let wordsCount = 0
+        let keys = resultsState.searchKeys.map(item => item.label)
+
+        if (words) {
+            words.forEach((word, index) => {
+                wordsCount += 1
+                let wordExist = keys.includes(word)
+                if (wordExist) {
+                    data.push(resultsState.searchKeys.find(item => item.label === word))
+                } else {
+                    data.push({ id: index, color: 'transparent' })
+                }
+            })
+        }
+        step = wordsCount / 100
+
+        setLinerData({
+            data: data,
+            step: step,
+        })
+    }
+
+
+    React.useEffect(() => {
+        countWordOccurrences()
+    }, [resultsState.searchKeys])
+
 
     return (
         <div className='result-card-wrapper'>
             <Checkbox checked={checked} onChange={() => { }} />
             <div className='result-card'>
-                <div className='label'>{label}</div>
+                <Link className='label' href='/result-detail'>{label}</Link>
                 <div className='description'>{description}</div>
-                <LinearFilter />
+                <div className='linear-filter-wrapper'>
+                    <div className='linear-filter'>
+                        {
+                            linerData.data.map((item, i) =>
+                                <div key={i} className='item'>
+                                    <div className='item-marker' style={{ backgroundColor: item.color }}></div>
+                                </div>
+                            )
+                        }
+                    </div>
+                </div>
                 <div className='text' dangerouslySetInnerHTML={{ __html: text }}></div>
             </div>
         </div >
     )
 }
 
-
-
-const LinearFilter = (props) => {
-    let { } = props
-
-    return (
-        <div className='linear-filter-wrapper'>
-            <div className='linear-filter'></div>
-        </div>
-    )
-}
 

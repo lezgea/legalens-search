@@ -10,8 +10,27 @@ export function ResultsContextProvider({ children }) {
     const [resultsState, setResultsState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         RESULTS_STATE_INITIAL
     )
+    const [colors, setColors] = React.useState([])
 
-    const value = { resultsState, setResultsState }
+
+    function getRandomRGB() {
+        let o = Math.round, r = Math.random, s = 230;
+        return 'rgb(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')'
+    }
+
+
+    function getColorsArray() {
+        let arr = [...Array(100)].map(() => getRandomRGB())
+        setColors(arr)
+    }
+
+
+    const value = { resultsState, setResultsState, colors }
+
+
+    React.useEffect(() => {
+        getColorsArray()
+    }, [])
 
 
     return (
@@ -25,6 +44,7 @@ export function ResultsContextProvider({ children }) {
 /**
  *  @returns {{ 
  *      resultsState: Array, 
+ *      colors: Array,
  *      setResultsState: (result: Object) => VoidFunction 
  * }}
  */

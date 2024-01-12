@@ -1,10 +1,17 @@
 .mainWrapper {
-    background-color: red;
+    // background-color: red;
 }
 
 .marked {
-    padding: 3px 7px;
+    padding: 2px 7px;
     border-radius: 15px;
     color: #fff;
-    background-color: #bc5a5a;
+    background-color: #000;
+}
+
+.empty-content {
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
