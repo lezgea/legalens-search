@@ -1,17 +1,69 @@
 import { Header } from '@/components/large'
+import { useResultsContext } from '@/context/results-context'
 import React from 'react'
 
 
 export default function ResultDetailsModule() {
+    const { resultsState, selectedResult } = useResultsContext()
+
+
+    const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        {
+            data: [],
+            step: 0,
+        }
+    )
+
+    const resultText = selectedResult.text
+
+
+    function countWordOccurrences() {
+        const words = resultText?.toLowerCase().match(/\b\w+\b/g)
+        let data = []
+        let step = 0
+        let wordsCount = 0
+        let keys = resultsState.searchKeys.map(item => item.label)
+
+        if (words) {
+            words.forEach((word, index) => {
+                wordsCount += 1
+                let wordExist = keys.includes(word)
+                if (wordExist) {
+                    data.push(resultsState.searchKeys.find(item => item.label === word))
+                } else {
+                    data.push({ id: index, color: 'transparent' })
+                }
+            })
+        }
+        step = wordsCount / 100
+
+        setLinerData({
+            data: data,
+            step: step,
+        })
+    }
+
+
+    React.useEffect(() => {
+        countWordOccurrences()
+    }, [resultsState.searchKeys])
+
+
+
     return (
         <div className='uniq-wrapper'>
             <Header />
-            <div className='results-inner-wrapper'>
+            <div className='results-details-wrapper'>
                 {/* <div style={{ width: 300, backgroundColor: 'red' }}>skdsjkfsdfs</div> */}
-                <div className='results-details-content'>
+                <div className='results-details-left-bar'>
                     CONTENT
                 </div>
                 <div className='results-details-content'>
+                    <div className='label'>{selectedResult?.label}</div>
+                    <div className='description'>{selectedResult?.description}</div>
+                    <div className='text' dangerouslySetInnerHTML={{ __html: resultText }}></div>
+                </div>
+                <div className='results-details-right-bar'>
                     CONTENT
                 </div>
                 {/* <div className='results-content-wrapper'>

@@ -11,6 +11,7 @@ export function ResultsContextProvider({ children }) {
         RESULTS_STATE_INITIAL
     )
     const [colors, setColors] = React.useState([])
+    const [selectedResult, setSelectedResult] = React.useState({})
 
 
     function getRandomRGB() {
@@ -25,7 +26,7 @@ export function ResultsContextProvider({ children }) {
     }
 
 
-    const value = { resultsState, setResultsState, colors }
+    const value = { resultsState, setResultsState, colors, selectedResult, setSelectedResult }
 
 
     React.useEffect(() => {

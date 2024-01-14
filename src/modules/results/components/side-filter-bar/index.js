@@ -43,24 +43,6 @@ const FilterItem = (props) => {
     // const ChildItem = ()
 
 
-    const ChildItem = (props) => {
-        let { type } = props
-
-        const CHILD_ITEMS = {
-            checkbox: <CheckBoxItem {...props} />,
-        }
-
-        return CHILD_ITEMS[type]
-
-        return (
-            <div>
-                <Checkbox checked={false} onChange={() => { }} />
-
-            </div>
-        )
-    }
-
-
 
     return (
         <div className='filter-item' onClick={onOpenItem}>
@@ -74,9 +56,6 @@ const FilterItem = (props) => {
                     <div className='line'></div>
                     {
                         children.map((item, i) => <ChildItem key={i} {...item} />
-                            // <div key={i} className='child'>
-                            //     {CHILD_ITEMS[item.type]}
-                            // </div>
                         )
                     }
                 </div>
@@ -85,6 +64,24 @@ const FilterItem = (props) => {
     )
 }
 
+
+
+const ChildItem = (props) => {
+    let { type } = props
+
+    const CHILD_ITEMS = {
+        checkbox: <CheckBoxItem {...props} />,
+    }
+
+    return CHILD_ITEMS[type]
+
+    return (
+        <div>
+            <Checkbox checked={false} onChange={() => { }} />
+
+        </div>
+    )
+}
 
 
 

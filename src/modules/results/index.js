@@ -146,7 +146,7 @@ export default function ResultsModule() {
 
 const ResultCard = (props) => {
     let { label, description, text, checked } = props
-    const { resultsState } = useResultsContext()
+    const { resultsState, selectedResult, setSelectedResult } = useResultsContext()
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -183,6 +183,15 @@ const ResultCard = (props) => {
     }
 
 
+    function onSetDetails() {
+        setSelectedResult({
+            label,
+            description,
+            text,
+        })
+    }
+
+
     React.useEffect(() => {
         countWordOccurrences()
     }, [resultsState.searchKeys])
@@ -192,7 +201,13 @@ const ResultCard = (props) => {
         <div className='result-card-wrapper'>
             <Checkbox checked={checked} onChange={() => { }} />
             <div className='result-card'>
-                <Link className='label' href='/result-details'>{label}</Link>
+                <Link
+                    className='label'
+                    href='/result-details'
+                    onClick={onSetDetails}
+                >
+                    {label}
+                </Link>
                 <div className='description'>{description}</div>
                 <div className='linear-filter-wrapper'>
                     <div className='linear-filter'>
