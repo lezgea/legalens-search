@@ -34,6 +34,7 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'Məhkəmə qərarları',
+            count: 0,
             children: [
                 { id: 'a1', type: 'checkbox', label: 'Qüvvədə', checked: false },
                 { id: 'a2', type: 'checkbox', label: 'Qüvvədən düşmüş', checked: false },
@@ -42,6 +43,7 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'Məhkəmə',
+            count: 0,
             children: [
                 { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
                 { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
@@ -57,6 +59,7 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'Case type',
+            count: 0,
             children: [
                 { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
                 { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
@@ -72,6 +75,7 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'Mənbələr',
+            count: 0,
             children: [
                 { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
                 { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
@@ -87,11 +91,13 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'Tarix aralığı',
+            count: 0,
             children: []
         },
         {
             opened: false,
             label: 'Təsnifatlar',
+            count: 0,
             children: [
                 { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
                 { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
@@ -107,6 +113,7 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'İstinadlar',
+            count: 0,
             children: [
                 { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
                 { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },
@@ -122,11 +129,13 @@ export const SIDEBAR_INITIAL = {
         {
             opened: false,
             label: 'Açar sözlər',
+            count: 0,
             children: []
         },
         {
             opened: false,
             label: 'Nəşrlər',
+            count: 0,
             children: [
                 { id: 'c1', type: 'checkbox', label: 'AR Qanunları', checked: false },
                 { id: 'c2', type: 'checkbox', label: 'Prezidentin Fərmanları', checked: false },

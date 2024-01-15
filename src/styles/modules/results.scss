@@ -20,13 +20,37 @@
     .filter-item {
         .header {
             cursor: pointer;
+            position: relative;
             user-select: none;
-            padding: 13px 20px;
+            padding: 13px 15px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: .3s ease-in-out;
+
+            .count-circle {
+                position: absolute;
+                z-index: 5;
+                right: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 20px;
+                height: 20px;
+                border-radius: 100%;
+                transition: .3s ease-in-out;
+                // background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%);
+                background: linear-gradient(251deg, #75ACFF 23.66%, #585FFF 101.74%);
+                animation: valueBoxAnimation .3s ease-in-out;
+
+                .text {
+                    color: #fff;
+                    font-size: 12px;
+                    font-weight: 500;
+                    animation: fadeIn .3s ease-in-out;
+                }
+            }
 
             .label {
                 color: #212123;
@@ -44,6 +68,7 @@
                 font-weight: 400;
                 line-height: 125%;
                 transform: rotateY(0);
+                margin-right: -3px;
                 transition: .2s ease-in-out;
             }
 
@@ -56,7 +81,6 @@
 
                 .icon {
                     color: #6BA6FF;
-                    // transform: rotate(0.5turn);
                 }
 
                 background: #f4f4f8cd;
@@ -64,14 +88,16 @@
         }
 
         .children-wrapper {
-            // height: 100%;
-            // background-color: #85be24;
-            animation: sidebarChildrenWrapperAnimation .4s ease-in-out;
+            height: 100%;
+            user-select: none;
+            animation: fadeIn .3s ease-in-out;
 
             .line {
-                color: #dedede;
-                width: 1px;
+                color: #956f6f;
+                width: 2px;
                 height: 100%;
+                margin-left: 10px;
+
             }
 
             .checkbox-wrapper {
@@ -171,6 +197,7 @@
         gap: 7.774px;
         flex-shrink: 0;
         border-radius: 20px;
+        animation: valueBoxAnimation .2s ease-in-out;
 
         .label {
             color: #FFF;
@@ -179,6 +206,7 @@
             font-style: normal;
             font-weight: 500;
             line-height: 125%;
+            // animation: fadeIn .3s ease-in-out;
         }
     }
 }
@@ -217,8 +245,8 @@
                 font-size: 15px;
                 font-style: normal;
                 font-weight: 600;
-                line-height: 125%;
-                margin-bottom: 7px;
+                line-height: 200%;
+                transition: .3s ease-in-out;
 
                 &:hover {
                     color: #6BA6FF;
@@ -250,8 +278,6 @@
                     font-weight: 400;
                 }
             }
-
-
         }
     }
 }
@@ -326,7 +352,7 @@
         transform: scaleY(0);
     }
 
-    50% {
+    70% {
         transform: scaleY(1.2);
     }
 
@@ -336,12 +362,28 @@
 }
 
 
-@keyframes sidebarChildrenWrapperAnimation {
+
+@keyframes fadeIn {
     0% {
-        height: 0%;
+        opacity: 0;
+        transform: translateY(-50px);
     }
 
     100% {
-        height: 100%;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
     }
 }

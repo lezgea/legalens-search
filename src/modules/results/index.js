@@ -127,7 +127,6 @@ export default function ResultsModule() {
                     </div>
                 </div>
 
-
                 <Modal
                     width={800}
                     title="Edit Item"
@@ -146,7 +145,7 @@ export default function ResultsModule() {
 
 const ResultCard = (props) => {
     let { label, description, text, checked } = props
-    const { resultsState, selectedResult, setSelectedResult } = useResultsContext()
+    const { resultsState, setSelectedResult } = useResultsContext()
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -156,6 +155,7 @@ const ResultCard = (props) => {
     )
 
 
+    // counts words by searchkeys for result cards horizontal liner 
     function countWordOccurrences() {
         const words = text.toLowerCase().match(/\b\w+\b/g)
         let data = []
@@ -175,25 +175,18 @@ const ResultCard = (props) => {
             })
         }
         step = wordsCount / 100
-
-        setLinerData({
-            data: data,
-            step: step,
-        })
+        setLinerData({ data: data, step: step })
     }
 
 
     function onSetDetails() {
-        setSelectedResult({
-            label,
-            description,
-            text,
-        })
+        setSelectedResult({ label, description, text })
     }
 
 
     React.useEffect(() => {
-        countWordOccurrences()
+        if (!!resultsState.searchKeys?.length)
+            countWordOccurrences()
     }, [resultsState.searchKeys])
 
 
@@ -212,7 +205,7 @@ const ResultCard = (props) => {
                 <div className='linear-filter-wrapper'>
                     <div className='linear-filter'>
                         {
-                            linerData.data.map((item, i) =>
+                            linerData?.data?.map((item, i) =>
                                 <div key={i} className='item'>
                                     <div className='item-marker' style={{ backgroundColor: item.color }}></div>
                                 </div>

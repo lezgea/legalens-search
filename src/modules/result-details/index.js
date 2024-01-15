@@ -1,8 +1,9 @@
 import React from 'react'
-import { InfoIcon, SearchIcon } from '@/assets/icons'
+import { InfoIcon, SearchIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
 import Icon, { InfoCircleOutlined } from '@ant-design/icons';
+import { ActionButton } from '@/components/small';
 
 
 
@@ -23,7 +24,6 @@ const infoItems = [
 export default function ResultDetailsModule() {
     const { resultsState, selectedResult } = useResultsContext()
 
-
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
@@ -31,9 +31,12 @@ export default function ResultDetailsModule() {
         }
     )
 
+    // we use this variable for calculating color lines widths in the right bar
+    let totalInfoLinesValue = infoItems.reduce((acc, item) => acc + item.value, 0)
     const resultText = selectedResult.text
 
 
+    // counts words by searchkeys for leftside vertical liner 
     function countWordOccurrences() {
         const words = resultText?.toLowerCase().match(/\b\w+\b/g)
         let data = []
@@ -41,7 +44,7 @@ export default function ResultDetailsModule() {
         let wordsCount = 0
         let keys = resultsState.searchKeys.map(item => item.label)
 
-        if (words) {
+        if (words)
             words.forEach((word, index) => {
                 wordsCount += 1
                 let wordExist = keys.includes(word)
@@ -51,13 +54,8 @@ export default function ResultDetailsModule() {
                     data.push({ id: index, color: 'transparent' })
                 }
             })
-        }
         step = wordsCount / 100
-
-        setLeftLiner({
-            data: data,
-            step: step,
-        })
+        setLeftLiner({ data: data, step: step })
     }
 
 
@@ -86,6 +84,10 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-content'>
+                    <div className='header-icons-wrapper'>
+                        <ActionButton color='gray' onClick={() => { }} icon={SearchIcon} />
+                        <ActionButton color='gray' onClick={() => { }} icon={SquareIcon} />
+                    </div>
                     <div className='label'>{selectedResult?.label}</div>
                     <div className='description'>{selectedResult?.description}</div>
                     <div className='text' dangerouslySetInnerHTML={{ __html: resultText }}></div>
@@ -106,7 +108,10 @@ export default function ResultDetailsModule() {
                                     item.values?.map((val, j) =>
                                         <div key={j} className='value-box'>
                                             <div className='value'>{val.label}</div>
-                                            <Icon component={val.icon} className='icon' />
+                                            {
+                                                val.icon &&
+                                                <Icon component={val.icon} className='icon' />
+                                            }
                                         </div>
                                     )
                                 }
@@ -114,21 +119,39 @@ export default function ResultDetailsModule() {
                         )
                     }
                     <div className='label'>Sonrakı apellyasiya şikayəti yoxdur tarix. Əvvəlki tarix mövcuddur.</div>
-                    <div className='info-line'>
-                        <div className='label'>İstinad Qərarları</div>
-                        <div className='info-value'>448</div>
-                    </div>
-                    {
-                        infoItems.map((item, i) =>
-                            <div key={i} className='info-line'>
-                                <div className='circle-line-wrapper'>
-                                    <div className='circle' style={{ backgroundColor: item.color }}></div>
-                                    <div className='label'>{item.label}</div>
+
+                    <div className='bottom-wrapper'>
+                        <div className='info-line'>
+                            <div className='label'>İstinad Qərarları</div>
+                            <div className='info-value'>448</div>
+                        </div>
+                        <div className='lines-wrapper'>
+                            {
+                                infoItems.reverse().map((item, i) =>
+                                    <div
+                                        key={i}
+                                        className='line'
+                                        style={{
+                                            zIndex: 5 - i,
+                                            width: (totalInfoLinesValue / 100) * item.value + 20,
+                                            background: item.color,
+                                        }}
+                                    />
+                                )
+                            }
+                        </div>
+                        {
+                            infoItems.map((item, i) =>
+                                <div key={i} className='info-line'>
+                                    <div className='circle-line-wrapper'>
+                                        <div className='circle' style={{ backgroundColor: item.color }}></div>
+                                        <div className='label'>{item.label}</div>
+                                    </div>
+                                    <div className='info-value'>{item.value}</div>
                                 </div>
-                                <div className='info-value'>{item.value}</div>
-                            </div>
-                        )
-                    }
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         </div>
