@@ -220,7 +220,9 @@ const ResultCard = (props) => {
                         }
                     </div>
                 </div>
-                <div className='text' dangerouslySetInnerHTML={{ __html: text }}></div>
+                <div className='text-container'>
+                    <div className='text truncate' dangerouslySetInnerHTML={{ __html: text }}></div>
+                </div>
             </div>
         </div>
     )

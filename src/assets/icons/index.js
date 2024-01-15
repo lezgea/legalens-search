@@ -14,6 +14,7 @@ import ListIcon from './list.svg'
 import HalfListIcon from './half-list.svg'
 import CirclesIcon from './circles.svg'
 import DocumentIcon from './document.svg'
+import InfoIcon from './info.svg'
 
 // FILLED ICON IMPORTS
 import FilledNotificationIcon from './filled-notification.svg'
@@ -36,6 +37,7 @@ export {
     HalfListIcon,
     CirclesIcon,
     DocumentIcon,
+    InfoIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,

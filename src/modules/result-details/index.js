@@ -1,13 +1,30 @@
+import React from 'react'
+import { InfoIcon, SearchIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
-import React from 'react'
+import Icon, { InfoCircleOutlined } from '@ant-design/icons';
+
+
+
+const rightBarItems = [
+    { label: 'Mənbə məlumatı', values: [{ label: 'Qanunvericilik', icon: null }] },
+    { label: 'Müvafiq mətn', values: [{ label: 'Qanunvercilik', icon: SearchIcon }] },
+    { label: 'Mövzu xülasələri', values: [{ label: 'Hesabata bax', icon: null }] },
+]
+
+const infoItems = [
+    { label: 'Diqqət', color: '#FFC107', value: 85 },
+    { label: 'Müsbət', color: '#77D47B', value: 144 },
+    { label: 'Neytral', color: '#3F51B5', value: 97 },
+    { label: 'İstinad edilmiş', color: '#03A9F4', value: 206 },
+]
 
 
 export default function ResultDetailsModule() {
     const { resultsState, selectedResult } = useResultsContext()
 
 
-    const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+    const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
             step: 0,
@@ -37,7 +54,7 @@ export default function ResultDetailsModule() {
         }
         step = wordsCount / 100
 
-        setLinerData({
+        setLeftLiner({
             data: data,
             step: step,
         })
@@ -54,60 +71,65 @@ export default function ResultDetailsModule() {
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-details-wrapper'>
-                {/* <div style={{ width: 300, backgroundColor: 'red' }}>skdsjkfsdfs</div> */}
                 <div className='results-details-left-bar'>
-                    CONTENT
+                    <div className='left-liner-filter-wrapper'>
+                        <div className='left-liner-filter'>
+                            {
+                                leftLiner.data.map((item, i) =>
+                                    <div key={i} className='item'>
+                                        <div className='item-marker' style={{ backgroundColor: item.color }}></div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
                 </div>
+
                 <div className='results-details-content'>
                     <div className='label'>{selectedResult?.label}</div>
                     <div className='description'>{selectedResult?.description}</div>
                     <div className='text' dangerouslySetInnerHTML={{ __html: resultText }}></div>
                 </div>
-                <div className='results-details-right-bar'>
-                    CONTENT
-                </div>
-                {/* <div className='results-content-wrapper'>
 
-                </div> */}
-                {/* <SideFilterBar />
-                <div className='results-content-wrapper'>
-                    <div className='list-filters-fixed'>
-                        <div className='filter-items-wrapper'>
-                            {resultsState.searchKeys.map(item => <SearchKey key={item.id} {...item} />)}
+                <div className='results-details-right-bar'>
+                    <div className='title-wrapper'>
+                        <div className='icon-wrapper'>
+                            <InfoCircleOutlined className='icon' />
                         </div>
-                        <div className='action-buttons-wrapper'>
-                            {topRightActions.map(item => <ActionButton key={item.id} color='gray' {...item} />)}
-                        </div>
+                        <div className='title'>Məlumat</div>
                     </div>
-                    <div className='results-list-wrapper'>
-                        <div className='list-header-wrapper'>
-                            <Checkbox checked={false} onChange={() => { }} />
-                            <div className='list-header'>
-                                <div className='action-buttons-wrapper'>
-                                    {bottomLeftActions.map(item => <ActionButton key={item.id} color='white' {...item} />)}
-                                </div>
-                                <div className='action-buttons-wrapper'>
-                                    {bottomRightActions.map(item => <ActionButton key={item.id} color='white' {...item} />)}
-                                </div>
+                    {
+                        rightBarItems.map((item, i) =>
+                            <div key={i}>
+                                <div className='label'>{item.label}</div>
+                                {
+                                    item.values?.map((val, j) =>
+                                        <div key={j} className='value-box'>
+                                            <div className='value'>{val.label}</div>
+                                            <Icon component={val.icon} className='icon' />
+                                        </div>
+                                    )
+                                }
                             </div>
-                        </div>
-                        {
-                            resultsState?.list?.map(item =>
-                                <ResultCard
-                                    {...item}
-                                    key={item.id}
-                                    text={getMarkedText(item.text)}
-                                />
-                            )
-                        }
-                        {
-                            !resultsState?.list?.length &&
-                            <div className='empty-content'>
-                                <Empty description={'No Results'} />
-                            </div>
-                        }
+                        )
+                    }
+                    <div className='label'>Sonrakı apellyasiya şikayəti yoxdur tarix. Əvvəlki tarix mövcuddur.</div>
+                    <div className='info-line'>
+                        <div className='label'>İstinad Qərarları</div>
+                        <div className='info-value'>448</div>
                     </div>
-                </div> */}
+                    {
+                        infoItems.map((item, i) =>
+                            <div key={i} className='info-line'>
+                                <div className='circle-line-wrapper'>
+                                    <div className='circle' style={{ backgroundColor: item.color }}></div>
+                                    <div className='label'>{item.label}</div>
+                                </div>
+                                <div className='info-value'>{item.value}</div>
+                            </div>
+                        )
+                    }
+                </div>
             </div>
         </div>
     )

@@ -232,18 +232,29 @@
                 line-height: 145%;
             }
 
-            .text {
-                font-size: 12px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 184.5%;
+            .text-container {
+                line-height: 20px;
+                overflow: hidden;
+
+                .text {
+                    display: block;
+                    bottom: 0;
+                    right: 0;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    font-size: 12px !important;
+                    font-style: normal;
+                    font-weight: 400;
+                }
             }
+
+
         }
     }
 }
-
-
-
 
 
 
@@ -274,7 +285,7 @@
                 left: 0;
                 height: 32px;
                 position: absolute;
-                width: 15px;
+                width: 13px;
                 border-radius: 15px;
                 background-color: #85be24;
                 animation: linerFilterItemAnimation .5s ease-in-out;
@@ -296,22 +307,30 @@
 // ANIMATIONS
 
 @keyframes linerFilterAnimation {
-    from {
+    0% {
         transform: scaleX(0);
     }
 
-    to {
+    70% {
+        transform: scaleX(1.2);
+    }
+
+    100% {
         transform: scaleX(1);
     }
 }
 
 
 @keyframes linerFilterItemAnimation {
-    from {
+    0% {
         transform: scaleY(0);
     }
 
-    to {
+    50% {
+        transform: scaleY(1.2);
+    }
+
+    100% {
         transform: scaleY(1);
     }
 }
