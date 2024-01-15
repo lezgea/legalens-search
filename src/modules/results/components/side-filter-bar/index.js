@@ -69,15 +69,18 @@ const FilterItem = (props) => {
                 opened && !!children.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='line'></div>
-                    {
-                        children.map((item, i) =>
-                            <ChildItem
-                                key={item.id}
-                                onCheck={onCheck}
-                                {...item}
-                            />
-                        )
-                    }
+                    <div className='children'>
+                        {
+                            children.map((item, i) =>
+                                <ChildItem
+                                    key={item.id}
+                                    onCheck={onCheck}
+                                    {...item}
+                                />
+                            )
+                        }
+                    </div>
+
                 </div>
             }
         </div>
@@ -101,7 +104,7 @@ const ChildItem = (props) => {
 
 
 const CheckBoxItem = (props) => {
-    let { id, label, checked, parent, onCheck } = props
+    let { id, label, checked, onCheck } = props
 
 
     return (

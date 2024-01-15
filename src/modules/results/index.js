@@ -19,6 +19,7 @@ import {
 import { Empty } from 'antd';
 import Link from 'next/link';
 import { Input } from 'antd';
+import { ResultsListSkeleton } from '@/components/medium';
 
 const { Search } = Input;
 
@@ -119,10 +120,14 @@ export default function ResultsModule() {
                             )
                         }
                         {
-                            !resultsState?.list?.length &&
+                            !resultsState.loading && !resultsState?.list?.length &&
                             <div className='empty-content'>
                                 <Empty description={'No Results'} />
                             </div>
+                        }
+                        {
+                            resultsState.loading &&
+                            <ResultsListSkeleton />
                         }
                     </div>
                 </div>
@@ -144,7 +149,7 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { label, description, text, checked } = props
+    let { label, description, text, checked, date } = props
     const { resultsState, setSelectedResult } = useResultsContext()
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
@@ -194,6 +199,7 @@ const ResultCard = (props) => {
         <div className='result-card-wrapper'>
             <Checkbox checked={checked} onChange={() => { }} />
             <div className='result-card'>
+                <div className='date'>{date}</div>
                 <Link
                     className='label'
                     href='/result-details'

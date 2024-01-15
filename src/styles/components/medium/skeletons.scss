@@ -1,0 +1,106 @@
+@import '../../variables.scss';
+
+
+.result-card-wrapper {
+    display: flex;
+    align-items: baseline;
+    padding-bottom: 15px;
+
+    .result-card {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px 25px;
+        margin-left: 20px;
+        border-radius: 22px;
+        background: #FFF;
+        box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
+
+        .label-skeleton {
+            height: 16px;
+            width: 40%;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            background-size: 200% 200%;
+            background-color: $skeleton_color;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+            background-position: -250px 0;
+            background-repeat: no-repeat;
+            animation: skeletonAnimation 1.5s ease-in-out infinite;
+        }
+
+        .description-skeleton {
+            height: 12px;
+            width: 60%;
+            border-radius: 5px;
+            margin-top: 7px;
+            background-color: $skeleton_color;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+            background-position: -250px 0;
+            background-repeat: no-repeat;
+            animation: skeletonAnimation 1.5s ease-in-out infinite;
+        }
+
+        .text-container {
+            line-height: 20px;
+            overflow: hidden;
+
+            .text-skeleton {
+                height: 10px;
+                width: 100%;
+                border-radius: 5px;
+                margin-top: 10px;
+                background-color: $skeleton_color;
+                background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+                background-position: -250px 0;
+                background-repeat: no-repeat;
+                animation: skeletonAnimation 1.5s ease-in-out infinite;
+            }
+        }
+
+        .date-skeleton {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            height: 10px;
+            width: 10%;
+            border-radius: 5px;
+            margin-top: 7px;
+            background-color: $skeleton_color;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+            background-position: -250px 0;
+            background-repeat: no-repeat;
+            animation: skeletonAnimation 1.5s ease-in-out infinite;
+        }
+    }
+
+
+    .linear-filter-wrapper {
+        padding: 30px 0;
+
+        .linear-filter-skeleton {
+            height: 31px;
+            width: 100%;
+            border-radius: 20px;
+            background-size: 200% 200%;
+            background-color: $skeleton_color;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+            background-position: -250px 0;
+            background-repeat: no-repeat;
+            animation: skeletonAnimation 1.5s ease-in-out infinite;
+        }
+    }
+}
+
+
+@keyframes skeletonAnimation {
+    0% {
+        background-position: -250px 0;
+    }
+
+    100% {
+        background-position: 250px 0;
+    }
+}
