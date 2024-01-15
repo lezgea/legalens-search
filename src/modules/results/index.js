@@ -111,7 +111,11 @@ export default function ResultsModule() {
                             </div>
                         </div>
                         {
-                            resultsState?.list?.map(item =>
+                            resultsState.loading &&
+                            <ResultsListSkeleton />
+                        }
+                        {
+                            !resultsState.loading && resultsState?.list?.map(item =>
                                 <ResultCard
                                     {...item}
                                     key={item.id}
@@ -124,10 +128,6 @@ export default function ResultsModule() {
                             <div className='empty-content'>
                                 <Empty description={'No Results'} />
                             </div>
-                        }
-                        {
-                            resultsState.loading &&
-                            <ResultsListSkeleton />
                         }
                     </div>
                 </div>

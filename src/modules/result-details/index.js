@@ -1,9 +1,10 @@
 import React from 'react'
-import { InfoIcon, SearchIcon, SquareIcon } from '@/assets/icons'
+import { ArrowDownIcon, InfoIcon, SearchIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
 import Icon, { InfoCircleOutlined } from '@ant-design/icons';
 import { ActionButton } from '@/components/small';
+import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 
 
 
@@ -70,6 +71,12 @@ export default function ResultDetailsModule() {
             <Header />
             <div className='results-details-wrapper'>
                 <div className='results-details-left-bar'>
+                    <div className='header-btns-wrapper'>
+                        <OutlinedButton color='white' label='Axtarış şərtləri' icon={ArrowDownIcon} />
+                        <OutlinedButton color='white' icon={ArrowDownIcon} />
+                        <OutlinedButton color='white' icon={ArrowDownIcon} />
+                    </div>
+
                     <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
                             {

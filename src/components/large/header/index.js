@@ -24,6 +24,7 @@ export const Header = (props) => {
 
 
     function getSearchDataAndKeys() {
+        setResultsState({ loading: true })
         router.push('/results')
         let keys = []
         let searchWords = searchState.searchValue?.split(' ')
@@ -35,10 +36,12 @@ export const Header = (props) => {
         if (!!filteredResults.length)
             keys = getKeys()
 
-        setResultsState({
-            searchKeys: keys,
-            list: filteredResults,
-        })
+        setTimeout(() =>
+            setResultsState({
+                loading: false,
+                searchKeys: keys,
+                list: filteredResults,
+            }), 1000)
     }
 
 
@@ -51,7 +54,7 @@ export const Header = (props) => {
 
     return (
         <div className='header-wrapper'>
-            <Image src='/assets/SVG/legalens-logo.svg' className='logo' />
+            <Image src='/assets/SVG/legalens-logo.svg' className='logo' preview={false} />
             <div className='search-wrapper'>
                 {
                     filtersRow.map(item =>
@@ -76,7 +79,12 @@ export const Header = (props) => {
                 </div>
             </div>
             <div className='profile-wrapper'>
-                <Icon component={NotificationIcon} className='icon' />
+                <div className='notification-wrapper'>
+                    <Icon component={NotificationIcon} className='icon' />
+                    <div className='count-circle'>
+                        <div className='text'>3</div>
+                    </div>
+                </div>
                 <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
             </div>
         </div>
