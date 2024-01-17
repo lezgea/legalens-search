@@ -15,7 +15,7 @@ const rightBarItems = [
 ]
 
 const infoItems = [
-    { label: 'Diqqət', color: '#FFC107', value: 85 },
+    { label: 'Diqqət', color: '#FFC107', value: 250 },
     { label: 'Müsbət', color: '#77D47B', value: 144 },
     { label: 'Neytral', color: '#3F51B5', value: 97 },
     { label: 'İstinad edilmiş', color: '#03A9F4', value: 206 },

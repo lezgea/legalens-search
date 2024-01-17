@@ -54,7 +54,12 @@ export const Header = (props) => {
 
     return (
         <div className='header-wrapper'>
-            <Image src='/assets/SVG/legalens-logo.svg' className='logo' preview={false} />
+            <Image
+                src='/assets/SVG/legalens-logo.svg'
+                className='logo'
+                preview={false}
+                onClick={() => router.push('/')}
+            />
             <div className='search-wrapper'>
                 {
                     filtersRow.map(item =>

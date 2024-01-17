@@ -9,7 +9,6 @@ import {
     CirclesIcon,
     DocumentIcon,
     EditIcon,
-    FilledNotificationIcon,
     FolderIcon,
     HalfListIcon,
     ListIcon,
