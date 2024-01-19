@@ -3,11 +3,38 @@ import { HeaderForMain } from './components/header-for-main'
 import { TEST_RESULTS_LIST } from '@/constants/test-data'
 import { useRouter } from 'next/router'
 import Icon from '@ant-design/icons';
-import { SearchIcon } from '@/assets/icons';
+import { CircleQuestionIcon, SearchIcon } from '@/assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { Input } from 'antd';
+import { Button, Dropdown, Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { OutlinedButton } from '@/components/small/buttons/outlined-button';
+import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
+import { LeftFixedBar } from './components/left-fixed-bar';
+
+
+
+const items = [
+    {
+        key: '1',
+        label: 'aTest',
+    },
+    {
+        key: '2',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                2nd menu item
+            </a>
+        ),
+    },
+    {
+        key: '3',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+                3rd menu item
+            </a>
+        ),
+    },
+];
 
 
 export default function MainModule() {
@@ -47,6 +74,7 @@ export default function MainModule() {
     return (
         <div className='uniq-wrapper'>
             <HeaderForMain />
+            <LeftFixedBar />
             <div className='main-wrapper'>
                 <div className='title-wrapper'>
                     <div className='label'>Lorem ipsum dolor</div>
@@ -54,7 +82,7 @@ export default function MainModule() {
                 </div>
                 <div className='search-wrapper'>
                     <div className='search-box'>
-                        <Icon component={SearchIcon} className='question-icon' />
+                        <Icon component={CircleQuestionIcon} className='question-icon' />
                         <Input
                             value={searchState.searchValue}
                             className='input'
@@ -64,10 +92,20 @@ export default function MainModule() {
                         <Icon component={SearchIcon} className='search-icon' />
                     </div>
                     <div className='search-filters-wrapper'>
-                        <OutlinedButton label='Praktika sahesi' />
-                        <div className='button'>Praktika sahəsi</div>
-                        <div className='button'>Praktika sahəsi</div>
-                        <div className='button'>Praktika sahəsi</div>
+                        {
+                            MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>
+                                <Dropdown
+                                    trigger='click'
+                                    menu={{ items: item.children }}
+                                    placement="bottomLeft"
+                                    overlayStyle={{ padding: 5 }}
+                                >
+                                    <Button className='outlined-button-white' style={{ borderRadius: 15 }}>
+                                        <div className='label' style={{ fontSize: 14 }}>{item.label}</div>
+                                    </Button>
+                                </Dropdown>
+                            )
+                        }
                     </div>
                 </div>
             </div>
