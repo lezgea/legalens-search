@@ -1,13 +1,12 @@
 import React from 'react'
+import Icon from '@ant-design/icons';
 import { HeaderForMain } from './components/header-for-main'
 import { TEST_RESULTS_LIST } from '@/constants/test-data'
 import { useRouter } from 'next/router'
-import Icon from '@ant-design/icons';
-import { CircleQuestionIcon, SearchIcon } from '@/assets/icons';
+import { CircleQuestionIcon, ThinSearchIcon } from '@/assets/icons';
 import { useSearchContext } from '@/context/search-context';
 import { Button, Dropdown, Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
-import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
 import { LeftFixedBar } from './components/left-fixed-bar';
 
@@ -89,16 +88,17 @@ export default function MainModule() {
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
                             onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                         />
-                        <Icon component={SearchIcon} className='search-icon' />
+                        <Icon component={ThinSearchIcon} className='search-icon' />
                     </div>
                     <div className='search-filters-wrapper'>
                         {
                             MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>
                                 <Dropdown
+                                    key={i}
                                     trigger='click'
                                     menu={{ items: item.children }}
                                     placement="bottomLeft"
-                                    overlayStyle={{ padding: 5 }}
+                                    overlayStyle={{ padding: '5px 0' }}
                                 >
                                     <Button className='outlined-button-white' style={{ borderRadius: 15 }}>
                                         <div className='label' style={{ fontSize: 14 }}>{item.label}</div>

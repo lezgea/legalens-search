@@ -17,6 +17,8 @@ import DocumentIcon from './document.svg'
 import InfoIcon from './info.svg'
 import SquareIcon from './square.svg'
 import CircleQuestionIcon from './circle-question.svg'
+import ThinSearchIcon from './thin-search.svg'
+import ArrowRightIcon from './arrow-right.svg'
 
 // FILLED ICON IMPORTS
 import FilledNotificationIcon from './filled-notification.svg'
@@ -42,6 +44,8 @@ export {
     InfoIcon,
     SquareIcon,
     CircleQuestionIcon,
+    ThinSearchIcon,
+    ArrowRightIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,
