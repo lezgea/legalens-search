@@ -62,14 +62,14 @@ export const Header = (props) => {
             />
             <div className='search-wrapper'>
                 {
-                    filtersRow.map(item =>
-                        <FilterButton
-                            key={item.value}
-                            selected={searchState.activeFilter}
-                            setSelected={(v) => setSearchState({ activeFilter: v })}
-                            {...item}
-                        />
-                    )
+                    // filtersRow.map(item =>
+                    //     <FilterButton
+                    //         key={item.value}
+                    //         selected={searchState.activeFilter}
+                    //         setSelected={(v) => setSearchState({ activeFilter: v })}
+                    //         {...item}
+                    //     />
+                    // )
                 }
                 <div className='searcher'>
                     <Input

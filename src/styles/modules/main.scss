@@ -73,6 +73,20 @@
             margin-top: 15px;
         }
     }
+
+    .main-footer {
+        // max-height: 100px;
+        width: 100%;
+
+        .footer-image {
+
+            // position: absolute;
+            object-fit: contain;
+            width: 100% !important;
+            // position: relative !important;
+            height: unset !important;
+        }
+    }
 }
 
 
@@ -83,13 +97,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 23px 20px;
+    padding: 10px;
     animation: .2s ease-in-out;
 
     .logo {
         cursor: pointer;
-        height: 50px;
-        width: 120px;
+        height: 60px;
+        width: 180px;
     }
 }
 

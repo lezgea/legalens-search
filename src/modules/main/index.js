@@ -9,6 +9,9 @@ import { Button, Dropdown, Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
 import { LeftFixedBar } from './components/left-fixed-bar';
+import Image from 'next/image';
+import { useSearch } from '@/hooks/use-search';
+import { getSearchData } from '@/api/search/getSearchData';
 
 
 
@@ -41,26 +44,34 @@ export default function MainModule() {
     const { setResultsState, colors } = useResultsContext()
     const router = useRouter()
 
+    // const { data = {}, refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+
 
     function getSearchDataAndKeys() {
         setResultsState({ loading: true })
-        router.push('/results')
-        let keys = []
-        let searchWords = searchState.searchValue?.split(' ')
-        let filteredResults = TEST_RESULTS_LIST?.filter(item =>
-            searchWords.every(word => !!word &&
-                item.text.toLowerCase().includes(word.toLowerCase())
-            )
-        )
-        if (!!filteredResults.length)
-            keys = getKeys()
+        // router.push('/results')
 
-        setTimeout(() =>
-            setResultsState({
-                loading: false,
-                searchKeys: keys,
-                list: filteredResults,
-            }), 1000)
+        let response = getSearchData({ query_strig: searchState.searchValue })
+        console.log('@@@@@', response)
+
+
+
+        // let keys = []
+        // let searchWords = searchState.searchValue?.split(' ')
+        // let filteredResults = TEST_RESULTS_LIST?.filter(item =>
+        //     searchWords.every(word => !!word &&
+        //         item.text.toLowerCase().includes(word.toLowerCase())
+        //     )
+        // )
+        // if (!!filteredResults.length)
+        //     keys = getKeys()
+
+        // setTimeout(() =>
+        //     setResultsState({
+        //         loading: false,
+        //         searchKeys: keys,
+        //         list: filteredResults,
+        //     }), 1000)
     }
 
 
@@ -73,7 +84,7 @@ export default function MainModule() {
     return (
         <div className='uniq-wrapper'>
             <HeaderForMain />
-            <LeftFixedBar />
+            {/* <LeftFixedBar /> */}
             <div className='main-wrapper'>
                 <div className='title-wrapper'>
                     <div className='label'>Lorem ipsum dolor</div>
@@ -81,7 +92,7 @@ export default function MainModule() {
                 </div>
                 <div className='search-wrapper'>
                     <div className='search-box'>
-                        <Icon component={CircleQuestionIcon} className='question-icon' />
+                        {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
                         <Input
                             value={searchState.searchValue}
                             className='input'
@@ -90,7 +101,7 @@ export default function MainModule() {
                         />
                         <Icon component={ThinSearchIcon} className='search-icon' />
                     </div>
-                    <div className='search-filters-wrapper'>
+                    {/* <div className='search-filters-wrapper'>
                         {
                             MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>
                                 <Dropdown
@@ -106,8 +117,11 @@ export default function MainModule() {
                                 </Dropdown>
                             )
                         }
-                    </div>
+                    </div> */}
                 </div>
+            </div>
+            <div className='main-footer'>
+                <Image src='/assets/SVG/footer.svg' style={{ objectFit: "contain" }} className='footer-image' />
             </div>
         </div>
     )
