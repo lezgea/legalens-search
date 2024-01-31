@@ -52,9 +52,29 @@ export default function ResultsModule() {
 
     function highlightWords(text, searchKeys) {
         let highlightedText = text
-        searchKeys.forEach(item => {
-            const regex = new RegExp(`\\b${item.label}\\b`, 'gi')
-            highlightedText = highlightedText.replace(regex, `<span class="marked" style="background-color: ${item.color};">$&</span>`)
+
+        console.log('======', highlightedText)
+        // console.log('!! SEARCH WORDS !!', searchKeys)
+        searchKeys.forEach((item, i) => {
+
+            // Escape special characters in the search key
+            const escapedLabel = item.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+            // Define Azerbaijani characters within the regular expression pattern
+            const azChars = '[çÇəƏğĞıİöÖşŞüÜ]';
+
+            // Construct the regular expression pattern
+            const regexPattern = `<em class=${i} >${escapedLabel}${azChars}+</em>`;
+
+            // Create the regular expression object
+            const regex = new RegExp(regexPattern, 'gi');
+
+            // Replace matches with highlighted version
+            highlightedText = highlightedText.replace(regex, `<em class="marked" style="background-color: ${item.color};">$&</em>`);
+
+
+            // const regex = new RegExp(`\\<em class=${i} >${item.label}\\</em>`, 'gi')
+            // highlightedText = highlightedText.replace(regex, `<em class="marked" style="background-color: ${item.color};">$&</em>`)
         })
         return highlightedText
     }
@@ -114,11 +134,12 @@ export default function ResultsModule() {
                             <ResultsListSkeleton />
                         }
                         {
-                            !resultsState.loading && resultsState?.list?.map(item =>
+                            !resultsState.loading && resultsState?.list?.map((item, i) =>
                                 <ResultCard
-                                    {...item}
-                                    key={item.id}
-                                    text={getMarkedText(item.text)}
+                                    {...item[1]}
+                                    key={i}
+                                    text={getMarkedText(item[1].Crop)}
+                                // text={item.Crop}
                                 />
                             )
                         }
@@ -148,7 +169,7 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { label, description, text, checked, date } = props
+    let { Headline: label, description, text, checked, date } = props
     const { resultsState, setSelectedResult } = useResultsContext()
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),

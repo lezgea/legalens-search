@@ -6,6 +6,7 @@ import { useSearchContext } from '@/context/search-context';
 import { TEST_RESULTS_LIST } from '@/constants/test-data';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
+import { useSearch } from '@/hooks/use-search';
 
 
 const filtersRow = [
@@ -23,32 +24,65 @@ export const Header = (props) => {
     const { setResultsState, colors } = useResultsContext()
 
 
+    const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+
+
     function getSearchDataAndKeys() {
-        setResultsState({ loading: true })
+        setResultsState({ loading: isFetching })
+
+        // let response = getSearchData({ query_strig: searchState.searchValue })
+        refetch()
+        setResultsState({ list: data[0] })
         router.push('/results')
+        console.log('@@@@@', data[0])
+
         let keys = []
         let searchWords = searchState.searchValue?.split(' ')
-        let filteredResults = TEST_RESULTS_LIST?.filter(item =>
-            searchWords.every(word => !!word &&
-                item.text.toLowerCase().includes(word.toLowerCase())
-            )
-        )
-        if (!!filteredResults.length)
+
+        // let filteredResults = TEST_RESULTS_LIST?.filter(item =>
+        //     searchWords.every(word => !!word &&
+        //         item.text.toLowerCase().includes(word.toLowerCase())
+        //     )
+        // )
+        if (searchWords.length)
             keys = getKeys()
 
-        setTimeout(() =>
-            setResultsState({
-                loading: false,
-                searchKeys: keys,
-                list: filteredResults,
-            }), 1000)
+        setResultsState({
+            // loading: false,
+            searchKeys: keys,
+            // list: filteredResults,
+        })
+
     }
+
+    // function getSearchDataAndKeys() {
+    //     setResultsState({ loading: true })
+    //     router.push('/results')
+    //     let keys = []
+    //     let searchWords = searchState.searchValue?.split(' ')
+    //     let filteredResults = TEST_RESULTS_LIST?.filter(item =>
+    //         searchWords.every(word => !!word &&
+    //             item.text.toLowerCase().includes(word.toLowerCase())
+    //         )
+    //     )
+    //     if (!!filteredResults.length)
+    //         keys = getKeys()
+
+    //     setTimeout(() =>
+    //         setResultsState({
+    //             loading: false,
+    //             searchKeys: keys,
+    //             list: filteredResults,
+    //         }), 1000)
+    // }
 
 
     function getKeys() {
         let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
-        return words.map((item, i) => ({ id: i, label: item, color: colors[i] }))
+        return words?.map((item, i) => ({ id: i, label: item, color: colors[i] }))
     }
+
+    getKeys()
 
 
 

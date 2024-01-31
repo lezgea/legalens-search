@@ -44,15 +44,16 @@ export default function MainModule() {
     const { setResultsState, colors } = useResultsContext()
     const router = useRouter()
 
-    // const { data = {}, refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+    const { data = {}, refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
     function getSearchDataAndKeys() {
-        setResultsState({ loading: true })
-        // router.push('/results')
+        setResultsState({ loading: isFetching })
 
-        let response = getSearchData({ query_strig: searchState.searchValue })
-        console.log('@@@@@', response)
+        // let response = getSearchData({ query_strig: searchState.searchValue })
+        refetch()
+        setResultsState({ list: data })
+        router.push('/results')
 
 
 
@@ -121,7 +122,7 @@ export default function MainModule() {
                 </div>
             </div>
             <div className='main-footer'>
-                <Image src='/assets/SVG/footer.svg' style={{ objectFit: "contain" }} className='footer-image' />
+                {/* <Image src='/assets/SVG/footer.svg' style={{ objectFit: "contain" }} className='footer-image' /> */}
             </div>
         </div>
     )
