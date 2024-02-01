@@ -53,8 +53,6 @@ export default function ResultsModule() {
     function highlightWords(text, searchKeys) {
         let highlightedText = text
 
-        console.log('======', highlightedText)
-        // console.log('!! SEARCH WORDS !!', searchKeys)
         searchKeys.forEach((item, i) => {
 
             // Escape special characters in the search key
@@ -139,7 +137,6 @@ export default function ResultsModule() {
                                     {...item[1]}
                                     key={i}
                                     text={getMarkedText(item[1].Crop)}
-                                // text={item.Crop}
                                 />
                             )
                         }
