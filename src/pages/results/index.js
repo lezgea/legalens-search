@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 const ResultsModule = dynamic(
     () => import('@/modules/results'),
-    { ssr: true }
+    { ssr: false }
 )
 
 

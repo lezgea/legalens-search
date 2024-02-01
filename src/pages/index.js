@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 const MainPage = dynamic(
   () => import('@/modules/main'),
-  { ssr: true }
+  { ssr: false }
 )
 
 export default function Main() {
