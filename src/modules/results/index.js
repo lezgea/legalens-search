@@ -136,45 +136,14 @@ const ResultCard = (props) => {
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
-            step: 0,
         }
     )
-
-    console.log('$$$$$$', Percentages)
-
-    // counts words by searchkeys for result cards horizontal liner 
-    function countWordOccurrences() {
-        const words = text.toLowerCase().match(/\b\w+\b/g)
-        let data = []
-        let step = 0
-        let wordsCount = 0
-        let keys = resultsState.searchKeys.map(item => item.label)
-
-        if (words) {
-            words.forEach((word, index) => {
-                wordsCount += 1
-                let wordExist = keys.includes(word)
-                if (wordExist) {
-                    data.push(resultsState.searchKeys.find(item => item.label === word))
-                } else {
-                    data.push({ id: index, color: 'transparent' })
-                }
-            })
-        }
-        step = wordsCount / 100
-        setLinerData({ data: data, step: step })
-    }
 
 
     function onSetDetails() {
         setSelectedResult({ label, description, text })
     }
 
-
-    // React.useEffect(() => {
-    //     if (!!resultsState.searchKeys?.length)
-    //         countWordOccurrences()
-    // }, [resultsState.searchKeys])
 
     React.useEffect(() => {
         setLinerData({ data: [...Percentages] })

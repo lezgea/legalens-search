@@ -63,8 +63,8 @@ async function client(
         .request(config)
         .then(response =>
             returnHeaders
-                ? { data: response?.data, headers: response.headers }
-                : response?.data
+                ? { data: response?.data === 'not found' ? [] : response.data, headers: response.headers }
+                : response?.data === 'not found' ? [] : response.data
         )
         .catch(err => console.log('ERROR', err));
 }

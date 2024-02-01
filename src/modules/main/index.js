@@ -51,7 +51,6 @@ export default function MainModule() {
         if (!!data.length) {
             setResultsState({ list: data[0], searchKeys: data[1] })
             setColors([...Object.values(data[2])])
-            console.log('$$$$', data)
         }
     }, [isFetching])
 
@@ -68,8 +67,8 @@ export default function MainModule() {
             {/* <LeftFixedBar /> */}
             <div className='main-wrapper'>
                 <div className='title-wrapper'>
-                    <div className='label'>Lorem ipsum dolor</div>
-                    <div className='description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna </div>
+                    <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
+                    <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
                 </div>
                 <div className='search-wrapper'>
                     <div className='search-box'>

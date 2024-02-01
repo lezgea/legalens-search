@@ -24,13 +24,16 @@ export const Header = (props) => {
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
+    console.log('@@@@', data)
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
         if (!!data.length) {
             setResultsState({ list: data[0], searchKeys: data[1] })
             setColors([...Object.values(data[2])])
-            console.log('$$$$')
+        } else {
+            setResultsState({ list: [], searchKeys: [] })
+            setColors([])
         }
     }, [isFetching])
 
