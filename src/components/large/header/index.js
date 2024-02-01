@@ -24,7 +24,6 @@ export const Header = (props) => {
     const { searchState, setSearchState } = useSearchContext()
     const { setResultsState, colors, setColors } = useResultsContext()
 
-
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
@@ -47,7 +46,7 @@ export const Header = (props) => {
             // console.log('$$$$', Object.values(data[2]))
         }
 
-        // router.push('/results')
+        // router.push('/results'
     }
 
 

@@ -49,7 +49,7 @@ export default function ResultsModule() {
     const { resultsState, colors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
 
-
+    
     function handleShowModal() {
         setShowModal(true)
     }
@@ -100,7 +100,7 @@ export default function ResultsModule() {
                                 <ResultCard
                                     key={i}
                                     {...item[1]}
-                                    text={item[1].Crop}
+                                    text={item[1].Crop
                                 />
                             )
                         }
