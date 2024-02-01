@@ -17,4 +17,4 @@ jobs:
           docker build -t legalens-web .
           docker stop legalens-web  || true
           docker rm legalens-web || true
-          docker run -p 3001:3000 -d --name=legalens-web legalens-web
+          docker run -p 3002:3000 -d --name=legalens-web legalens-web
