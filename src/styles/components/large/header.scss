@@ -10,6 +10,7 @@
     background-color: #fff;
 
     .search-wrapper {
+        width: 70%;
         display: inline-flex;
         padding: 5px 6.5px;
         align-items: flex-start;
@@ -99,7 +100,7 @@
 
     .searcher {
         display: flex;
-        width: 380px;
+        width: 100%;
         height: 44px;
         padding: 4px 5px;
         justify-content: flex-end;

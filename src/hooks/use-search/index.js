@@ -7,7 +7,7 @@ export function useSearch(query, onSuccess) {
         'search-data',
         () => getSearchData({ query_strig: query }),
         {
-            enabled: true,
+            enabled: !!query,
             onSuccess: onSuccess,
         }
     );
