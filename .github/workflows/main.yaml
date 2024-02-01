@@ -1,0 +1,20 @@
+name: Deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [deployment,development]
+
+jobs:
+  Build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build docker
+        run: |
+          #rm -f .env
+          #printf "BASE_URL=https://api.neyron.ai/" > .env
+          docker build -t legalens-web .
+          docker stop legalens-web  || true
+          docker rm legalens-web || true
+          docker run -p 3000:3000 -d --name=legalens-web legalens-web
