@@ -26,7 +26,7 @@ export function ResultsContextProvider({ children }) {
     }
 
 
-    const value = { resultsState, setResultsState, colors, selectedResult, setSelectedResult }
+    const value = { resultsState, setResultsState, colors, setColors, selectedResult, setSelectedResult }
 
 
     React.useEffect(() => {
@@ -47,6 +47,7 @@ export function ResultsContextProvider({ children }) {
  *      resultsState: Array, 
  *      colors: Array,
  *      setResultsState: (result: Object) => VoidFunction 
+ *      setColors: (result: Object) => VoidFunction 
  * }}
  */
 export function useResultsContext() {

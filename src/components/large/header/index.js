@@ -7,6 +7,7 @@ import { TEST_RESULTS_LIST } from '@/constants/test-data';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
+import { getSearchData } from '@/api/search/getSearchData';
 
 
 const filtersRow = [
@@ -21,60 +22,32 @@ export const Header = (props) => {
     let { } = props
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, colors } = useResultsContext()
+    const { setResultsState, colors, setColors } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
-    function getSearchDataAndKeys() {
+    React.useEffect(() => {
         setResultsState({ loading: isFetching })
+    }, [isFetching])
 
-        // let response = getSearchData({ query_strig: searchState.searchValue })
+
+    async function getSearchDataAndKeys() {
+        // setResultsState({ loading: true })
         refetch()
-        if (!!data.length) {
-            setResultsState({ list: data[0] })
-            router.push('/results')
-            console.log('@@@@@', data)
-
-            let keys = []
-            // let searchWords = searchState.searchValue?.split(' ')
-
-            // let filteredResults = TEST_RESULTS_LIST?.filter(item =>
-            //     searchWords.every(word => !!word &&
-            //         item.text.toLowerCase().includes(word.toLowerCase())
-            //     )
-            // )
-            // if (searchWords.length)
-            //     keys = getKeys()
-
+        if (data.length) {
             setResultsState({
-                // loading: false,
+                // loading: isFetching,
+                list: data[0],
                 searchKeys: data[1],
-                // list: filteredResults,
             })
+            setColors([...Object.values(data[2])])
+            console.log('$$$$', data[0][0][1].Crop)
+            // console.log('$$$$', Object.values(data[2]))
         }
+
+        // router.push('/results'
     }
-
-    // function getSearchDataAndKeys() {
-    //     setResultsState({ loading: true })
-    //     router.push('/results')
-    //     let keys = []
-    //     let searchWords = searchState.searchValue?.split(' ')
-    //     let filteredResults = TEST_RESULTS_LIST?.filter(item =>
-    //         searchWords.every(word => !!word &&
-    //             item.text.toLowerCase().includes(word.toLowerCase())
-    //         )
-    //     )
-    //     if (!!filteredResults.length)
-    //         keys = getKeys()
-
-    //     setTimeout(() =>
-    //         setResultsState({
-    //             loading: false,
-    //             searchKeys: keys,
-    //             list: filteredResults,
-    //         }), 1000)
-    // }
 
 
     function getKeys() {

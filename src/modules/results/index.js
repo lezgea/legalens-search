@@ -46,46 +46,10 @@ const bottomRightActions = [
 
 
 export default function ResultsModule() {
-    const { resultsState } = useResultsContext()
+    const { resultsState, colors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
 
-
-    function highlightWords(text, searchKeys) {
-        let highlightedText = text
-
-        searchKeys.forEach((item, i) => {
-
-            // Escape special characters in the search key
-            const escapedLabel = item.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-            // Define Azerbaijani characters within the regular expression pattern
-            const azChars = '[çÇəƏğĞıİöÖşŞüÜ]';
-
-            // Construct the regular expression pattern
-            const regexPattern = `<em class=${i} >${escapedLabel}${azChars}+</em>`;
-
-            // Create the regular expression object
-            const regex = new RegExp(regexPattern, 'gi');
-
-            // Replace matches with highlighted version
-            highlightedText = highlightedText.replace(regex, `<em class="marked" style="background-color: ${item.color};">$&</em>`);
-
-
-            // const regex = new RegExp(`\\<em class=${i} >${item.label}\\</em>`, 'gi')
-            // highlightedText = highlightedText.replace(regex, `<em class="marked" style="background-color: ${item.color};">$&</em>`)
-        })
-        return highlightedText
-    }
-
-
-    function getMarkedText(originalText = '') {
-        if (!!resultsState.searchKeys?.length) {
-            const highlightedText = highlightWords(originalText, resultsState.searchKeys)
-            return highlightedText
-        }
-    }
-
-
+    
     function handleShowModal() {
         setShowModal(true)
     }
@@ -109,7 +73,7 @@ export default function ResultsModule() {
                 <div className='results-content-wrapper'>
                     <div className='list-filters-fixed'>
                         <div className='filter-items-wrapper'>
-                            {resultsState.searchKeys.map(item => <SearchKey key={item.id} {...item} />)}
+                            {resultsState.searchKeys?.map((item, i) => <SearchKey key={i} color={colors[i]} label={item} />)}
                         </div>
                         <div className='action-buttons-wrapper'>
                             {topRightActions.map(item => <ActionButton key={item.id} color='gray' onClick={handleShowModal} {...item} />)}
@@ -134,9 +98,9 @@ export default function ResultsModule() {
                         {
                             !resultsState.loading && resultsState?.list?.map((item, i) =>
                                 <ResultCard
-                                    {...item[1]}
                                     key={i}
-                                    text={getMarkedText(item[1].Crop)}
+                                    {...item[1]}
+                                    text={item[1].Crop
                                 />
                             )
                         }
@@ -166,8 +130,8 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { Headline: label, description, text, checked, date } = props
-    const { resultsState, setSelectedResult } = useResultsContext()
+    let { Headline: label, description, Percentages, text, checked, date } = props
+    const { resultsState, setSelectedResult, colors } = useResultsContext()
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -176,6 +140,7 @@ const ResultCard = (props) => {
         }
     )
 
+    console.log('$$$$$$', Percentages)
 
     // counts words by searchkeys for result cards horizontal liner 
     function countWordOccurrences() {
@@ -206,10 +171,14 @@ const ResultCard = (props) => {
     }
 
 
+    // React.useEffect(() => {
+    //     if (!!resultsState.searchKeys?.length)
+    //         countWordOccurrences()
+    // }, [resultsState.searchKeys])
+
     React.useEffect(() => {
-        if (!!resultsState.searchKeys?.length)
-            countWordOccurrences()
-    }, [resultsState.searchKeys])
+        setLinerData({ data: [...Percentages] })
+    }, [Percentages])
 
 
     return (
@@ -228,10 +197,17 @@ const ResultCard = (props) => {
                 <div className='linear-filter-wrapper'>
                     <div className='linear-filter'>
                         {
-                            linerData?.data?.map((item, i) =>
-                                <div key={i} className='item'>
-                                    <div className='item-marker' style={{ backgroundColor: item.color }}></div>
-                                </div>
+                            linerData?.data?.map((item, i) => {
+                                let backgroundColor = colors[item[1]]
+                                let marginLeft = `${(item[2] * 100)}%`
+
+                                return (
+                                    <div key={i} className='item' style={{ marginLeft: marginLeft }}>
+                                        <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
+                                    </div>
+                                )
+                            }
+
                             )
                         }
                     </div>

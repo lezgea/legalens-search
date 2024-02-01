@@ -44,41 +44,23 @@ export default function MainModule() {
     const { setResultsState, colors } = useResultsContext()
     const router = useRouter()
 
-    const { data = {}, refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+    const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
-    function getSearchDataAndKeys() {
-        setResultsState({ loading: isFetching })
+    // React.useEffect(() => {
+    //     setResultsState({
+    //         loading: isFetching,
+    //         list: data[0],
+    //         searchKeys: data[1],
+    //     })
+    //     console.log('$$$$', data)
+    // }, [data])
 
-        // let response = getSearchData({ query_strig: searchState.searchValue })
+
+    async function getSearchDataAndKeys() {
+        // setResultsState({ loading: isFetching })
         refetch()
-        setResultsState({ list: data })
         router.push('/results')
-
-
-
-        // let keys = []
-        // let searchWords = searchState.searchValue?.split(' ')
-        // let filteredResults = TEST_RESULTS_LIST?.filter(item =>
-        //     searchWords.every(word => !!word &&
-        //         item.text.toLowerCase().includes(word.toLowerCase())
-        //     )
-        // )
-        // if (!!filteredResults.length)
-        //     keys = getKeys()
-
-        // setTimeout(() =>
-        //     setResultsState({
-        //         loading: false,
-        //         searchKeys: keys,
-        //         list: filteredResults,
-        //     }), 1000)
-    }
-
-
-    function getKeys() {
-        let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
-        return words.map((item, i) => ({ id: i, label: item, color: colors[i] }))
     }
 
 
