@@ -1,7 +1,6 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
 import { HeaderForMain } from './components/header-for-main'
-import { TEST_RESULTS_LIST } from '@/constants/test-data'
 import { useRouter } from 'next/router'
 import { CircleQuestionIcon, ThinSearchIcon } from '@/assets/icons';
 import { useSearchContext } from '@/context/search-context';
@@ -41,24 +40,23 @@ const items = [
 
 export default function MainModule() {
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, colors } = useResultsContext()
+    const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
-    // React.useEffect(() => {
-    //     setResultsState({
-    //         loading: isFetching,
-    //         list: data[0],
-    //         searchKeys: data[1],
-    //     })
-    //     console.log('$$$$', data)
-    // }, [data])
+    React.useEffect(() => {
+        setResultsState({ loading: isFetching })
+        if (!!data.length) {
+            setResultsState({ list: data[0], searchKeys: data[1] })
+            setColors([...Object.values(data[2])])
+            console.log('$$$$', data)
+        }
+    }, [isFetching])
 
 
     async function getSearchDataAndKeys() {
-        // setResultsState({ loading: isFetching })
         refetch()
         router.push('/results')
     }

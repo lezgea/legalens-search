@@ -73,7 +73,7 @@ export default function ResultsModule() {
                 <div className='results-content-wrapper'>
                     <div className='list-filters-fixed'>
                         <div className='filter-items-wrapper'>
-                            {resultsState.searchKeys?.map((item, i) => <SearchKey key={i} color={colors[i]} label={item} />)}
+                            {!!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) => <SearchKey key={i} color={colors[i]} label={item} />)}
                         </div>
                         <div className='action-buttons-wrapper'>
                             {topRightActions.map(item => <ActionButton key={item.id} color='gray' onClick={handleShowModal} {...item} />)}

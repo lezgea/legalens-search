@@ -3,11 +3,9 @@ import { Avatar, Image, Input } from 'antd'
 import Icon from '@ant-design/icons';
 import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { TEST_RESULTS_LIST } from '@/constants/test-data';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
-import { getSearchData } from '@/api/search/getSearchData';
 
 
 const filtersRow = [
@@ -22,41 +20,24 @@ export const Header = (props) => {
     let { } = props
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, colors, setColors } = useResultsContext()
+    const { setResultsState, setColors } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
+        if (!!data.length) {
+            setResultsState({ list: data[0], searchKeys: data[1] })
+            setColors([...Object.values(data[2])])
+            console.log('$$$$')
+        }
     }, [isFetching])
 
 
     async function getSearchDataAndKeys() {
-        // setResultsState({ loading: true })
         refetch()
-        if (data.length) {
-            setResultsState({
-                // loading: isFetching,
-                list: data[0],
-                searchKeys: data[1],
-            })
-            setColors([...Object.values(data[2])])
-            console.log('$$$$', data[0][0][1].Crop)
-            // console.log('$$$$', Object.values(data[2]))
-        }
-
-        // router.push('/results'
     }
-
-
-    function getKeys() {
-        let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
-        return words?.map((item, i) => ({ id: i, label: item, color: colors[i] }))
-    }
-
-    getKeys()
-
 
 
     return (

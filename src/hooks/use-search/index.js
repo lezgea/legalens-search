@@ -7,7 +7,8 @@ export function useSearch(query, onSuccess) {
         'search-data',
         () => getSearchData({ query_strig: query }),
         {
-            enabled: !!query,
+            refetchOnWindowFocus: false,
+            enabled: false,
             onSuccess: onSuccess,
         }
     );
