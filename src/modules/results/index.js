@@ -15,10 +15,11 @@ import {
     NotificationIcon,
     StatisticsIcon
 } from '@/assets/icons';
-import { Empty } from 'antd';
+import { Empty, notification } from 'antd';
 import Link from 'next/link';
 import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
+import { useCrop } from '@/hooks/use-crop';
 
 const { Search } = Input;
 
@@ -132,18 +133,35 @@ export default function ResultsModule() {
 const ResultCard = (props) => {
     let { Headline: label, description, Percentages, text, checked, date } = props
     const { resultsState, setSelectedResult, colors } = useResultsContext()
+    const [api, contextHolder] = notification.useNotification();
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
+            crop_id: '',
             data: [],
         }
     )
+    const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
 
 
     function onSetDetails() {
         setSelectedResult({ label, description, text })
     }
 
+
+    function onSelectCrop(crop) {
+        setLinerData({ crop_id: crop })
+        refetch()
+    }
+
+    if (error) {
+        api.error({
+            message: error,
+            // description:
+            //     'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+        })
+    }
+    console.log('=====', data)
 
     React.useEffect(() => {
         setLinerData({ data: [...Percentages] })
@@ -171,13 +189,16 @@ const ResultCard = (props) => {
                                 let marginLeft = `${(item[2] * 100)}%`
 
                                 return (
-                                    <div key={i} className='item' style={{ marginLeft: marginLeft }}>
+                                    <div
+                                        key={i}
+                                        className='item'
+                                        style={{ marginLeft: marginLeft }}
+                                        onClick={() => onSelectCrop(item[3])}
+                                    >
                                         <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                     </div>
                                 )
-                            }
-
-                            )
+                            })
                         }
                     </div>
                 </div>

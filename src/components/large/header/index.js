@@ -24,7 +24,6 @@ export const Header = (props) => {
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
-    console.log('@@@@', data)
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
@@ -40,6 +39,7 @@ export const Header = (props) => {
 
     async function getSearchDataAndKeys() {
         refetch()
+        router.push('/results')
     }
 
 
