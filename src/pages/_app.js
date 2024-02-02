@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import '@/styles/global.scss'
 import { Poppins } from 'next/font/google'
 import { SearchContextProvider } from '../context'
@@ -15,16 +16,16 @@ const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }) {
     return (
-        <QueryClientProvider client={queryClient}>
-            <main className={poppins.className}>
-
-                <SearchContextProvider>
-                    <ResultsContextProvider>
-                        <Component {...pageProps} />
-                    </ResultsContextProvider>
-                </SearchContextProvider>
-
-            </main >
-        </QueryClientProvider>
+        <Fragment>
+            <QueryClientProvider client={queryClient}>
+                <main className={poppins.className}>
+                    <SearchContextProvider>
+                        <ResultsContextProvider>
+                            <Component {...pageProps} />
+                        </ResultsContextProvider>
+                    </SearchContextProvider>
+                </main >
+            </QueryClientProvider>
+        </Fragment>
     )
 }

@@ -30,13 +30,16 @@ export const Header = (props) => {
         if (!!data.length) {
             setResultsState({ list: data[0], searchKeys: data[1] })
             setColors([...Object.values(data[2])])
-            console.log('$$$$')
+        } else {
+            setResultsState({ list: [], searchKeys: [] })
+            setColors([])
         }
     }, [isFetching])
 
 
     async function getSearchDataAndKeys() {
         refetch()
+        router.push('/results')
     }
 
 

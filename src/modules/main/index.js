@@ -8,7 +8,7 @@ import { Button, Dropdown, Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
 import { LeftFixedBar } from './components/left-fixed-bar';
-import Image from 'next/image';
+import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
 import { getSearchData } from '@/api/search/getSearchData';
 
@@ -51,7 +51,9 @@ export default function MainModule() {
         if (!!data.length) {
             setResultsState({ list: data[0], searchKeys: data[1] })
             setColors([...Object.values(data[2])])
-            console.log('$$$$', data)
+        } else {
+            setResultsState({ list: [], searchKeys: [] })
+            setColors([])
         }
     }, [isFetching])
 
@@ -63,26 +65,24 @@ export default function MainModule() {
 
 
     return (
-        <div className='uniq-wrapper'>
+        <div className='main-wrapper'>
             <HeaderForMain />
-            {/* <LeftFixedBar /> */}
-            <div className='main-wrapper'>
-                <div className='title-wrapper'>
-                    <div className='label'>Lorem ipsum dolor</div>
-                    <div className='description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna </div>
+            <div className='title-wrapper'>
+                <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
+                <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
+            </div>
+            <div className='search-wrapper'>
+                <div className='search-box'>
+                    {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
+                    <Input
+                        value={searchState.searchValue}
+                        className='input'
+                        onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                        onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                    />
+                    <Icon component={ThinSearchIcon} className='search-icon' />
                 </div>
-                <div className='search-wrapper'>
-                    <div className='search-box'>
-                        {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
-                        <Input
-                            value={searchState.searchValue}
-                            className='input'
-                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                        />
-                        <Icon component={ThinSearchIcon} className='search-icon' />
-                    </div>
-                    {/* <div className='search-filters-wrapper'>
+                {/* <div className='search-filters-wrapper'>
                         {
                             MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>
                                 <Dropdown
@@ -99,10 +99,23 @@ export default function MainModule() {
                             )
                         }
                     </div> */}
-                </div>
             </div>
             <div className='main-footer'>
-                {/* <Image src='/assets/SVG/footer.svg' style={{ objectFit: "contain" }} className='footer-image' /> */}
+                <Image
+                    src='/assets/SVG/legalens-logo.svg'
+                    className='footer-legalens-logo'
+                    preview={false}
+                    onClick={() => router.push('/')}
+                />
+                <div className='footer-description'>Platformanın demo versiyasında qanunvericilik bazasında məcəllələrə dair axtarış imkanı təqdim edilir. Tam təminatlı versiya istifadəyə verildikdə, istifadəçilər həmçinin Normativ Hüquqi Aktlar, Beynəlxalq Müqavilələr, Məhkəmə Qərarları, Sərəncamlar, Fərmanlar və Bəyənatlar kimi geniş hüquqi resurslara asanlıqla çıxış əldə edə biləcəklər</div>
+                <div className='footer-bottom'>
+                    <div className='footer-icons-wrapper'></div>
+                    <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
+                    <div className='footer-ai-wrapper'>
+                        <div className='footer-ai-text'></div>
+                        <div className='footer-ai-logo'></div>
+                    </div>
+                </div>
             </div>
         </div>
     )
