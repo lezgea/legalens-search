@@ -13,5 +13,6 @@ export function useCrop(query, onSuccess) {
         }
     );
 
+    
     return { data, refetch, isFetching };
 }
