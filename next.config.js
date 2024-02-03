@@ -6,6 +6,7 @@ const nextReactSvgConfig = {
 
 
 const nextConfig = {
+    // transpilePackages: ['react-hook-mousetrap'],
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },

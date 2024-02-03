@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, Modal } from 'antd';
-import { Header } from '@/components/large';
+import { Header, Loader } from '@/components/large';
 import { SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
 import { useResultsContext } from '@/context/results-context';
@@ -65,6 +65,7 @@ export default function ResultsModule() {
         setShowModal(false)
     }
 
+    // return <Loader />
 
     return (
         <div className='uniq-wrapper'>

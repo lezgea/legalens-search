@@ -1,11 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
 import dynamic from "next/dynamic";
+// import { Loader } from '@/components/large';
 
 
 const ResultsModule = dynamic(
     () => import('@/modules/results'),
-    { ssr: false }
+    {
+        ssr: false,
+        // loading: <Loader />
+    }
 )
 
 
