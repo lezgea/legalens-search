@@ -1,5 +1,5 @@
 import React from 'react'
-import { CirclesIcon, EditIcon, FilledNotificationIcon, FolderIcon, HalfListIcon, ListIcon, SearchIcon, StatisticsIcon } from '@/assets/icons'
+import { CirclesIcon, EditIcon, FilledNotificationIcon, FolderIcon, HalfListIcon, ListIcon, SearchIcon, StatisticsIcon } from '../../../../assets/icons'
 import { ActionButton } from '@/components/small';
 
 

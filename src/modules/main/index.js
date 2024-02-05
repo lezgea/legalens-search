@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from '@ant-design/icons';
 import { HeaderForMain } from './components/header-for-main'
 import { useRouter } from 'next/router'
-import { CircleQuestionIcon, ThinSearchIcon } from '@/assets/icons';
+import { CircleQuestionIcon, FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon, TiktokIcon, YoutubeIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
 import { Button, Dropdown, Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
@@ -12,30 +12,6 @@ import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
 import { getSearchData } from '@/api/search/getSearchData';
 
-
-
-const items = [
-    {
-        key: '1',
-        label: 'aTest',
-    },
-    {
-        key: '2',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                3rd menu item
-            </a>
-        ),
-    },
-];
 
 
 export default function MainModule() {
@@ -108,12 +84,23 @@ export default function MainModule() {
                     onClick={() => router.push('/')}
                 />
                 <div className='footer-description'>Platformanın demo versiyasında qanunvericilik bazasında məcəllələrə dair axtarış imkanı təqdim edilir. Tam təminatlı versiya istifadəyə verildikdə, istifadəçilər həmçinin Normativ Hüquqi Aktlar, Beynəlxalq Müqavilələr, Məhkəmə Qərarları, Sərəncamlar, Fərmanlar və Bəyənatlar kimi geniş hüquqi resurslara asanlıqla çıxış əldə edə biləcəklər</div>
+                <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
                 <div className='footer-bottom'>
-                    <div className='footer-icons-wrapper'></div>
-                    <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
+                    <div className='footer-icons-wrapper'>
+                        <Icon component={TiktokIcon} className='footer-icon' />
+                        <Icon component={FacebookIcon} className='footer-icon' />
+                        <Icon component={InstagramIcon} className='footer-icon' />
+                        <Icon component={LinkedinIcon} className='footer-icon' />
+                        <Icon component={YoutubeIcon} className='footer-icon' />
+                    </div>
                     <div className='footer-ai-wrapper'>
-                        <div className='footer-ai-text'></div>
-                        <div className='footer-ai-logo'></div>
+                        <div className='footer-ai-text'>Product of</div>
+                        <Image
+                            src='/assets/SVG/ai-logo.svg'
+                            className='footer-ai-logo'
+                            preview={false}
+                            onClick={() => router.push('/')}
+                        />
                     </div>
                 </div>
             </div>
