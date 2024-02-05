@@ -32,8 +32,8 @@ img {
 
 .uniq-wrapper {
   position: relative;
-  background: #ffffff;
-  padding: 0 20px;
+  background: #F2F4F8;
+  // padding: 0 20px;
   height: 100vh;
   overflow: hidden;
 }
@@ -97,4 +97,13 @@ img {
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+
+.order-action-button {
+  background-color: rgb(229, 229, 229, .5);
+
+  &:hover {
+    background-color: rgb(229, 229, 229);
+  }
 }

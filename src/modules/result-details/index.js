@@ -103,6 +103,10 @@ export default function ResultDetailsModule() {
                 <div className='results-details-right-bar'>
                     <div className='card'>
                         <div className='title'>Related</div>
+                        <div className='order-box'>
+                            <div className='order-label'>Qanunvericilik</div>
+                            <div className='order-button'>KMQ 1</div>
+                        </div>
                     </div>
                     <div className='card'>
                         <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
@@ -187,6 +191,22 @@ export default function ResultDetailsModule() {
                     </div> */}
                 </div>
             </div>
+        </div>
+    )
+}
+
+
+
+const OrderButton = () => {
+    let COLORS = {
+        pdf: '#D96B6B',
+        doc: '#426DAE',
+        txt: '#4D5E76',
+    }
+
+    return (
+        <div className='order-action-button'>
+            
         </div>
     )
 }

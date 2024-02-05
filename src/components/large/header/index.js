@@ -17,7 +17,7 @@ const filtersRow = [
 
 
 export const Header = (props) => {
-    let { } = props
+    let { hideSearch } = props
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
     const { setResultsState, setColors } = useResultsContext()
@@ -51,30 +51,38 @@ export const Header = (props) => {
                 preview={false}
                 onClick={() => router.push('/')}
             />
-            <div className='search-wrapper'>
-                {
-                    // filtersRow.map(item =>
-                    //     <FilterButton
-                    //         key={item.value}
-                    //         selected={searchState.activeFilter}
-                    //         setSelected={(v) => setSearchState({ activeFilter: v })}
-                    //         {...item}
-                    //     />
-                    // )
-                }
-                <div className='searcher'>
-                    <Input
-                        value={searchState.searchValue}
-                        onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                        onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                    />
-                    <div className='button' onClick={getSearchDataAndKeys}>
-                        <Icon component={SearchIcon} className='icon' />
-                        <div className='label'>Axtar</div>
+            {
+                !hideSearch &&
+                <div className='search-wrapper'>
+                    {
+                        // filtersRow.map(item =>
+                        //     <FilterButton
+                        //         key={item.value}
+                        //         selected={searchState.activeFilter}
+                        //         setSelected={(v) => setSearchState({ activeFilter: v })}
+                        //         {...item}
+                        //     />
+                        // )
+                    }
+                    <div className='searcher'>
+                        <Input
+                            value={searchState.searchValue}
+                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                        />
+                        <div className='button' onClick={getSearchDataAndKeys}>
+                            <Icon component={SearchIcon} className='icon' />
+                            <div className='label'>Axtar</div>
+                        </div>
                     </div>
                 </div>
+            }
+
+            <div className='auth-buttons-wrapper'>
+                <div className='registration-button'>Qeydiyyat</div>
+                <div className='login-button'>Giriş et</div>
             </div>
-            <div className='profile-wrapper'>
+            {/* <div className='profile-wrapper'>
                 <div className='notification-wrapper'>
                     <Icon component={NotificationIcon} className='icon' />
                     <div className='count-circle'>
@@ -82,7 +90,7 @@ export const Header = (props) => {
                     </div>
                 </div>
                 <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
-            </div>
+            </div> */}
         </div>
     )
 }

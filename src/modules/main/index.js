@@ -11,6 +11,7 @@ import { LeftFixedBar } from './components/left-fixed-bar';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
 import { getSearchData } from '@/api/search/getSearchData';
+import { Header } from '@/components/large';
 
 
 
@@ -42,7 +43,7 @@ export default function MainModule() {
 
     return (
         <div className='main-wrapper'>
-            <HeaderForMain />
+            <Header hideSearch />
             <div className='title-wrapper'>
                 <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
                 <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>

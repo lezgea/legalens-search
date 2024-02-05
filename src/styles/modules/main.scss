@@ -119,12 +119,15 @@
                 justify-content: center;
                 gap: 15px;
 
-                .footer-icon {}
+                .footer-icon {
+                    font-size: 18px;
+                }
             }
 
             .footer-ai-wrapper {
                 display: flex;
-                align-items: center;
+                align-items: flex-end;
+                justify-content: flex-end;
                 padding-right: 20px;
 
                 .footer-ai-text {
