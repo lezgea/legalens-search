@@ -1,14 +1,26 @@
 .main-wrapper {
-    height: 100vh;
+    // height: 100vh;
+    height: 100%;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
     // justify-content: flex-start;
     user-select: none;
 
+    .content-wrapper {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // justify-content: flex-start;
+        user-select: none;
+    }
+
     .title-wrapper {
         width: 70%;
-        padding: 10% 0 3% 0;
+        padding: 15% 0 3% 0;
 
         .label {
             color: #212123;

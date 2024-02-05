@@ -42,23 +42,24 @@ export default function MainModule() {
 
     return (
         <div className='main-wrapper'>
-            <Header hideSearch />
-            <div className='title-wrapper'>
-                <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
-                <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
-            </div>
-            <div className='search-wrapper'>
-                <div className='search-box'>
-                    {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
-                    <Input
-                        value={searchState.searchValue}
-                        className='input'
-                        onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                        onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                    />
-                    <Icon component={ThinSearchIcon} className='search-icon' />
+            <div className='content-wrapper'>
+                <Header hideSearch />
+                <div className='title-wrapper'>
+                    <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
+                    <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
                 </div>
-                {/* <div className='search-filters-wrapper'>
+                <div className='search-wrapper'>
+                    <div className='search-box'>
+                        {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
+                        <Input
+                            value={searchState.searchValue}
+                            className='input'
+                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                        />
+                        <Icon component={ThinSearchIcon} className='search-icon' />
+                    </div>
+                    {/* <div className='search-filters-wrapper'>
                         {
                             MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>
                                 <Dropdown
@@ -75,6 +76,7 @@ export default function MainModule() {
                             )
                         }
                     </div> */}
+                </div>
             </div>
             <div className='main-footer'>
                 <Image

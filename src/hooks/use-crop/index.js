@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 export function useCrop(query, onSuccess) {
     const { data = [], isFetching, error, refetch } = useQuery(
         'crop-data',
-        () => getCropData({ file_path: query }),
+        () => getCropData({ position: query }),
         {
             refetchOnWindowFocus: false,
             enabled: false,
@@ -13,6 +13,6 @@ export function useCrop(query, onSuccess) {
         }
     );
 
-    
+
     return { data, refetch, isFetching };
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-// import { Loader } from '@/components/large';
+import Loader from '@/components/large/loader';
 
 
 // const LoaderComponent = dynamic(
@@ -17,7 +17,8 @@ const MainPage = dynamic(
   () => import('@/modules/main'),
   {
     ssr: false,
-    // loading: () => <LoaderComponent />,
+    // loading: () => <div>loading</div>,
+    loading: Loader,
   }
 )
 
