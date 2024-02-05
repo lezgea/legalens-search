@@ -1,1 +1,1 @@
-export * from './header-for-main'
+export * from './left-fixed-bar'

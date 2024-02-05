@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowDownIcon, InfoIcon, SearchIcon, SquareIcon } from '../../assets/icons'
+import { ArrowDownIcon, DownloadIcon, InfoIcon, SearchIcon, SquareIcon } from '../../assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
 import Icon, { InfoCircleOutlined } from '@ant-design/icons';
@@ -71,11 +71,11 @@ export default function ResultDetailsModule() {
             <Header />
             <div className='results-details-wrapper'>
                 <div className='results-details-left-bar'>
-                    <div className='header-btns-wrapper'>
+                    {/* <div className='header-btns-wrapper'>
                         <OutlinedButton color='white' label='Axtarış şərtləri' icon={ArrowDownIcon} />
                         <OutlinedButton color='white' icon={ArrowDownIcon} />
                         <OutlinedButton color='white' icon={ArrowDownIcon} />
-                    </div>
+                    </div> */}
 
                     <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
@@ -92,8 +92,9 @@ export default function ResultDetailsModule() {
 
                 <div className='results-details-content'>
                     <div className='header-icons-wrapper'>
-                        <ActionButton color='gray' onClick={() => { }} icon={SearchIcon} />
-                        <ActionButton color='gray' onClick={() => { }} icon={SquareIcon} />
+                        <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
+                        <ActionButton color='blue' onClick={() => { }} icon={SquareIcon} />
+                        <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
                     </div>
                     <div className='label'>{selectedResult?.label}</div>
                     <div className='description'>{selectedResult?.description}</div>
@@ -206,7 +207,7 @@ const OrderButton = () => {
 
     return (
         <div className='order-action-button'>
-            
+
         </div>
     )
 }

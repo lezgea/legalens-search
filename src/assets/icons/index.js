@@ -25,6 +25,7 @@ import InstagramIcon from './instagram.svg'
 import LinkedinIcon from './linkedin.svg'
 import TiktokIcon from './tik-tok.svg'
 import YoutubeIcon from './youtube.svg'
+import DownloadIcon from './download.svg'
 
 
 // FILLED ICON IMPORTS
@@ -59,6 +60,7 @@ export {
     LinkedinIcon,
     TiktokIcon,
     YoutubeIcon,
+    DownloadIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,

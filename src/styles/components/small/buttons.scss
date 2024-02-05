@@ -43,6 +43,51 @@
 
 
 
+.action-button-blue {
+    cursor: pointer;
+    display: flex;
+    height: 35px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #F2F4F8;
+    user-select: none;
+    transition: .4s ease-in-out;
+
+    .label {
+        color: #212123;
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 125%;
+        margin: 0 4px;
+    }
+
+    .icon {
+        font-size: 13px;
+        color: #6BA6FF;
+        margin: 0 3px;
+    }
+
+    &:hover {
+        background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%);
+
+        .label {
+            color: #fff;
+        }
+
+        .icon {
+            color: #fff;
+            transform: scale(1.1);
+            animation: buttonAnimation .4s ease-in-out;
+        }
+    }
+}
+
+
+
 .action-button-white {
     cursor: pointer;
     display: inline-flex;

@@ -80,7 +80,7 @@
     overflow: scroll;
     z-index: 5;
     border-radius: 20px;
-    padding: 30px 30px 200px 30px;
+    padding: 60px 30px 200px 30px;
     background: #FFF;
     box-shadow: 0px 4px 53px -10px rgba(24, 41, 86, 0.11);
     margin-right: 10px;
@@ -89,12 +89,13 @@
         width: 100%;
         left: 0;
         top: 0;
+        gap: 10px;
         padding: 15px;
         position: absolute;
         display: flex;
         flex-shrink: 0;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
 
     .label {
@@ -119,14 +120,55 @@
     }
 
     .text {
+        text-align: start;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
         line-height: 184.5%;
         white-space: normal;
         text-wrap: wrap;
+
+        overflow: hidden;
+        /* Ensures the content is not revealed until the animation */
+        // border-right: .15em solid orange;
+        /* The typwriter cursor */
+        // white-space: nowrap;
+        /* Keeps the content on a single line */
+        margin: 0 auto;
+        /* Gives that scrolling effect as the typing happens */
+        // letter-spacing: .15em;
+        /* Adjust as needed */
+        animation:
+            typing 1s steps(40, end),
+            blink-caret .75s step-end infinite;
     }
 }
+
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: orange;
+    }
+}
+
 
 .results-details-right-bar {
     width: 250px;

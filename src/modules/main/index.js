@@ -1,6 +1,5 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
-import { HeaderForMain } from './components/header-for-main'
 import { useRouter } from 'next/router'
 import { CircleQuestionIcon, FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon, TiktokIcon, YoutubeIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
@@ -88,11 +87,21 @@ export default function MainModule() {
                 <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
                 <div className='footer-bottom'>
                     <div className='footer-icons-wrapper'>
+                        {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
                         <Icon component={TiktokIcon} className='footer-icon' />
-                        <Icon component={FacebookIcon} className='footer-icon' />
-                        <Icon component={InstagramIcon} className='footer-icon' />
-                        <Icon component={LinkedinIcon} className='footer-icon' />
+                        {/* </a> */}
+                        <a href='https://www.linkedin.com/company/legalens/' target='_blank'>
+                            <Icon component={LinkedinIcon} className='footer-icon' />
+                        </a>
+                        <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'>
+                            <Icon component={FacebookIcon} className='footer-icon' />
+                        </a>
+                        <a href='https://www.instagram.com/legalens.ai/' target='_blank'>
+                            <Icon component={InstagramIcon} className='footer-icon' />
+                        </a>
+                        {/* <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'> */}
                         <Icon component={YoutubeIcon} className='footer-icon' />
+                        {/* </a> */}
                     </div>
                     <div className='footer-ai-wrapper'>
                         <div className='footer-ai-text'>Product of</div>
