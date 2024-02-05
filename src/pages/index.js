@@ -4,20 +4,10 @@ import dynamic from 'next/dynamic';
 import Loader from '@/components/large/loader';
 
 
-// const LoaderComponent = dynamic(
-//   () => import('@/components/large'),
-//   {
-//     ssr: false,
-//     // loading: () => <Loader />,
-//   }
-// )
-
-
 const MainPage = dynamic(
   () => import('@/modules/main'),
   {
     ssr: false,
-    // loading: () => <div>loading</div>,
     loading: Loader,
   }
 )
