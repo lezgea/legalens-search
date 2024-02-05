@@ -14,7 +14,7 @@ import {
     ListIcon,
     NotificationIcon,
     StatisticsIcon
-} from '@/assets/icons';
+} from '../../assets/icons';
 import { Empty, notification } from 'antd';
 import Link from 'next/link';
 import { Input } from 'antd';

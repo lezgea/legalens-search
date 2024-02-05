@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, Image, Input } from 'antd'
 import Icon from '@ant-design/icons';
-import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
+import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '../../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';

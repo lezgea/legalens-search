@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
-import { ArrowRightIcon, ForumIcon, HammerIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
+import { ArrowRightIcon, ForumIcon, HammerIcon, SearchIcon, SpellCheckIcon } from '../../../../assets/icons';
 
 
 const BUTTONS = [

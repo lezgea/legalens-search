@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowDownIcon, InfoIcon, SearchIcon, SquareIcon } from '@/assets/icons'
+import { ArrowDownIcon, InfoIcon, SearchIcon, SquareIcon } from '../../assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
 import Icon, { InfoCircleOutlined } from '@ant-design/icons';
@@ -101,7 +101,33 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-right-bar'>
-                    <div className='title-wrapper'>
+                    <div className='card'>
+                        <div className='title'>Related</div>
+                    </div>
+                    <div className='card'>
+                        <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
+                        <div className='order-box'>
+                            <div className='order-label'>KMQ 1</div>
+                            <div className='order-count'>134/343</div>
+                        </div>
+                        <div className='order-box'>
+                            <div className='order-label'>KMQ 1</div>
+                            <div className='order-count'>134/343</div>
+                        </div>
+                        <div className='order-box'>
+                            <div className='order-label'>KMQ 1</div>
+                            <div className='order-count'>134/343</div>
+                        </div>
+                        <div className='order-box'>
+                            <div className='order-label'>KMQ 1</div>
+                            <div className='order-count'>134/343</div>
+                        </div>
+                    </div>
+                    <div className='card'>
+                        <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
+                    </div>
+
+                    {/* <div className='title-wrapper'>
                         <div className='icon-wrapper'>
                             <InfoCircleOutlined className='icon' />
                         </div>
@@ -158,7 +184,7 @@ export default function ResultDetailsModule() {
                                 </div>
                             )
                         }
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
