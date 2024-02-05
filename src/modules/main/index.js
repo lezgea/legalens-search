@@ -88,7 +88,7 @@ export default function MainModule() {
                 <div className='footer-bottom'>
                     <div className='footer-icons-wrapper'>
                         {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
-                        <Icon component={TiktokIcon} className='footer-icon' />
+                        {/* <Icon component={TiktokIcon} className='footer-icon' /> */}
                         {/* </a> */}
                         <a href='https://www.linkedin.com/company/legalens/' target='_blank'>
                             <Icon component={LinkedinIcon} className='footer-icon' />
@@ -100,7 +100,7 @@ export default function MainModule() {
                             <Icon component={InstagramIcon} className='footer-icon' />
                         </a>
                         {/* <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'> */}
-                        <Icon component={YoutubeIcon} className='footer-icon' />
+                        {/* <Icon component={YoutubeIcon} className='footer-icon' /> */}
                         {/* </a> */}
                     </div>
                     <div className='footer-ai-wrapper'>

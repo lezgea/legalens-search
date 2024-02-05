@@ -9,15 +9,21 @@
 // --------  LEFT FILTER BAR STYLES
 
 .side-filter-bar {
-    width: 250px;
-    padding: 20px 5px 100px 5px;
+    width: 300px;
+    padding: 20px 10px 100px 15px;
     max-height: 100%;
     overflow-y: scroll;
     flex-shrink: 0;
-    background: #fff;
-    filter: drop-shadow(0px 0px 239.334px rgba(16, 32, 90, 0.22));
+    // background: #fff;
+    // filter: drop-shadow(0px 0px 239.334px rgba(16, 32, 90, 0.22));
 
     .filter-item {
+        border-radius: 15px;
+        margin-bottom: 10px;
+        background: #fff;
+        box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
+        // filter: drop-shadow(0px 0px 239.334px rgba(16, 32, 90, 0.22));
+
         .header {
             cursor: pointer;
             position: relative;
@@ -74,7 +80,7 @@
 
             &:hover {
                 .label {
-                    transform: scale(1.2);
+                    transform: scale(1.1) !important;
                     font-weight: 500;
                     color: #6BA6FF;
                 }
@@ -91,6 +97,7 @@
             display: flex;
             user-select: none;
             animation: fadeIn .3s ease-in-out;
+            padding: 0 10px 10px 5px;
 
             .line {
                 background-color: #dbdbe6;
@@ -148,8 +155,8 @@
     height: 100%;
     padding: 0px 5px 0px 5px;
     border-radius: 6px;
-    background-color: #fff;
-    box-shadow: -21px 0px 56.106px -18.965px rgba(16, 32, 90, 0.07);
+    // background-color: #fff;
+    // box-shadow: -21px 0px 56.106px -18.965px rgba(16, 32, 90, 0.07);
     position: relative;
 }
 
@@ -229,7 +236,7 @@
 
 .results-list-wrapper {
     z-index: 5;
-    padding: 60px 15px 150px 15px;
+    padding: 40px 15px 150px 0px;
     overflow: auto;
     height: 100%;
     position: relative;
@@ -245,8 +252,8 @@
             flex-direction: column;
             width: 100%;
             padding: 20px 25px;
-            margin-left: 20px;
-            border-radius: 22px;
+            // margin-left: 20px;
+            border-radius: 20px;
             background: #FFF;
             box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
 

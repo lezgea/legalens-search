@@ -5,7 +5,7 @@ import React from 'react'
 export const ResultCardSkeleton = () => {
     return (
         <div className='result-card-wrapper'>
-            <Checkbox checked={false} onChange={() => { }} />
+            {/* <Checkbox checked={false} onChange={() => { }} /> */}
             <div className='result-card'>
                 <div className='date-skeleton' />
                 <div className='label-skeleton' />

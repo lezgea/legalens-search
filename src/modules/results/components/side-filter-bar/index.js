@@ -68,7 +68,7 @@ const FilterItem = (props) => {
             {
                 opened && !!children.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
-                    <div className='line'></div>
+                    {/* <div className='line'></div> */}
                     <div className='children'>
                         {
                             children.map((item, i) =>
