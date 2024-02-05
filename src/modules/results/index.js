@@ -65,7 +65,7 @@ export default function ResultsModule() {
         setShowModal(false)
     }
 
-    return <Loader />
+    // return <Loader />
 
     return (
         <div className='uniq-wrapper'>
