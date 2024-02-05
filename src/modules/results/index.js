@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, Modal } from 'antd';
-import { Header, Loader } from '@/components/large';
+import { Header } from '@/components/large';
 import { SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
 import { useResultsContext } from '@/context/results-context';
@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
 import { useCrop } from '@/hooks/use-crop';
+import Loader from '@/components/large/loader';
 
 const { Search } = Input;
 
@@ -64,7 +65,7 @@ export default function ResultsModule() {
         setShowModal(false)
     }
 
-    // return <Loader />
+    return <Loader />
 
     return (
         <div className='uniq-wrapper'>

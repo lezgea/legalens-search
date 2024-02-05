@@ -26,6 +26,7 @@ import LinkedinIcon from './linkedin.svg'
 import TiktokIcon from './tik-tok.svg'
 import YoutubeIcon from './youtube.svg'
 import DownloadIcon from './download.svg'
+import LegalensLogo from './legalens-logo.svg'
 
 
 // FILLED ICON IMPORTS
@@ -61,6 +62,7 @@ export {
     TiktokIcon,
     YoutubeIcon,
     DownloadIcon,
+    LegalensLogo,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,

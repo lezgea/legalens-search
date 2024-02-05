@@ -7,17 +7,52 @@
     transition: ease-in-out;
 
     .loader-wrapper {
+        position: relative;
+        height: 11em;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .overflow-box {
+            // top: 1em;
+            // left: 0;
+            // bottom: 0;
+            position: absolute;
+            width: 13em;
+            height: 8em;
+            opacity: 0.9;
+            background-color: #ffffff;
+            transition: ease-in-out;
+            animation: overflowBoxAnimation 2s ease-in-out infinite;
+        }
 
         .loader {
-            font-size: 5em;
-            color: #dedede;
-            transform: scale(0);
-            transition: ease-in-out;
-            animation: loaderAnimation 3s ease-in-out infinite;
+            font-size: 12em;
+            // color: #dedede;
         }
     }
 }
 
+
+@keyframes overflowBoxAnimation {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(13em);
+    }
+}
+
+@keyframes logoAnimation {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(13em);
+    }
+}
 
 @keyframes loaderAnimation {
     0% {
