@@ -101,9 +101,112 @@ img {
 
 
 .order-action-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 5px 7px;
   background-color: rgb(229, 229, 229, .5);
+
+  .label {
+    font-size: 11px;
+  }
+
+  .icon {
+    font-size: 10px;
+  }
 
   &:hover {
     background-color: rgb(229, 229, 229);
+  }
+}
+
+
+.pdf-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 5px 7px;
+  background-color: #FFD3D3;
+  transition: .2s ease-in-out;
+
+  .label {
+    font-size: 11px;
+    color: #D96B6B;
+  }
+
+  .icon {
+    font-size: 10px;
+    color: #D96B6B;
+  }
+
+  &:hover {
+    background-color: #D96B6B;
+
+    .label,
+    .icon {
+      color: #fff;
+    }
+  }
+}
+
+
+.doc-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 5px 7px;
+  background-color: #B2DAFF;
+  transition: .2s ease-in-out;
+
+  .label {
+    font-size: 11px;
+    color: #426DAE;
+  }
+
+  .icon {
+    font-size: 10px;
+    color: #426DAE;
+  }
+
+  &:hover {
+    background-color: #426DAE;
+
+    .label,
+    .icon {
+      color: #fff;
+    }
+  }
+}
+
+
+.txt-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 5px 7px;
+  background-color: #E5E5E5;
+  transition: .2s ease-in-out;
+
+  .label {
+    font-size: 11px;
+    color: #4D5E76;
+  }
+
+  .icon {
+    font-size: 10px;
+    color: #4D5E76;
+  }
+
+  &:hover {
+    background-color: #4D5E76;
+
+    .label,
+    .icon {
+      color: #fff;
+    }
   }
 }

@@ -6,6 +6,7 @@ import { parseCookies, setCookie } from 'nookies';
 const headers = {
     "Access-Control-Allow-Origin": "*",
     'accept': 'application/json',
+    'content-type': 'application/json',
 };
 
 const baseURL = "https://legalens-api.ailab.az/";

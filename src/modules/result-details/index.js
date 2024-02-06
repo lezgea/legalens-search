@@ -1,10 +1,11 @@
 import React from 'react'
-import { ArrowDownIcon, DownloadIcon, InfoIcon, SearchIcon, SquareIcon } from '../../assets/icons'
+import { ArrowDownIcon, DownloadBoldIcon, DownloadIcon, InfoIcon, LinkIcon, SearchIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
-import Icon, { InfoCircleOutlined } from '@ant-design/icons';
+import Icon from '@ant-design/icons';
 import { ActionButton } from '@/components/small';
 import { OutlinedButton } from '@/components/small/buttons/outlined-button';
+import { useDetails } from '@/hooks/use-details';
 
 
 
@@ -25,6 +26,7 @@ const infoItems = [
 export default function ResultDetailsModule() {
     const { resultsState, selectedResult } = useResultsContext()
 
+    const { data = [], refetch, isFetching } = useDetails("1", () => { })
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
@@ -65,6 +67,13 @@ export default function ResultDetailsModule() {
     }, [resultsState.searchKeys])
 
 
+    React.useEffect(() => {
+        refetch()
+    }, [])
+
+
+    console.log('@@@@@', data)
+
 
     return (
         <div className='uniq-wrapper'>
@@ -104,32 +113,68 @@ export default function ResultDetailsModule() {
                 <div className='results-details-right-bar'>
                     <div className='card'>
                         <div className='title'>Related</div>
-                        <div className='order-box'>
-                            <div className='order-label'>Qanunvericilik</div>
-                            <div className='order-button'>KMQ 1</div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>Qanunvericilik</div>
+                            <Icon className='order-icon' component={LinkIcon} />
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>Rekvizit</div>
+                            <div className='order-buttons-wrapper'>
+                                <OrderButton type='pdf' />
+                                <OrderButton type='doc' />
+                                <OrderButton type='txt' />
+                            </div>
                         </div>
                     </div>
                     <div className='card'>
                         <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
-                        <div className='order-box'>
+                        <div className='order-button'>
                             <div className='order-label'>KMQ 1</div>
                             <div className='order-count'>134/343</div>
                         </div>
-                        <div className='order-box'>
+                        <div className='order-button'>
                             <div className='order-label'>KMQ 1</div>
                             <div className='order-count'>134/343</div>
                         </div>
-                        <div className='order-box'>
+                        <div className='order-button'>
                             <div className='order-label'>KMQ 1</div>
                             <div className='order-count'>134/343</div>
                         </div>
-                        <div className='order-box'>
+                        <div className='order-button'>
                             <div className='order-label'>KMQ 1</div>
                             <div className='order-count'>134/343</div>
                         </div>
                     </div>
                     <div className='card'>
                         <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
+                        <div className='order-button'>
+                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
+                            <div className='order-count'>258/343</div>
+                        </div>
                     </div>
 
                     {/* <div className='title-wrapper'>
@@ -198,16 +243,17 @@ export default function ResultDetailsModule() {
 
 
 
-const OrderButton = () => {
-    let COLORS = {
-        pdf: '#D96B6B',
-        doc: '#426DAE',
-        txt: '#4D5E76',
+const OrderButton = ({ type, action }) => {
+    let TYPES = {
+        pdf: { title: 'PDF', color: '#D96B6B', backgroundColor: '#FFD3D3', },
+        doc: { title: 'DOC', color: '#426DAE', backgroundColor: '#B2DAFF', },
+        txt: { title: 'TXT', color: '#4D5E76', backgroundColor: '#E5E5E5', },
     }
 
     return (
-        <div className='order-action-button'>
-
+        <div className={`${type}-button`} onClick={action}>
+            <div className='label' >{TYPES[type].title}</div>
+            <Icon component={DownloadBoldIcon} className='icon' />
         </div>
     )
 }

@@ -26,7 +26,7 @@ const { Search } = Input;
 
 
 const topRightActions = [
-    { id: 3, label: 'Sırala', icon: null, size: 16 },
+    // { id: 3, label: 'Sırala', icon: null, size: 16 },
     { id: 4, label: 'Tarix', icon: ArrowDownIcon, size: 13 },
 ]
 
@@ -107,7 +107,7 @@ export default function ResultsModule() {
                         {
                             !resultsState.loading && !resultsState?.list?.length &&
                             <div className='empty-content'>
-                                <Empty description={'No Results'} />
+                                <Empty description={'Məlumat Tapılmadı'} />
                             </div>
                         }
                     </div>
