@@ -105,9 +105,11 @@ export default function ResultDetailsModule() {
                         <ActionButton color='blue' onClick={() => { }} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
                     </div>
-                    <div className='label'>{selectedResult?.label}</div>
-                    <div className='description'>{selectedResult?.description}</div>
-                    <div className='text' dangerouslySetInnerHTML={{ __html: resultText }}></div>
+                    <div className='text-wrapper'>
+                        <div className='label'>{selectedResult?.label}</div>
+                        <div className='description'>{selectedResult?.description}</div>
+                        <div className='text' dangerouslySetInnerHTML={{ __html: data.data }}></div>
+                    </div>
                 </div>
 
                 <div className='results-details-right-bar'>

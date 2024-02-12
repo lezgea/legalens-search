@@ -65,7 +65,6 @@ export default function ResultsModule() {
         setShowModal(false)
     }
 
-    // return <Loader />
 
     return (
         <div className='uniq-wrapper'>
@@ -138,6 +137,7 @@ const ResultCard = (props) => {
         {
             crop_id: '',
             data: [],
+            text: '',
         }
     )
     const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
@@ -150,7 +150,8 @@ const ResultCard = (props) => {
 
     function onSelectCrop(crop) {
         setLinerData({ crop_id: crop })
-        refetch()
+        if (linerData.crop_id === crop)
+            refetch()
     }
 
     if (error) {
@@ -160,11 +161,22 @@ const ResultCard = (props) => {
             //     'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
         })
     }
-    console.log('=====', data)
+    console.log('=====', linerData.crop_id)
 
     React.useEffect(() => {
-        setLinerData({ data: [...Percentages] })
+        setLinerData({
+            data: [...Percentages],
+            text: text,
+        })
     }, [Percentages])
+
+
+    React.useEffect(() => {
+        if (!!linerData.crop_id)
+            setLinerData({ text: data?.data })
+    }, [linerData.crop_id])
+
+    // return <Loader />
 
 
     return (
@@ -201,9 +213,19 @@ const ResultCard = (props) => {
                         }
                     </div>
                 </div>
-                <div className='text-container'>
-                    <div className='text truncate' dangerouslySetInnerHTML={{ __html: text }}></div>
-                </div>
+                {
+                    isFetching
+                        ?
+                        <div className='text-container'>
+                            <div className='text-skeleton' />
+                            <div className='text-skeleton' />
+                            <div className='text-skeleton' />
+                        </div>
+                        :
+                        <div className='text-container'>
+                            <div className='text truncate' dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
+                        </div>
+                }
             </div>
         </div>
     )

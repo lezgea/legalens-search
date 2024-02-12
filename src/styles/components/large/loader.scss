@@ -28,6 +28,7 @@
 
         .loader {
             font-size: 12em;
+            animation: logoAnimation .7s ease-in-out infinite;
             // color: #dedede;
         }
     }
@@ -46,11 +47,17 @@
 
 @keyframes logoAnimation {
     0% {
-        transform: translateX(0);
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
     }
 
     100% {
-        transform: translateX(13em);
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
