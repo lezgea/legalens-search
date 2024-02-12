@@ -154,14 +154,10 @@ const ResultCard = (props) => {
             refetch()
     }
 
-    if (error) {
-        api.error({
-            message: error,
-            // description:
-            //     'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-        })
-    }
-    console.log('=====', linerData.crop_id)
+
+    if (error)
+        api.error({ message: error })
+
 
     React.useEffect(() => {
         setLinerData({
@@ -176,11 +172,9 @@ const ResultCard = (props) => {
             setLinerData({ text: data?.data })
     }, [linerData.crop_id])
 
-    // return <Loader />
-
 
     return (
-        <div className='result-card-wrapper'>
+        <Link href='/result-details' className='result-card-wrapper'>
             {/* <Checkbox checked={checked} onChange={() => { }} /> */}
             <div className='result-card'>
                 <div className='date'>{date}</div>
@@ -193,7 +187,7 @@ const ResultCard = (props) => {
                 </Link>
                 <div className='description'>{description}</div>
                 <div className='linear-filter-wrapper'>
-                    <div className='linear-filter'>
+                    <div className='linear-filter' onClick={(e) => e?.preventDefault()}>
                         {
                             linerData?.data?.map((item, i) => {
                                 let backgroundColor = colors[item[1]]
@@ -204,7 +198,7 @@ const ResultCard = (props) => {
                                         key={i}
                                         className='item'
                                         style={{ marginLeft: marginLeft }}
-                                        onClick={() => onSelectCrop(item[3])}
+                                        onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
                                     >
                                         <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                     </div>
@@ -227,7 +221,7 @@ const ResultCard = (props) => {
                         </div>
                 }
             </div>
-        </div>
+        </Link>
     )
 }
 

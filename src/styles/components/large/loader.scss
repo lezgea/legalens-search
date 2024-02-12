@@ -14,9 +14,6 @@
         justify-content: flex-start;
 
         .overflow-box {
-            // top: 1em;
-            // left: 0;
-            // bottom: 0;
             position: absolute;
             width: 13em;
             height: 8em;
@@ -28,8 +25,6 @@
 
         .loader {
             font-size: 12em;
-            animation: logoAnimation .7s ease-in-out infinite;
-            // color: #dedede;
         }
     }
 }
@@ -48,16 +43,10 @@
 @keyframes logoAnimation {
     0% {
         opacity: 0;
-        transform: scale(0);
-    }
-
-    50% {
-        transform: scale(1.2);
     }
 
     100% {
         opacity: 1;
-        transform: scale(1);
     }
 }
 
@@ -83,10 +72,6 @@
     24% {
         transform: scale(1) rotateZ(-30deg);
     }
-
-    // 25% {
-    //     transform: scale(1);
-    // }
 
     30% {
         transform: rotateZ(0deg);
@@ -118,7 +103,6 @@
     }
 
     100% {
-        // transform: ;
         transform: scale(0);
         opacity: 0;
     }

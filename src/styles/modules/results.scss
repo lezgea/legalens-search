@@ -256,6 +256,15 @@
             border-radius: 20px;
             background: #FFF;
             box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
+            transition: .3s ease-in-out;
+
+            &:hover {
+                box-shadow: 0px 4px 60px -10px rgba(20, 35, 80, 0.13);
+
+                .label {
+                    color: #6BA6FF;
+                }
+            }
 
             .label {
                 font-size: 15px;
