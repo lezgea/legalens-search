@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ArrowDownIcon, DownloadBoldIcon, DownloadIcon, InfoIcon, LinkIcon, SearchIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
@@ -6,6 +6,7 @@ import Icon from '@ant-design/icons';
 import { ActionButton } from '@/components/small';
 import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 import { useDetails } from '@/hooks/use-details';
+import { useRouter } from 'next/router'
 
 
 
@@ -26,7 +27,10 @@ const infoItems = [
 export default function ResultDetailsModule() {
     const { resultsState, selectedResult } = useResultsContext()
 
-    const { data = [], refetch, isFetching } = useDetails("1", () => { })
+    const router = useRouter()
+    const { id } = router.query
+    const selectedDivRef = React.useRef()
+    const { data = [], refetch, isFetching } = useDetails({ mecelle_id: '1', start: Number(id) }, () => { })
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
@@ -63,7 +67,17 @@ export default function ResultDetailsModule() {
 
 
     React.useEffect(() => {
-        countWordOccurrences()
+        if (!!data.percentages?.length) {
+            setLeftLiner({
+                data: [...data?.percentages],
+                // text: text,
+            })
+        }
+    }, [data.percentages])
+
+
+    React.useEffect(() => {
+        // countWordOccurrences()
     }, [resultsState.searchKeys])
 
 
@@ -72,8 +86,13 @@ export default function ResultDetailsModule() {
     }, [])
 
 
-    console.log('@@@@@', data)
+    React.useLayoutEffect(() => {
+        if (!!data?.current_obj && !isFetching) {
+            selectedDivRef?.current?.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [isFetching, data])
 
+    console.log('$$$$$', data)
 
     return (
         <div className='uniq-wrapper'>
@@ -89,11 +108,33 @@ export default function ResultDetailsModule() {
                     <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
                             {
-                                leftLiner.data.map((item, i) =>
-                                    <div key={i} className='item'>
-                                        <div className='item-marker' style={{ backgroundColor: item.color }}></div>
-                                    </div>
-                                )
+                                // leftLiner.data.map((item, i) =>
+                                //     <div key={i} className='item'>
+                                //         <div className='item-marker' style={{ backgroundColor: item.color }}></div>
+                                //     </div>
+                                // )
+                            }
+
+                            {
+                                leftLiner?.data?.map((item, i) => {
+                                    // let backgroundColor = colors[item[1]]
+                                    // let marginLeft = `${(item[2] * 100)}%`
+                                    let backgroundColor = '#dedede'
+                                    let marginTop = `${(item[1] * 1000)}%`
+
+                                    // console.log('$$$$$', item)
+
+                                    return (
+                                        <div
+                                            key={i}
+                                            className='item'
+                                            style={{ marginTop: marginTop }}
+                                            onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
+                                        >
+                                            <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
+                                        </div>
+                                    )
+                                })
                             }
                         </div>
                     </div>
@@ -105,11 +146,30 @@ export default function ResultDetailsModule() {
                         <ActionButton color='blue' onClick={() => { }} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
                     </div>
-                    <div className='text-wrapper'>
-                        <div className='label'>{selectedResult?.label}</div>
-                        <div className='description'>{selectedResult?.description}</div>
-                        <div className='text' dangerouslySetInnerHTML={{ __html: data.data }}></div>
-                    </div>
+                    {
+                        isFetching
+                            ?
+                            // text skeleton which appears while fetching
+                            <div className='text-wrapper'>
+                                <div className='text-container'>
+                                    <div className='label-skeleton' />
+                                    <div className='text-skeleton' style={{ width: '50%' }} />
+                                    <div className='text-skeleton' style={{ width: '70%' }} />
+                                    <div className='text-skeleton' style={{ width: '20%' }} />
+                                    {
+                                        [...Array(100)].map((item, i) =>
+                                            <div key={i} className='text-skeleton' />
+                                        )
+                                    }
+                                </div>
+                            </div>
+                            :
+                            <div className='text-wrapper'>
+                                <div className='text' dangerouslySetInnerHTML={{ __html: data.before_obj }}></div>
+                                <div className='text' ref={selectedDivRef} dangerouslySetInnerHTML={{ __html: data.current_obj }}></div>
+                                <div className='text' dangerouslySetInnerHTML={{ __html: data.after_obj }}></div>
+                            </div>
+                    }
                 </div>
 
                 <div className='results-details-right-bar'>

@@ -80,7 +80,7 @@ export default function ResultsModule() {
                                     {!!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) => <SearchKey key={i} color={colors[i]} label={item} />)}
                                 </div>
                                 <div className='action-buttons-wrapper'>
-                                    {topRightActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)}
+                                    {/* {topRightActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)} */}
                                 </div>
                                 {/* <div className='action-buttons-wrapper'>
                                     {bottomLeftActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)}
@@ -99,6 +99,7 @@ export default function ResultsModule() {
                                 <ResultCard
                                     key={i}
                                     {...item[1]}
+                                    item={item}
                                     text={item[1].Crop}
                                 />
                             )
@@ -129,7 +130,7 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { Headline: label, description, Percentages, text, checked, date } = props
+    let { Headline: label, item, description, Percentages, text, checked, date } = props
     const { resultsState, setSelectedResult, colors } = useResultsContext()
     const [api, contextHolder] = notification.useNotification();
 
@@ -174,15 +175,11 @@ const ResultCard = (props) => {
 
 
     return (
-        <Link href='/result-details' className='result-card-wrapper'>
+        <Link href={`/result-details/${20}`} className='result-card-wrapper'>
             {/* <Checkbox checked={checked} onChange={() => { }} /> */}
             <div className='result-card'>
                 <div className='date'>{date}</div>
-                <Link
-                    className='label'
-                    href='/result-details'
-                    onClick={onSetDetails}
-                >
+                <Link className='label' href={`/result-details/${20}`}>
                     {label}
                 </Link>
                 <div className='description'>{description}</div>
