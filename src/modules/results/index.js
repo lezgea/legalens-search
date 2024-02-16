@@ -207,7 +207,7 @@ const ResultCard = (props) => {
                                         key={i}
                                         className='item'
                                         style={{ marginLeft: marginLeft }}
-                                    // onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
+                                        onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
                                     >
                                         <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                     </div>
