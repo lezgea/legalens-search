@@ -74,10 +74,13 @@ export default function ResultsModule() {
                 <div className='results-content-wrapper'>
                     <div className='results-list-wrapper'>
                         <div className='list-header-wrapper'>
-                            {/* <Checkbox checked={false} onChange={() => { }} /> */}
                             <div className='list-header'>
                                 <div className='filter-items-wrapper'>
-                                    {!!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) => <SearchKey key={i} color={colors[i]} label={item} />)}
+                                    {
+                                        !!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) =>
+                                            <SearchKey key={i} color={colors[i]} label={item} />
+                                        )
+                                    }
                                 </div>
                                 <div className='action-buttons-wrapper'>
                                     {/* {topRightActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)} */}
@@ -130,7 +133,16 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { Headline: label, item, description, Percentages, text, checked, date } = props
+    let {
+        Headline: label,
+        description,
+        Percentages,
+        text,
+        date,
+        madde_id,
+        bolme_id,
+        fesil_id,
+    } = props
     const { resultsState, setSelectedResult, colors } = useResultsContext()
     const [api, contextHolder] = notification.useNotification();
 
@@ -174,12 +186,12 @@ const ResultCard = (props) => {
     }, [linerData.crop_id])
 
 
+
     return (
-        <Link href={`/result-details/${20}`} className='result-card-wrapper'>
-            {/* <Checkbox checked={checked} onChange={() => { }} /> */}
+        <Link href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`} className='result-card-wrapper'>
             <div className='result-card'>
                 <div className='date'>{date}</div>
-                <Link className='label' href={`/result-details/${20}`}>
+                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`}>
                     {label}
                 </Link>
                 <div className='description'>{description}</div>
@@ -195,7 +207,7 @@ const ResultCard = (props) => {
                                         key={i}
                                         className='item'
                                         style={{ marginLeft: marginLeft }}
-                                        onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
+                                    // onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
                                     >
                                         <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                     </div>

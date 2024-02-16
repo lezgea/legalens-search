@@ -25,12 +25,27 @@ const infoItems = [
 
 
 export default function ResultDetailsModule() {
-    const { resultsState, selectedResult } = useResultsContext()
+    const { resultsState, selectedResult, colors } = useResultsContext()
 
     const router = useRouter()
     const { id } = router.query
-    const selectedDivRef = React.useRef()
-    const { data = [], refetch, isFetching } = useDetails({ mecelle_id: '1', start: Number(id) }, () => { })
+
+    let idItems = id.split('_')
+    const bolme_id = idItems[0]
+    const fesil_id = idItems[1]
+    const madde_id = idItems[2]
+
+    // const selectedDivRef = React.useRef()
+    const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+    const arrayRef = React.useRef([]);
+
+    const { data = [], refetch, isFetching } = useDetails({
+        mecelle_id: '1',
+        bolme_id,
+        fesil_id,
+        madde_id,
+    }, () => { })
+
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
@@ -87,11 +102,27 @@ export default function ResultDetailsModule() {
 
 
     React.useLayoutEffect(() => {
-        if (!!data?.current_obj && !isFetching) {
-            selectedDivRef?.current?.scrollIntoView({ behavior: "smooth" });
+        if (typeof data?.data != "undefined" && !isFetching && data.madde_id) {
+            console.log('@@@@@@', data.madde_id)
+            let indexToScrollTo = data.bolme_id; // Change this to the index you want to scroll to
+            if (arrayRef.current[indexToScrollTo]) {
+                arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+                let newIndexToScrollTo = data.madde_id;
+                // if (newIndexToScrollTo) {
+                // arrayRef.current[newIndexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+                // }
+            }
         }
-    }, [isFetching, data])
 
+    }, [isFetching, data.data, data.madde_id]);
+
+    // React.useLayoutEffect(() => {
+    //     if (typeof data?.data != "undefined" && !isFetching) {
+    //         selectedDivRef?.current?.scrollIntoView({ behavior: "smooth" });
+    //     }
+    // }, [isFetching, data.data])
+
+    // console.log('$$$$$', Object.values(data?.data))
     console.log('$$$$$', data)
 
     return (
@@ -108,21 +139,12 @@ export default function ResultDetailsModule() {
                     <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
                             {
-                                // leftLiner.data.map((item, i) =>
-                                //     <div key={i} className='item'>
-                                //         <div className='item-marker' style={{ backgroundColor: item.color }}></div>
-                                //     </div>
-                                // )
-                            }
-
-                            {
                                 leftLiner?.data?.map((item, i) => {
-                                    // let backgroundColor = colors[item[1]]
-                                    // let marginLeft = `${(item[2] * 100)}%`
-                                    let backgroundColor = '#dedede'
-                                    let marginTop = `${(item[1] * 1000)}%`
+                                    let backgroundColor = colors[item[1]]
+                                    let percent = (item[3] * 100).toString()?.split('.')[0]
+                                    let marginTop = `${percent}vh`
 
-                                    // console.log('$$$$$', item)
+                                    console.log('ITEM', `${percent}vh`)
 
                                     return (
                                         <div
@@ -165,9 +187,41 @@ export default function ResultDetailsModule() {
                             </div>
                             :
                             <div className='text-wrapper'>
-                                <div className='text' dangerouslySetInnerHTML={{ __html: data.before_obj }}></div>
-                                <div className='text' ref={selectedDivRef} dangerouslySetInnerHTML={{ __html: data.current_obj }}></div>
-                                <div className='text' dangerouslySetInnerHTML={{ __html: data.after_obj }}></div>
+                                {
+                                    typeof data?.data != "undefined" &&
+                                    !!Object.values(data?.data)?.length &&
+                                    Object.values(data?.data).map((bolme, bolmeIndex) =>
+                                        <div key={bolmeIndex}>
+                                            {
+                                                bolme.map((madde, maddeIndex) => {
+                                                    if (data.bolme_id === bolmeIndex)
+                                                        return (
+                                                            <div
+                                                                key={maddeIndex}
+                                                                className='text'
+                                                                ref={(element) => arrayRef.current[maddeIndex] = element}
+                                                                dangerouslySetInnerHTML={{ __html: madde[0] }}
+                                                            ></div>
+                                                        )
+
+                                                    return (
+                                                        <div
+                                                            key={maddeIndex}
+                                                            className='text'
+                                                            // ref={(element) => arrayRef.current[index] = element}
+                                                            dangerouslySetInnerHTML={{ __html: madde[0] }}
+                                                        ></div>
+                                                    )
+                                                }
+
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
+                                {/* <div className='text' dangerouslySetInnerHTML={{ __html: data.before_obj }}></div> */}
+                                {/* <div className='text' ref={selectedDivRef} dangerouslySetInnerHTML={{ __html: data.current_obj }}></div> */}
+                                {/* <div className='text' dangerouslySetInnerHTML={{ __html: data.after_obj }}></div> */}
                             </div>
                     }
                 </div>
@@ -202,41 +256,24 @@ export default function ResultDetailsModule() {
                             <div className='order-label'>KMQ 1</div>
                             <div className='order-count'>134/343</div>
                         </div>
-                        <div className='order-button'>
-                            <div className='order-label'>KMQ 1</div>
-                            <div className='order-count'>134/343</div>
-                        </div>
                     </div>
                     <div className='card'>
                         <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>20 noyabr 2020-ci il tarixli 199-VIQD nömrəli	</div>
-                            <div className='order-count'>258/343</div>
-                        </div>
+                        {
+                            isFetching &&
+                            <div className='text-container'>
+                                <div className='label-skeleton' />
+                                <div className='text-skeleton' style={{ width: '50%' }} />
+                            </div>
+                        }
+                        {
+                            data.references?.map((item, i) =>
+                                <div key={i} className='order-button'>
+                                    <div className='order-link-label'>{item[2]}</div>
+                                    <div className='order-count'> </div>
+                                </div>
+                            )
+                        }
                     </div>
 
                     {/* <div className='title-wrapper'>
@@ -299,7 +336,7 @@ export default function ResultDetailsModule() {
                     </div> */}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
