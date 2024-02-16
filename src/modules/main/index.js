@@ -57,7 +57,7 @@ export default function MainModule() {
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
                             onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                         />
-                        <Icon component={ThinSearchIcon} className='search-icon' />
+                        <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
                     </div>
                     {/* <div className='search-filters-wrapper'>
                         {

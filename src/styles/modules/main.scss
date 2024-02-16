@@ -72,8 +72,21 @@
             }
 
             .search-icon {
+                cursor: pointer;
                 font-size: 1.8rem;
                 color: #6BA6FF;
+                transition: .2s ease-in-out;
+
+                &:hover {
+                    font-size: 2rem;
+                    transform: scale(1.2);
+                }
+
+                &:active {
+                    font-size: 2rem;
+                    transform: scale(1);
+                    color: #4376c4;
+                }
             }
         }
 
