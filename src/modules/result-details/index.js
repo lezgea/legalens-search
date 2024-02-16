@@ -7,6 +7,7 @@ import { ActionButton } from '@/components/small';
 import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
+import { Divider } from 'antd';
 
 
 
@@ -36,7 +37,7 @@ export default function ResultDetailsModule() {
     const madde_id = idItems[2]
 
     // const selectedDivRef = React.useRef()
-    const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+    const [articleIndex, setArticleIndex] = React.useState(0);
     const arrayRef = React.useRef([]);
 
     const { data = [], refetch, isFetching } = useDetails({
@@ -92,8 +93,11 @@ export default function ResultDetailsModule() {
 
 
     React.useEffect(() => {
-        // countWordOccurrences()
-    }, [resultsState.searchKeys])
+        let indexToScrollTo = articleIndex; // Change this to the index you want to scroll to
+        if (arrayRef.current[indexToScrollTo]) {
+            arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [articleIndex])
 
 
     React.useEffect(() => {
@@ -103,7 +107,6 @@ export default function ResultDetailsModule() {
 
     React.useLayoutEffect(() => {
         if (typeof data?.data != "undefined" && !isFetching && data.madde_id) {
-            console.log('@@@@@@', data.madde_id)
             let indexToScrollTo = data.bolme_id; // Change this to the index you want to scroll to
             if (arrayRef.current[indexToScrollTo]) {
                 arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
@@ -122,8 +125,8 @@ export default function ResultDetailsModule() {
     //     }
     // }, [isFetching, data.data])
 
-    // console.log('$$$$$', Object.values(data?.data))
-    console.log('$$$$$', data)
+    console.log('@@@@', data)
+
 
     return (
         <div className='uniq-wrapper'>
@@ -144,19 +147,29 @@ export default function ResultDetailsModule() {
                                     let percent = (item[3] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}vh`
 
-                                    console.log('ITEM', `${percent}vh`)
-
                                     return (
                                         <div
                                             key={i}
                                             className='item'
                                             style={{ marginTop: marginTop }}
-                                            onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
+                                        // onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
                                         >
                                             <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                         </div>
                                     )
                                 })
+                            }
+                        </div>
+                        <div className='item-filters-wrapper'>
+                            {
+                                typeof data?.data != "undefined" &&
+                                !!Object.values(data?.data)?.length &&
+                                Object.values(data?.data).map((bolme, bolmeIndex) =>
+                                    <div key={bolmeIndex} className='item-wrapper' onClick={() => setArticleIndex(bolmeIndex)}>
+                                        <div className='line' />
+                                        <div className='label'>{`Bölmə ${bolmeIndex + 1}`}</div>
+                                    </div>
+                                )
                             }
                         </div>
                     </div>
@@ -191,18 +204,18 @@ export default function ResultDetailsModule() {
                                     typeof data?.data != "undefined" &&
                                     !!Object.values(data?.data)?.length &&
                                     Object.values(data?.data).map((bolme, bolmeIndex) =>
-                                        <div key={bolmeIndex}>
+                                        <div key={bolmeIndex} ref={(element) => arrayRef.current[bolmeIndex] = element}>
                                             {
                                                 bolme.map((madde, maddeIndex) => {
-                                                    if (data.bolme_id === bolmeIndex)
-                                                        return (
-                                                            <div
-                                                                key={maddeIndex}
-                                                                className='text'
-                                                                ref={(element) => arrayRef.current[maddeIndex] = element}
-                                                                dangerouslySetInnerHTML={{ __html: madde[0] }}
-                                                            ></div>
-                                                        )
+                                                    // if (data.bolme_id === bolmeIndex)
+                                                    return (
+                                                        <div
+                                                            key={maddeIndex}
+                                                            className='text'
+                                                            // ref={(element) => arrayRef.current[maddeIndex] = element}
+                                                            dangerouslySetInnerHTML={{ __html: madde[0] }}
+                                                        ></div>
+                                                    )
 
                                                     return (
                                                         <div

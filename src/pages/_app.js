@@ -20,7 +20,6 @@ export default function MyApp({ Component, pageProps }) {
             <main className={poppins.className}>
                 <SearchContextProvider>
                     <ResultsContextProvider>
-                        {/* {console.log('@@@@@', Component)} */}
                         <Component {...pageProps} />
                     </ResultsContextProvider>
                 </SearchContextProvider>
