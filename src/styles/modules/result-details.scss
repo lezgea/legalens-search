@@ -16,7 +16,7 @@
 
 
 .results-details-left-bar {
-    width: 230px;
+    width: 210px;
     height: 100%;
     position: relative;
     z-index: 5;
@@ -50,7 +50,7 @@
             flex-shrink: 0;
             border-radius: 22.349px;
             background: #fff;
-            animation: verticalLinerFilterAnimation .4s ease-in-out;
+            animation: verticalLinerFilterAnimation .6s ease-in-out;
 
             .item {
                 position: absolute;
@@ -88,6 +88,7 @@
             justify-content: space-between;
             width: 100%;
             padding: 5px 0 20px 0;
+            transition: .3s ease-in-out;
 
             .item-wrapper {
                 width: 100%;
@@ -95,6 +96,7 @@
                 align-items: center;
                 font-weight: 500;
                 cursor: pointer;
+                transition: .3s ease-in-out;
 
                 .line {
                     height: 1px;
@@ -110,10 +112,13 @@
                     margin-left: 10px;
                     display: flex;
                     font-size: 15px;
+                    transition: .2s ease-in-out;
+                    animation: sectionItemLabelAnimation .3s ease-in-out;
                 }
 
                 &:hover {
                     .label {
+                        transform: scale(1.2);
                         color: #3996d5;
                     }
                 }
@@ -437,8 +442,12 @@
         transform: scaleY(0);
     }
 
-    70% {
-        transform: scaleY(1.2);
+    20% {
+        transform: scaleY(2);
+    }
+
+    40% {
+        transform: scaleY(0);
     }
 
     100% {
@@ -453,11 +462,32 @@
     }
 
     70% {
-        transform: scaleX(1.2);
+        transform: scaleX(1.4);
     }
 
     100% {
         transform: scaleX(1);
+    }
+}
+
+
+
+@keyframes sectionItemLabelAnimation {
+    0% {
+        transform: translateX(-100px);
+        opacity: .5;
+    }
+
+    80% {
+        transform: translateX(50px);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(0);
     }
 }
 
