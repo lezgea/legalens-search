@@ -7,7 +7,7 @@ import { ActionButton } from '@/components/small';
 import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
-import { Divider } from 'antd';
+import { Divider, Popover } from 'antd';
 
 
 
@@ -281,10 +281,12 @@ export default function ResultDetailsModule() {
                         }
                         {
                             data.references?.map((item, i) =>
-                                <div key={i} className='order-button'>
-                                    <div className='order-link-label truncate-3'>{item[2]}</div>
-                                    <div className='order-count'> </div>
-                                </div>
+                                <Popover placement="left" content={item[2]} overlayStyle={{ maxWidth: '600px' }} >
+                                    <div key={i} className='order-button'>
+                                        <div className='order-link-label truncate-2'>{item[2]}</div>
+                                        <div className='order-count'> </div>
+                                    </div>
+                                </Popover>
                             )
                         }
                     </div>
