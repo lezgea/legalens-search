@@ -4,6 +4,7 @@ import { SearchContextProvider } from '../context'
 import { ResultsContextProvider } from '@/context/results-context'
 import { QueryClient, QueryClientProvider } from "react-query";
 import Router from 'next/router';
+// import "antd/dist/antd.css";
 
 
 const poppins = Poppins({

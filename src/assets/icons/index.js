@@ -30,6 +30,7 @@ import LegalensLogo from './legalens-logo.svg'
 import LinkIcon from './link.svg'
 import LayoutIcon from './layout.svg'
 import DownloadBoldIcon from './download-bold.svg'
+import GoogleIcon from './google-icon.svg'
 
 
 // FILLED ICON IMPORTS
@@ -69,6 +70,7 @@ export {
     LinkIcon,
     LayoutIcon,
     DownloadBoldIcon,
+    GoogleIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,

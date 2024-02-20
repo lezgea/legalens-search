@@ -8,6 +8,17 @@
     // justify-content: flex-start;
     user-select: none;
 
+    .ant-input,
+    .ant-input-focused,
+    .ant-input:focus,
+    .ant-input:active,
+    .ant-input:hover {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        background: none !important;
+    }
+
     .content-wrapper {
         height: 100vh;
         width: 100%;

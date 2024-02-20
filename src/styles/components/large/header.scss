@@ -9,6 +9,17 @@
     animation: .2s ease-in-out;
     background-color: #fff !important;
 
+    .ant-input,
+    .ant-input-focused,
+    .ant-input:focus,
+    .ant-input:active,
+    .ant-input:hover {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        background: none !important;
+    }
+
     .search-wrapper {
         width: 70%;
         display: inline-flex;

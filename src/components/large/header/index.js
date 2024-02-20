@@ -6,6 +6,7 @@ import { useSearchContext } from '@/context/search-context';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
+import Link from 'next/link';
 
 
 const filtersRow = [
@@ -80,7 +81,7 @@ export const Header = (props) => {
 
             <div className='auth-buttons-wrapper'>
                 <div className='registration-button'>Qeydiyyat</div>
-                <div className='login-button'>Giriş et</div>
+                <Link className='login-button' href="/sign-in">Giriş et</Link>
             </div>
             {/* <div className='profile-wrapper'>
                 <div className='notification-wrapper'>
@@ -91,7 +92,7 @@ export const Header = (props) => {
                 </div>
                 <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
             </div> */}
-        </div>
+        </div >
     )
 }
 
