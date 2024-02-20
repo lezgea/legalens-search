@@ -8,6 +8,7 @@ import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
 import { Divider, Popover } from 'antd';
+import { useReactToPrint } from "react-to-print";
 
 
 
@@ -30,6 +31,7 @@ export default function ResultDetailsModule() {
 
     const router = useRouter()
     const { id } = router.query
+    const componentRef = React.useRef()
 
     let idItems = id.split('_')
     const bolme_id = idItems[0]
@@ -125,7 +127,13 @@ export default function ResultDetailsModule() {
     //     }
     // }, [isFetching, data.data])
 
-    console.log('@@@@', data)
+    // console.log('@@@@', data)
+
+    const onClickDownload = useReactToPrint({
+        onBeforePrint: () => document.title = `Məcəllə`,
+        content: () => componentRef.current,
+    })
+
 
 
     return (
@@ -167,7 +175,13 @@ export default function ResultDetailsModule() {
                                 Object.values(data?.data).map((bolme, bolmeIndex) =>
                                     <div key={bolmeIndex} className='item-wrapper' onClick={() => setArticleIndex(bolmeIndex)}>
                                         <div className='line' />
-                                        <div className='label'>{`Bölmə ${bolmeIndex + 1}`}</div>
+                                        <Popover
+                                            placement="top"
+                                            content={<div dangerouslySetInnerHTML={{ __html: bolme[1][0] }}></div>}
+                                            overlayStyle={{ maxWidth: '600px' }}
+                                        >
+                                            <div className='label'>{`Bölmə ${bolmeIndex + 1}`}</div>
+                                        </Popover>
                                     </div>
                                 )
                             }
@@ -179,7 +193,7 @@ export default function ResultDetailsModule() {
                     <div className='header-icons-wrapper'>
                         <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
                         <ActionButton color='blue' onClick={() => { }} icon={SquareIcon} />
-                        <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
+                        <ActionButton color='blue' onClick={onClickDownload} icon={DownloadIcon} />
                     </div>
                     {
                         isFetching
@@ -199,7 +213,7 @@ export default function ResultDetailsModule() {
                                 </div>
                             </div>
                             :
-                            <div className='text-wrapper'>
+                            <div className='text-wrapper' ref={componentRef}>
                                 {
                                     typeof data?.data != "undefined" &&
                                     !!Object.values(data?.data)?.length &&
