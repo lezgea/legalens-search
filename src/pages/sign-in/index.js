@@ -9,7 +9,7 @@ const SignInModule = dynamic(
 )
 
 
-export default function ResultsPage() {
+export default function SignInPage() {
     return (
         <>
             <Head>
