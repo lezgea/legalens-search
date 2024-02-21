@@ -7,16 +7,20 @@ import Icon from '@ant-design/icons';
 import { FloatInput } from '@/components/small';
 
 
-export default function SignInModule() {
+export default function SignUpModule() {
     const router = useRouter()
     const [remember, setRemember] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
+            name: '',
+            surname: '',
             email: '',
             password: '',
+            password_confirmation: '',
         }
     )
+
 
     return (
         <div className='sign-in-container'>
@@ -34,20 +38,37 @@ export default function SignInModule() {
                     onFinish={() => { }}
                     onFinishFailed={() => { }}
                 >
-                    <div className='welcome-label'>Xoş gəlmişsiniz !</div>
+                    <div className='welcome-label'>Qeydiyyat</div>
+                    <FloatInput
+                        label='Ad'
+                        value={state.name}
+                        onChange={(e) => setState({ name: e.target.value })}
+                    />
+                    <FloatInput
+                        label='Soyad'
+                        value={state.surname}
+                        onChange={(e) => setState({ surname: e.target.value })}
+                    />
                     <FloatInput
                         label='E-mail'
                         placeholder='mail@example.com'
-                        value={state.email}
-                        onChange={(e) => setState({ email: e.target.value })}
+                        value={state.mail}
+                        onChange={(e) => setState({ mail: e.target.value })}
                     />
                     <FloatInput
                         label='Şifrə'
-                        placeholder='Şifrə'
                         value={state.password}
                         onChange={(e) => setState({ password: e.target.value })}
                     />
-                    <div className='bottom-line-wrapper'>
+                    <FloatInput
+                        label='Şifrəni təkrarla'
+                        placeholder='Şifrənin təkrarı'
+                        value={state.password_confirmation}
+                        onChange={(e) => setState({ password_confirmation: e.target.value })}
+                    />
+
+
+                    {/* <div className='bottom-line-wrapper'>
                         <div className='remember-me-wrapper'>
                             <Switch
                                 size="medium"
@@ -59,24 +80,25 @@ export default function SignInModule() {
                             <div className='remember-title'>Remember me</div>
                         </div>
                         <Link className='forgot-link' href='/forgot-password'>Forgot password?</Link>
-                    </div>
-                    <Button
-                        loading={loading}
-                        className='sign-in-button'
-                        onClick={() => setLoading(true)}
-                    >
-                        Sign In
-                    </Button>
+                    </div> */}
                     <Button
                         icon={<GoogleIcon />}
                         className='google-button'
                         onClick={() => { }}
                     >
-                        Or sign in with Google
+                        Google hesabı ilə qeydiyyatdan keç
                     </Button>
+                    <Button
+                        loading={loading}
+                        className='sign-in-button'
+                        onClick={() => setLoading(true)}
+                    >
+                        Qeydiyyatdan keç
+                    </Button>
+
                     <div className='card-bottom-line'>
-                        <div>Dont have an account?</div>
-                        <Link href='/sign-up' className='sign-up-link'>Sign up now</Link>
+                        <div>Hesabınız var?</div>
+                        <Link href='/sign-in' className='sign-up-link'>Daxil  ol</Link>
                     </div>
                 </Form>
             </div>

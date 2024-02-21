@@ -8,7 +8,7 @@
     justify-content: center;
     overflow: hidden;
     background-color: #000;
-    animation: authBackgroundAnimation .5s ease-in-out;
+    // animation: authBackgroundAnimation .5s ease-in-out;
 
     .bg-lines {
         font-size: 70em;
@@ -59,7 +59,6 @@
             border-radius: 15px;
             background-color: #ffffffc1;
             backdrop-filter: blur(20px);
-            // box-shadow: 1px 10px 80px 0px #e2e2e2;
             gap: 15px;
             user-select: none;
             animation: forgotWrapperAnimation 1s ease-in-out;

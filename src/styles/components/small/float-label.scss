@@ -1,0 +1,44 @@
+.float-label {
+    position: relative;
+}
+
+.input-label {
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 12px;
+    top: 11px;
+    transition: 0.2s ease all;
+}
+
+.as-placeholder {
+    color: rgb(164, 164, 164);
+}
+
+.as-label {
+    top: -20px;
+    font-size: 12px !important;
+    // background: white;
+    padding: 0px 5px;
+    border-radius: 10px;
+    margin-left: -4px;
+}
+
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 4px 0;
+
+    .label {
+        margin-left: 12px;
+        margin-bottom: 3px;
+        font-size: 12px;
+        color: #333333;
+    }
+
+    .input {
+        height: 45px;
+    }
+}

@@ -1,3 +1,4 @@
 export * from './buttons'
 export * from './input'
 export * from './search-key'
+export * from './float-input'

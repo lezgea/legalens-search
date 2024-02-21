@@ -80,7 +80,7 @@ export const Header = (props) => {
             }
 
             <div className='auth-buttons-wrapper'>
-                <div className='registration-button'>Qeydiyyat</div>
+                <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>
                 <Link className='login-button' href="/sign-in">Giriş et</Link>
             </div>
             {/* <div className='profile-wrapper'>
