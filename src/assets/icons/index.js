@@ -30,11 +30,13 @@ import LegalensLogo from './legalens-logo.svg'
 import LinkIcon from './link.svg'
 import LayoutIcon from './layout.svg'
 import DownloadBoldIcon from './download-bold.svg'
-import GoogleIcon from './google-icon.svg'
 
 
 // FILLED ICON IMPORTS
 import FilledNotificationIcon from './filled-notification.svg'
+import GoogleIcon from './google-icon.svg'
+import LegalensLogoWhite from './legalens-logo-white.svg'
+import AuthBgLines from './auth-bg-lines.svg'
 
 
 
@@ -70,8 +72,10 @@ export {
     LinkIcon,
     LayoutIcon,
     DownloadBoldIcon,
-    GoogleIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,
+    GoogleIcon,
+    LegalensLogoWhite,
+    AuthBgLines,
 }

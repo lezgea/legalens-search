@@ -1,25 +1,26 @@
 import React from 'react'
 import { Form, Input, Image, Button, Switch, Checkbox } from "antd";
 import Link from 'next/link';
-import { GoogleIcon, AuthBgLines, LegalensLogoWhite } from '@/assets/icons';
+import { AuthBgLines, GoogleIcon, LegalensLogoWhite } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import Icon from '@ant-design/icons';
+// import { ReactComponent as GoogleIcon } from '@/assets/google-icon.svg';
 
 
-export default function SignInModule() {
+export default function ForgotPasswordModule() {
     const router = useRouter()
     const [remember, setRemember] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
 
     return (
-        <div className='sign-in-container'>
+        <div className='forgot-container'>
             <Icon component={AuthBgLines} className='bg-lines' />
-            <div className='sign-in-wrapper'>
+            <div className='forgot-wrapper'>
                 <Link href='/' className='white-logo-wrapper'>
                     <Icon component={LegalensLogoWhite} className='white-logo' />
                 </Link>
                 <Form
-                    className='sign-in-card'
+                    className='forgot-card'
                     name="basic"
                     initialValues={{
                         remember: true
@@ -77,5 +78,6 @@ export default function SignInModule() {
                 </Form>
             </div>
         </div>
+
     )
 }

@@ -9,6 +9,8 @@ import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
 import { Divider, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
+import { useDetailsIndex } from '@/hooks/use-details-index';
+import { useDetailsReference } from '@/hooks/use-details-reference';
 
 
 
@@ -32,63 +34,68 @@ export default function ResultDetailsModule() {
     const router = useRouter()
     const { id } = router.query
     const componentRef = React.useRef()
+    const arrayRef = React.useRef([]);
 
     let idItems = id.split('_')
     const bolme_id = idItems[0]
     const fesil_id = idItems[1]
     const madde_id = idItems[2]
 
-    // const selectedDivRef = React.useRef()
-    const [articleIndex, setArticleIndex] = React.useState(0);
-    const arrayRef = React.useRef([]);
-
-    const { data = [], refetch, isFetching } = useDetails({
-        mecelle_id: '1',
-        bolme_id,
-        fesil_id,
-        madde_id,
-    }, () => { })
-
+    const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        {
+            ref_id: '',
+            bolme_id: 0,
+            fesil_id: 0,
+            madde_id: 0,
+        }
+    )
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
             step: 0,
         }
     )
+    const [articleIndex, setArticleIndex] = React.useState(0);
+
+
+    const { data = [], refetch, isFetching } = useDetails({
+        mecelle_id: '0',
+        bolme_id,
+        fesil_id,
+        madde_id,
+    }, () => { })
+
+
+    const { data: indexData = [], refetch: refetchIndexData, isFetching: isFetchingIndexData } = useDetailsIndex({
+        mecelle_id: '0',
+        bolme_id: state.bolme_id,
+        fesil_id: state.fesil_id,
+        madde_id: state.madde_id,
+    }, () => { })
+
+    const { data: referenceData, refetch: refetchReferenceData, isFetching: isFetchingReferenceData } = useDetailsReference({
+        mecelle_id: '0',
+        ref_name: state.ref_id,
+    }, () => { })
+
+
+    console.log('$$$$$$', state.ref_id)
+
 
     // we use this variable for calculating color lines widths in the right bar
-    let totalInfoLinesValue = infoItems.reduce((acc, item) => acc + item.value, 0)
     const resultText = selectedResult.text
 
 
-    // counts words by searchkeys for leftside vertical liner 
-    function countWordOccurrences() {
-        const words = resultText?.toLowerCase().match(/\b\w+\b/g)
-        let data = []
-        let step = 0
-        let wordsCount = 0
-        let keys = resultsState.searchKeys.map(item => item.label)
-
-        if (words)
-            words.forEach((word, index) => {
-                wordsCount += 1
-                let wordExist = keys.includes(word)
-                if (wordExist) {
-                    data.push(resultsState.searchKeys.find(item => item.label === word))
-                } else {
-                    data.push({ id: index, color: 'transparent' })
-                }
-            })
-        step = wordsCount / 100
-        setLeftLiner({ data: data, step: step })
-    }
+    const onClickDownload = useReactToPrint({
+        onBeforePrint: () => document.title = `Məcəllə`,
+        content: () => componentRef.current,
+    })
 
 
     React.useEffect(() => {
         if (!!data.percentages?.length) {
             setLeftLiner({
                 data: [...data?.percentages],
-                // text: text,
             })
         }
     }, [data.percentages])
@@ -108,32 +115,19 @@ export default function ResultDetailsModule() {
 
 
     React.useLayoutEffect(() => {
-        if (typeof data?.data != "undefined" && !isFetching && data.madde_id) {
-            let indexToScrollTo = data.bolme_id; // Change this to the index you want to scroll to
-            if (arrayRef.current[indexToScrollTo]) {
-                arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
-                let newIndexToScrollTo = data.madde_id;
-                // if (newIndexToScrollTo) {
-                // arrayRef.current[newIndexToScrollTo].scrollIntoView({ behavior: 'smooth' });
-                // }
-            }
+        if (indexData.index) {
+            setArticleIndex(indexData.index)
         }
+    }, [indexData]);
 
-    }, [isFetching, data.data, data.madde_id]);
 
-    // React.useLayoutEffect(() => {
-    //     if (typeof data?.data != "undefined" && !isFetching) {
-    //         selectedDivRef?.current?.scrollIntoView({ behavior: "smooth" });
-    //     }
-    // }, [isFetching, data.data])
-
-    // console.log('@@@@', data)
-
-    const onClickDownload = useReactToPrint({
-        onBeforePrint: () => document.title = `Məcəllə`,
-        content: () => componentRef.current,
-    })
-
+    // React.useEffect(() => {
+    //     refetchIndexData()
+    // }, [
+    //     state.bolme_id,
+    //     state.fesil_id,
+    //     state.madde_id,
+    // ])
 
 
     return (
@@ -155,12 +149,25 @@ export default function ResultDetailsModule() {
                                     let percent = (item[3] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}vh`
 
+                                    let splittedId = item[2].split('.')
+                                    let bolmeId = splittedId[1]
+                                    let fesilId = splittedId[2]
+                                    let maddeId = splittedId[3]
+                                    // let IDtoSend = `${splittedId[0]}.${splittedId[1]}.${splittedId[2]}.${splittedId[3]}`
+
                                     return (
                                         <div
                                             key={i}
                                             className='item'
                                             style={{ marginTop: marginTop }}
-                                        // onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
+                                            onClick={(e) => {
+                                                e?.preventDefault();
+                                                setState({
+                                                    bolme_id: bolmeId,
+                                                    fesil_id: fesilId,
+                                                    madde_id: madde_id,
+                                                })
+                                            }}
                                         >
                                             <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                         </div>
@@ -170,20 +177,32 @@ export default function ResultDetailsModule() {
                         </div>
                         <div className='item-filters-wrapper'>
                             {
-                                typeof data?.data != "undefined" &&
-                                !!Object.values(data?.data)?.length &&
-                                Object.values(data?.data).map((bolme, bolmeIndex) =>
-                                    <div key={bolmeIndex} className='item-wrapper' onClick={() => setArticleIndex(bolmeIndex)}>
+                                data?.bolme_info?.length && data?.bolme_info?.map((item, index) =>
+                                    <div key={index} className='item-wrapper' onClick={() => setArticleIndex(item[0] - 4)}>
                                         <div className='line' />
                                         <Popover
                                             placement="top"
-                                            content={<div dangerouslySetInnerHTML={{ __html: bolme[1][0] }}></div>}
+                                            content={<div dangerouslySetInnerHTML={{ __html: item[1][0] }}></div>}
                                             overlayStyle={{ maxWidth: '600px' }}
                                         >
-                                            <div className='label'>{`Bölmə ${bolmeIndex + 1}`}</div>
+                                            <div className='label'>{`Bölmə ${index + 1}`}</div>
                                         </Popover>
                                     </div>
                                 )
+                                // typeof data?.data != "undefined" &&
+                                // !!Object.values(data?.data)?.length &&
+                                // Object.values(data?.data).map((bolme, bolmeIndex) =>
+                                //     <div key={bolmeIndex} className='item-wrapper' onClick={() => setArticleIndex(bolmeIndex)}>
+                                //         <div className='line' />
+                                //         <Popover
+                                //             placement="top"
+                                //             content={<div dangerouslySetInnerHTML={{ __html: bolme[1][0] }}></div>}
+                                //             overlayStyle={{ maxWidth: '600px' }}
+                                //         >
+                                //             <div className='label'>{`Bölmə ${bolmeIndex + 1}`}</div>
+                                //         </Popover>
+                                //     </div>
+                                // )
                             }
                         </div>
                     </div>
@@ -214,47 +233,24 @@ export default function ResultDetailsModule() {
                             </div>
                             :
                             <div className='text-wrapper' ref={componentRef}>
+                                {console.log('@@@@@', data)}
                                 {
-                                    typeof data?.data != "undefined" &&
-                                    !!Object.values(data?.data)?.length &&
-                                    Object.values(data?.data).map((bolme, bolmeIndex) =>
-                                        <div key={bolmeIndex} ref={(element) => arrayRef.current[bolmeIndex] = element}>
-                                            {
-                                                bolme.map((madde, maddeIndex) => {
-                                                    // if (data.bolme_id === bolmeIndex)
-                                                    return (
-                                                        <div
-                                                            key={maddeIndex}
-                                                            className='text'
-                                                            // ref={(element) => arrayRef.current[maddeIndex] = element}
-                                                            dangerouslySetInnerHTML={{ __html: madde[0] }}
-                                                        ></div>
-                                                    )
-
-                                                    return (
-                                                        <div
-                                                            key={maddeIndex}
-                                                            className='text'
-                                                            // ref={(element) => arrayRef.current[index] = element}
-                                                            dangerouslySetInnerHTML={{ __html: madde[0] }}
-                                                        ></div>
-                                                    )
-                                                }
-
-                                                )
-                                            }
-                                        </div>
+                                    data?.data?.length && data.data.map((item, index) =>
+                                        <div
+                                            key={index}
+                                            className={'text'}
+                                            ref={(element) => arrayRef.current[index] = element}
+                                            // ref={(element) => arrayRef.current[index] = element}
+                                            dangerouslySetInnerHTML={{ __html: item[0] }}
+                                        ></div>
                                     )
                                 }
-                                {/* <div className='text' dangerouslySetInnerHTML={{ __html: data.before_obj }}></div> */}
-                                {/* <div className='text' ref={selectedDivRef} dangerouslySetInnerHTML={{ __html: data.current_obj }}></div> */}
-                                {/* <div className='text' dangerouslySetInnerHTML={{ __html: data.after_obj }}></div> */}
                             </div>
                     }
                 </div>
 
                 <div className='results-details-right-bar'>
-                    <div className='card'>
+                    {/* <div className='card'>
                         <div className='title'>Related</div>
                         <div className='order-button'>
                             <div className='order-link-label'>Qanunvericilik</div>
@@ -268,7 +264,7 @@ export default function ResultDetailsModule() {
                                 <OrderButton type='txt' />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='card'>
                         <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
                         <div className='order-button'>
@@ -284,7 +280,7 @@ export default function ResultDetailsModule() {
                             <div className='order-count'>134/343</div>
                         </div>
                     </div>
-                    <div className='card'>
+                    <div className='card' style={{ height: '90%', overflow: 'auto' }}>
                         <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
                         {
                             isFetching &&
@@ -295,9 +291,9 @@ export default function ResultDetailsModule() {
                         }
                         {
                             data.references?.map((item, i) =>
-                                <Popover placement="left" content={item[2]} overlayStyle={{ maxWidth: '600px' }} >
-                                    <div key={i} className='order-button'>
-                                        <div className='order-link-label truncate-2'>{item[2]}</div>
+                                <Popover placement="left" content={item[1]} overlayStyle={{ maxWidth: '600px' }} >
+                                    <div key={i} className='order-button' onClick={() => setState({ ref_id: item[2] })}>
+                                        <div className='order-link-label truncate-2'>{item[1]}</div>
                                         <div className='order-count'> </div>
                                     </div>
                                 </Popover>
