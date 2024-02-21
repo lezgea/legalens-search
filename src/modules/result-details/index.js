@@ -80,17 +80,21 @@ export default function ResultDetailsModule() {
     }, () => { })
 
 
-    console.log('$$$$$$', referenceData)
-
-
-    // we use this variable for calculating color lines widths in the right bar
-    const resultText = selectedResult.text
-
 
     const onClickDownload = useReactToPrint({
         onBeforePrint: () => document.title = `Məcəllə`,
         content: () => componentRef.current,
     })
+
+
+    React.useEffect(() => {
+        refetch()
+        setState({
+            bolme_id: bolme_id,
+            fesil_id: fesil_id,
+            madde_id: madde_id,
+        })
+    }, [])
 
 
     React.useEffect(() => {
@@ -103,32 +107,23 @@ export default function ResultDetailsModule() {
 
 
     React.useEffect(() => {
-        let indexToScrollTo = articleIndex; // Change this to the index you want to scroll to
-        if (arrayRef.current[indexToScrollTo]) {
-            arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [articleIndex])
-
-
-    React.useEffect(() => {
-        refetch()
-    }, [])
-
-
-    React.useLayoutEffect(() => {
         if (indexData.index) {
             setArticleIndex(indexData.index)
         }
-    }, [indexData]);
+    }, [indexData.index])
 
 
-    // React.useEffect(() => {
-    //     refetchIndexData()
-    // }, [
-    //     state.bolme_id,
-    //     state.fesil_id,
-    //     state.madde_id,
-    // ])
+    React.useLayoutEffect(() => {
+        let indexToScrollTo = articleIndex; // Change this to the index you want to scroll to
+        if (arrayRef.current[indexToScrollTo]) {
+            if (articleIndex == indexData.index) {
+                arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [articleIndex])
+
 
 
     return (
@@ -148,25 +143,23 @@ export default function ResultDetailsModule() {
                                 leftLiner?.data?.map((item, i) => {
                                     let backgroundColor = colors[item[1]]
                                     let percent = (item[3] * 100).toString()?.split('.')[0]
-                                    let marginTop = `${percent}vh`
-
+                                    let marginTop = `${percent}%`
                                     let splittedId = item[2].split('.')
                                     let bolmeId = splittedId[1]
                                     let fesilId = splittedId[2]
                                     let maddeId = splittedId[3]
-                                    // let IDtoSend = `${splittedId[0]}.${splittedId[1]}.${splittedId[2]}.${splittedId[3]}`
 
                                     return (
                                         <div
                                             key={i}
                                             className='item'
-                                            style={{ marginTop: marginTop }}
+                                            style={{ top: marginTop }}
                                             onClick={(e) => {
                                                 e?.preventDefault();
                                                 setState({
                                                     bolme_id: bolmeId,
                                                     fesil_id: fesilId,
-                                                    madde_id: madde_id,
+                                                    madde_id: maddeId,
                                                 })
                                             }}
                                         >
@@ -178,32 +171,28 @@ export default function ResultDetailsModule() {
                         </div>
                         <div className='item-filters-wrapper'>
                             {
-                                data?.bolme_info?.length && data?.bolme_info?.map((item, index) =>
-                                    <div key={index} className='item-wrapper' onClick={() => setArticleIndex(item[0] - 4)}>
-                                        <div className='line' />
-                                        <Popover
-                                            placement="top"
-                                            content={<div dangerouslySetInnerHTML={{ __html: item[1][0] }}></div>}
-                                            overlayStyle={{ maxWidth: '600px' }}
+                                data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
+                                    let percent = (item[2] * 100).toString()?.split('.')[0]
+                                    let marginTop = `${percent}%`
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className='item-wrapper'
+                                            style={{ top: marginTop }}
+                                            onClick={() => setArticleIndex(item[0] - 4)}
                                         >
-                                            <div className='label'>{`Bölmə ${index + 1}`}</div>
-                                        </Popover>
-                                    </div>
-                                )
-                                // typeof data?.data != "undefined" &&
-                                // !!Object.values(data?.data)?.length &&
-                                // Object.values(data?.data).map((bolme, bolmeIndex) =>
-                                //     <div key={bolmeIndex} className='item-wrapper' onClick={() => setArticleIndex(bolmeIndex)}>
-                                //         <div className='line' />
-                                //         <Popover
-                                //             placement="top"
-                                //             content={<div dangerouslySetInnerHTML={{ __html: bolme[1][0] }}></div>}
-                                //             overlayStyle={{ maxWidth: '600px' }}
-                                //         >
-                                //             <div className='label'>{`Bölmə ${bolmeIndex + 1}`}</div>
-                                //         </Popover>
-                                //     </div>
-                                // )
+                                            <div className='line' />
+                                            <Popover
+                                                placement="right"
+                                                content={<div dangerouslySetInnerHTML={{ __html: item[1][0] }}></div>}
+                                                overlayStyle={{ maxWidth: '600px' }}
+                                            >
+                                                <div className='label'>{`Bölmə ${index + 1}`}</div>
+                                            </Popover>
+                                        </div>
+                                    )
+                                })
                             }
                         </div>
                     </div>
@@ -234,14 +223,12 @@ export default function ResultDetailsModule() {
                             </div>
                             :
                             <div className='text-wrapper' ref={componentRef}>
-                                {console.log('@@@@@', data)}
                                 {
                                     data?.data?.length && data.data.map((item, index) =>
                                         <div
                                             key={index}
-                                            className={'text'}
+                                            className={indexData.index === index ? 'text-animated' : 'text'}
                                             ref={(element) => arrayRef.current[index] = element}
-                                            // ref={(element) => arrayRef.current[index] = element}
                                             dangerouslySetInnerHTML={{ __html: item[0] }}
                                         ></div>
                                     )
@@ -301,84 +288,9 @@ export default function ResultDetailsModule() {
                             )
                         }
                     </div>
-
-                    {/* <div className='title-wrapper'>
-                        <div className='icon-wrapper'>
-                            <InfoCircleOutlined className='icon' />
-                        </div>
-                        <div className='title'>Məlumat</div>
-                    </div>
-                    {
-                        rightBarItems.map((item, i) =>
-                            <div key={i}>
-                                <div className='label'>{item.label}</div>
-                                {
-                                    item.values?.map((val, j) =>
-                                        <div key={j} className='value-box'>
-                                            <div className='value'>{val.label}</div>
-                                            {
-                                                val.icon &&
-                                                <Icon component={val.icon} className='icon' />
-                                            }
-                                        </div>
-                                    )
-                                }
-                            </div>
-                        )
-                    }
-                    <div className='label'>Sonrakı apellyasiya şikayəti yoxdur tarix. Əvvəlki tarix mövcuddur.</div>
-
-                    <div className='bottom-wrapper'>
-                        <div className='info-line'>
-                            <div className='label'>İstinad Qərarları</div>
-                            <div className='info-value'>448</div>
-                        </div>
-                        <div className='lines-wrapper'>
-                            {
-                                infoItems.reverse().map((item, i) =>
-                                    <div
-                                        key={i}
-                                        className='line'
-                                        style={{
-                                            zIndex: 5 - i,
-                                            width: (totalInfoLinesValue / 100) * item.value + 20,
-                                            background: item.color,
-                                        }}
-                                    />
-                                )
-                            }
-                        </div>
-                        {
-                            infoItems.map((item, i) =>
-                                <div key={i} className='info-line'>
-                                    <div className='circle-line-wrapper'>
-                                        <div className='circle' style={{ backgroundColor: item.color }}></div>
-                                        <div className='label'>{item.label}</div>
-                                    </div>
-                                    <div className='info-value'>{item.value}</div>
-                                </div>
-                            )
-                        }
-                    </div> */}
                 </div>
             </div>
         </div >
     )
 }
 
-
-
-const OrderButton = ({ type, action }) => {
-    let TYPES = {
-        pdf: { title: 'PDF', color: '#D96B6B', backgroundColor: '#FFD3D3', },
-        doc: { title: 'DOC', color: '#426DAE', backgroundColor: '#B2DAFF', },
-        txt: { title: 'TXT', color: '#4D5E76', backgroundColor: '#E5E5E5', },
-    }
-
-    return (
-        <div className={`${type}-button`} onClick={action}>
-            <div className='label' >{TYPES[type].title}</div>
-            <Icon component={DownloadBoldIcon} className='icon' />
-        </div>
-    )
-}

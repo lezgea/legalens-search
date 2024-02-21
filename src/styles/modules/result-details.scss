@@ -4,7 +4,7 @@
 .results-details-wrapper {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     padding: 20px;
     padding-bottom: 0;
     padding-top: 75px;
@@ -17,7 +17,7 @@
 
 .results-details-left-bar {
     width: 210px;
-    height: 100%;
+    max-height: 100vh;
     position: relative;
     z-index: 5;
     flex-shrink: 0;
@@ -33,14 +33,15 @@
     .left-liner-filter-wrapper {
         display: flex;
         // padding: 0 0 70px 0;
-        height: 100%;
-        position: relative;
+        height: 90vh;
+        // position: relative;
         margin-left: 10px;
         // background-color: #5349D7;
 
         .left-liner-filter {
             height: 90vh;
-            // position: relative;
+            // height: 100%;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -83,15 +84,19 @@
         }
 
         .item-filters-wrapper {
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             width: 100%;
+            height: 90vh;
             padding: 5px 0 20px 0;
             transition: .3s ease-in-out;
 
             .item-wrapper {
+                position: absolute;
                 width: 100%;
+                height: 5px;
                 display: flex;
                 align-items: center;
                 font-weight: 500;
@@ -118,7 +123,7 @@
 
                 &:hover {
                     .label {
-                        transform: scale(1.2);
+                        transform: scale(1.1);
                         color: #3996d5;
                     }
                 }
@@ -160,7 +165,7 @@
     .text-wrapper {
         overflow: scroll;
         height: 100%;
-        padding: 60px 30px 200px 30px;
+        padding: 60px 10px 200px 10px;
 
         .label-skeleton {
             height: 16px;
@@ -212,12 +217,10 @@
         .text {
             text-align: start;
             font-style: normal;
-            // font-weight: 400;
-            // line-height: 184.5%;
             white-space: normal;
             text-wrap: wrap;
             font-size: 14px;
-            padding-top: 20px;
+            padding: 10px 20px;
 
             h4 {
                 font-size: 18px;
@@ -229,31 +232,52 @@
 
             h5 {
                 font-size: 15px;
-                // line-height: 20px;
                 margin-bottom: 0;
                 margin-top: 5px;
             }
+        }
 
-            // b {
-            //     color: red;
-            // }
+        .text-animated {
+            text-align: start;
+            font-style: normal;
+            white-space: normal;
+            text-wrap: wrap;
+            font-size: 14px;
+            padding: 10px 20px;
+            border-radius: 15px;
+            animation: textBgAnimation 3s ease-in-out;
 
-            // .h1 {}
+            h4 {
+                font-size: 18px;
+                line-height: 20px;
+                margin-bottom: 0;
+                margin-top: 5px;
+                color: #3996d5;
+            }
 
-            // overflow: hidden;
-            /* Ensures the content is not revealed until the animation */
-            // border-right: .15em solid orange;
-            /* The typwriter cursor */
-            // white-space: nowrap;
-            /* Keeps the content on a single line */
-            // margin: 0 auto;
-            /* Gives that scrolling effect as the typing happens */
-            // letter-spacing: .15em;
-            /* Adjust as needed */
-
+            h5 {
+                font-size: 15px;
+                margin-bottom: 0;
+                margin-top: 5px;
+            }
         }
     }
 
+}
+
+
+@keyframes textBgAnimation {
+    0% {
+        background: none;
+    }
+
+    50% {
+        background: #eee0ff;
+    }
+
+    100% {
+        background: none;
+    }
 }
 
 

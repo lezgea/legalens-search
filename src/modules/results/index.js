@@ -65,8 +65,6 @@ export default function ResultsModule() {
         setShowModal(false)
     }
 
-    console.log('@@@@', resultsState.searchKeys)
-
 
     return (
         <div className='uniq-wrapper'>
@@ -99,7 +97,6 @@ export default function ResultsModule() {
                             resultsState.loading &&
                             <ResultsListSkeleton />
                         }
-                        {console.log('$$$$$$$', resultsState?.list)}
                         {
                             !resultsState.loading && resultsState?.list?.map((item, i) =>
                                 <ResultCard
