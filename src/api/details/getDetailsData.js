@@ -11,7 +11,6 @@ export const getDetailsIndex = async ({ mecelle_id, madde_id, bolme_id, fesil_id
 };
 
 
-export const getDetailsReferenceIndex = async ({ mecelle_id, ref_name }) => {
-    console.log('-------------', ref_name)
-    return await client(`/get_change_scroll?mecelle_id=${mecelle_id}&ref_name=${ref_name}`);
+export const getDetailsReferenceIndex = async ({ mecelle_id, ref_name, qtype }) => {
+    return await client(`/get_change_scroll?mecelle_id=${mecelle_id}&ref_name=${ref_name}&qtype=${qtype}`);
 };

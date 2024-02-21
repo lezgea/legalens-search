@@ -76,10 +76,11 @@ export default function ResultDetailsModule() {
     const { data: referenceData, refetch: refetchReferenceData, isFetching: isFetchingReferenceData } = useDetailsReference({
         mecelle_id: '0',
         ref_name: state.ref_id,
+        qtype: 'ref',
     }, () => { })
 
 
-    console.log('$$$$$$', state.ref_id)
+    console.log('$$$$$$', referenceData)
 
 
     // we use this variable for calculating color lines widths in the right bar
