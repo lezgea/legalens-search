@@ -221,6 +221,7 @@
             text-wrap: wrap;
             font-size: 14px;
             padding: 10px 20px;
+            border: 2px solid #fff;
 
             h4 {
                 font-size: 18px;
@@ -243,9 +244,10 @@
             white-space: normal;
             text-wrap: wrap;
             font-size: 14px;
+            border: 2px solid #fff;
             padding: 10px 20px;
             border-radius: 15px;
-            animation: textBgAnimation 3s ease-in-out;
+            animation: borderAnimation 5s ease-in-out;
 
             h4 {
                 font-size: 18px;
@@ -268,7 +270,7 @@
 
 @keyframes textBgAnimation {
     0% {
-        background: none;
+        background: #fff;
     }
 
     50% {
@@ -276,7 +278,7 @@
     }
 
     100% {
-        background: none;
+        background: #fff;
     }
 }
 

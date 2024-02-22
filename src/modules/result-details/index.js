@@ -4,7 +4,6 @@ import { Header } from '@/components/large'
 import { useResultsContext } from '@/context/results-context'
 import Icon from '@ant-design/icons';
 import { ActionButton } from '@/components/small';
-import { OutlinedButton } from '@/components/small/buttons/outlined-button';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
 import { Divider, Popover } from 'antd';
@@ -47,6 +46,10 @@ export default function ResultDetailsModule() {
             bolme_id: 0,
             fesil_id: 0,
             madde_id: 0,
+            article: {
+                type: 'item',
+                index: false,
+            }
         }
     )
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
@@ -55,7 +58,8 @@ export default function ResultDetailsModule() {
             step: 0,
         }
     )
-    const [articleIndex, setArticleIndex] = React.useState(0);
+    // articleIndex
+    // const [article, setArticle] = React.useState();
 
 
     const { data = [], refetch, isFetching } = useDetails({
@@ -73,7 +77,7 @@ export default function ResultDetailsModule() {
         madde_id: state.madde_id,
     }, () => { })
 
-    const { data: referenceData, refetch: refetchReferenceData, isFetching: isFetchingReferenceData } = useDetailsReference({
+    const { data: referenceData = [], refetch: refetchReferenceData, isFetching: isFetchingReferenceData } = useDetailsReference({
         mecelle_id: '0',
         ref_name: state.ref_id,
         qtype: 'ref',
@@ -89,11 +93,6 @@ export default function ResultDetailsModule() {
 
     React.useEffect(() => {
         refetch()
-        setState({
-            bolme_id: bolme_id,
-            fesil_id: fesil_id,
-            madde_id: madde_id,
-        })
     }, [])
 
 
@@ -106,23 +105,37 @@ export default function ResultDetailsModule() {
     }, [data.percentages])
 
 
-    React.useEffect(() => {
-        if (indexData.index) {
-            setArticleIndex(indexData.index)
-        }
-    }, [indexData.index])
+    React.useLayoutEffect(() => {
+        if (!!data?.index)
+            setState({ article: { type: 'item', index: data.index } })
+        if (!!indexData?.index)
+            setState({ article: { type: 'item', index: indexData.index } })
+        if (!!referenceData?.index)
+            setState({ article: { type: 'item', index: referenceData.index } })
+    }, [indexData?.index, referenceData?.index, data?.index, data])
 
 
     React.useLayoutEffect(() => {
-        let indexToScrollTo = articleIndex; // Change this to the index you want to scroll to
-        if (arrayRef.current[indexToScrollTo]) {
-            if (articleIndex == indexData.index) {
-                arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+        if (state.article.index) {
+            console.log('============', state.article.index)
+            let indexToScrollTo = state.article.index; // Change this to the index you want to scroll to
+            if (arrayRef.current[indexToScrollTo]) {
+                if (state.article.type === 'section') {
+                    arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         }
-    }, [articleIndex])
+    }, [state.article.index])
+
+
+    const handleScroll = (event) => {
+        const { scrollTop } = event.target;
+        // if (box2Ref.current) {
+        //     box2Ref.current.scrollTop = scrollTop;
+        // }
+    };
 
 
 
@@ -142,12 +155,12 @@ export default function ResultDetailsModule() {
                             {
                                 leftLiner?.data?.map((item, i) => {
                                     let backgroundColor = colors[item[1]]
-                                    let percent = (item[3] * 100).toString()?.split('.')[0]
+                                    let percent = (item[0][3] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
-                                    let splittedId = item[2].split('.')
-                                    let bolmeId = splittedId[1]
-                                    let fesilId = splittedId[2]
-                                    let maddeId = splittedId[3]
+                                    // let splittedId = item[0][2]?.split('.')
+                                    // let bolmeId = splittedId[1]
+                                    // let fesilId = splittedId[2]
+                                    // let maddeId = splittedId[3]
 
                                     return (
                                         <div
@@ -156,11 +169,7 @@ export default function ResultDetailsModule() {
                                             style={{ top: marginTop }}
                                             onClick={(e) => {
                                                 e?.preventDefault();
-                                                setState({
-                                                    bolme_id: bolmeId,
-                                                    fesil_id: fesilId,
-                                                    madde_id: maddeId,
-                                                })
+                                                setState({ article: { type: 'item', index: item[1] } })
                                             }}
                                         >
                                             <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
@@ -180,7 +189,8 @@ export default function ResultDetailsModule() {
                                             key={index}
                                             className='item-wrapper'
                                             style={{ top: marginTop }}
-                                            onClick={() => setArticleIndex(item[0] - 4)}
+                                            onClick={() => setState({ article: { type: 'section', index: item[0] - 4 } })
+                                            }
                                         >
                                             <div className='line' />
                                             <Popover
@@ -222,12 +232,12 @@ export default function ResultDetailsModule() {
                                 </div>
                             </div>
                             :
-                            <div className='text-wrapper' ref={componentRef}>
+                            <div className='text-wrapper' ref={componentRef} onScroll={handleScroll}>
                                 {
                                     data?.data?.length && data.data.map((item, index) =>
                                         <div
                                             key={index}
-                                            className={indexData.index === index ? 'text-animated' : 'text'}
+                                            className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
                                             ref={(element) => arrayRef.current[index] = element}
                                             dangerouslySetInnerHTML={{ __html: item[0] }}
                                         ></div>

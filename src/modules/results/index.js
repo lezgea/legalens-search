@@ -49,6 +49,7 @@ const bottomLeftActions = [
 export default function ResultsModule() {
     const { resultsState, colors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
+    const [cardIndex, setCardIndex] = React.useState(false)
 
 
     function handleShowModal() {
@@ -101,9 +102,12 @@ export default function ResultsModule() {
                             !resultsState.loading && resultsState?.list?.map((item, i) =>
                                 <ResultCard
                                     key={i}
+                                    index={i}
                                     {...item[1]}
                                     item={item}
                                     text={item[1].Crop}
+                                    cardIndex={cardIndex}
+                                    setCardIndex={setCardIndex}
                                 />
                             )
                         }
@@ -142,6 +146,9 @@ const ResultCard = (props) => {
         madde_id,
         bolme_id,
         fesil_id,
+        index,
+        cardIndex,
+        setCardIndex,
     } = props
     const { resultsState, setSelectedResult, colors } = useResultsContext()
     const [api, contextHolder] = notification.useNotification();
@@ -186,13 +193,16 @@ const ResultCard = (props) => {
     }, [linerData.crop_id])
 
 
-
     return (
-        <Link href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`} className='result-card-wrapper'>
-            <div className='result-card'>
+        <Link
+            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`}
+            className='result-card-wrapper'
+            onMouseEnter={() => setCardIndex(index)}
+        >
+            <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
                 <div className='date'>{date}</div>
                 <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`}>
-                    {label}
+                    <div dangerouslySetInnerHTML={{ __html: label }}></div>
                 </Link>
                 <div className='description'>{description}</div>
                 <div className='linear-filter-wrapper'>
@@ -229,7 +239,7 @@ const ResultCard = (props) => {
                             {
                                 !!(linerData.text || data?.data)
                                     ?
-                                    <div className='text truncate' dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
+                                    <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
                                     :
                                     ""
                             }
