@@ -205,7 +205,7 @@ const ResultCard = (props) => {
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
                 <div className='date'>
                     <ActionButton
-                        color='gray'
+                        color='colored'
                         onClick={(e) => {
                             e?.preventDefault();
                             index === cardIndex

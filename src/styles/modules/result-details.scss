@@ -153,7 +153,7 @@
     background: #FFF;
     box-shadow: 0px 4px 53px -10px rgba(24, 41, 86, 0.11);
     margin-right: 10px;
-    height: 100%;
+    // max-height: calc(100vh - 90px);
     overflow: hidden;
 
     .article-label-wrapper {
@@ -190,7 +190,7 @@
     .text-wrapper {
         overflow: scroll;
         height: 100%;
-        padding: 60px 10px 200px 10px;
+        padding: 70px 10px 200px 10px;
 
         .label-skeleton {
             height: 16px;
@@ -351,6 +351,30 @@
         font-weight: 500;
         line-height: 145%;
         margin-bottom: 15px;
+    }
+
+    .kmq-card {
+        height: calc(50vh - 45px);
+        width: 100%;
+        border-radius: 20px;
+        padding: 13px;
+        margin-bottom: 10px;
+        gap: 20px;
+        background: #FFF;
+        overflow: auto;
+        box-shadow: 0px 4px 54px -10px rgba(24, 41, 86, 0.11);
+    }
+
+    .reference-card {
+        height: calc(50vh - 45px);
+        width: 100%;
+        border-radius: 20px;
+        padding: 13px;
+        margin-bottom: 10px;
+        gap: 20px;
+        background: #FFF;
+        overflow: auto;
+        box-shadow: 0px 4px 54px -10px rgba(24, 41, 86, 0.11);
     }
 
     .card {

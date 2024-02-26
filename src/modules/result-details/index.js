@@ -10,6 +10,7 @@ import { Divider, Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import { useDetailsIndex } from '@/hooks/use-details-index';
 import { useDetailsReference } from '@/hooks/use-details-reference';
+import { useSearchContext } from '@/context/search-context';
 
 
 
@@ -29,6 +30,7 @@ const infoItems = [
 
 export default function ResultDetailsModule() {
     const { resultsState, selectedResult, colors } = useResultsContext()
+    const { searchState } = useSearchContext()
 
     const router = useRouter()
     const { id } = router.query
@@ -44,6 +46,8 @@ export default function ResultDetailsModule() {
 
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
+            showRefModal: false,
+            hashString: '',
             ref_id: '',
             bolme_id: 0,
             fesil_id: 0,
@@ -54,6 +58,7 @@ export default function ResultDetailsModule() {
             }
         }
     )
+    const [reference, setReference] = React.useState('')
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
@@ -69,6 +74,7 @@ export default function ResultDetailsModule() {
         bolme_id,
         fesil_id,
         madde_id,
+        query: searchState?.searchValue,
     }, () => { })
 
 
@@ -152,44 +158,44 @@ export default function ResultDetailsModule() {
     };
 
 
-    useEffect(() => {
-        const handlePathChange = (newPath) => {
-            console.log('Route changed to:', newPath);
-            // Add your logic here to handle link changes
+    React.useEffect(() => {
+        const handleHashChange = () => {
+            const hashString = window.location.hash
+            setState({ hashString: hashString })
+            // const params = new URLSearchParams(hashString);
+            // const id = params.get('id');
+            // console.log('ID:', id);
+            // Do something with the ID
         };
 
-        // Listen for route changes
-        router.events.on('routeChangeComplete', () => {
-            handlePathChange(router.asPath);
-        });
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleHashChange);
 
-        // Remove the event listener on component unmount
+        // Clean up event listener on component unmount
         return () => {
-            router.events.off('routeChangeComplete', () => {
-                handlePathChange(router.asPath);
-            });
+            window.removeEventListener('hashchange', handleHashChange);
         };
     }, []);
 
 
-    console.log('****', data)
+
+    React.useEffect(() => {
+        if (!!state.hashString) {
+            let selectedReference = data?.references?.find(item =>
+                item[2] === state.hashString.split('#')[1]
+            )
+            setState({
+                referenceText: selectedReference[1],
+                showRefModal: true,
+            })
+        }
+    }, [
+        state.hashString
+    ])
+
+
     return (
         <div className='uniq-wrapper' onClick={handleClick}>
-            {/* {clickPosition.x !== null && clickPosition.y !== null && (
-                <div
-                    className='custom-popover'
-                    style={{
-                        position: 'absolute',
-                        top: clickPosition.y - 50, // Adjust for box size
-                        left: clickPosition.x - 25, // Adjust for box size
-                        zIndex: 100,
-                        padding: 10,
-                    }}
-                >
-                    {data.references[1]}
-                </div>
-            )} */}
-
             <Header />
             <div className='results-details-wrapper'>
                 <div className='results-details-left-bar'>
@@ -199,13 +205,14 @@ export default function ResultDetailsModule() {
                         <OutlinedButton color='white' icon={ArrowDownIcon} />
                     </div> */}
 
-                    <div className='left-liner-filter-wrapper'>
+                    {/* <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
                             {
                                 leftLiner?.data?.map((item, i) => {
-                                    console.log('0000000', colors)
-                                    let backgroundColor = data?.colors[item[0][1]]
-                                    let percent = (item[0][3] * 100).toString()?.split('.')[0]
+                                    console.log('======', item)
+                                    let backgroundColor = !!data?.colors?.length && data?.colors[item[0][0]] || '#000'
+                                    // let backgroundColor = '#000'
+                                    let percent = (item[0][2] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
                                     // let splittedId = item[0][2]?.split('.')
                                     // let bolmeId = splittedId[1]
@@ -245,7 +252,7 @@ export default function ResultDetailsModule() {
                                             <div className='line' />
                                             <Popover
                                                 placement="right"
-                                                content={<div dangerouslySetInnerHTML={{ __html: item[1][0] }}></div>}
+                                                content={<div dangerouslySetInnerHTML={{ __html: item[1] }}></div>}
                                                 overlayStyle={{ maxWidth: '600px' }}
                                             >
                                                 <div className='label'>{`Bölmə ${index + 1}`}</div>
@@ -255,7 +262,7 @@ export default function ResultDetailsModule() {
                                 })
                             }
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className='results-details-content'>
@@ -264,7 +271,7 @@ export default function ResultDetailsModule() {
                     </div> */}
                     <div className='header-icons-wrapper'>
                         <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
-                        <ActionButton color='blue' onClick={() => { }} icon={SquareIcon} />
+                        <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={onClickDownload} icon={DownloadIcon} />
                     </div>
                     {
@@ -296,6 +303,9 @@ export default function ResultDetailsModule() {
                                         ></div>
                                     )
                                 }
+                                {
+                                    // data?.data?.length && data.elave
+                                }
                             </div>
                     }
                 </div>
@@ -316,7 +326,7 @@ export default function ResultDetailsModule() {
                             </div>
                         </div>
                     </div> */}
-                    <div className='card'>
+                    <div className='kmq-card'>
                         <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
                         <div className='order-button'>
                             <div className='order-label'>KMQ 1</div>
@@ -331,7 +341,7 @@ export default function ResultDetailsModule() {
                             <div className='order-count'>134/343</div>
                         </div>
                     </div>
-                    <div className='card' style={{ height: '90%', overflow: 'auto' }}>
+                    <div className='reference-card'>
                         <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
                         {
                             isFetching &&
@@ -360,10 +370,18 @@ export default function ResultDetailsModule() {
                     open={state.showRefModal}
                     onOk={() => setState({ showRefModal: false })}
                     onCancel={() => setState({ showRefModal: false })}
+                    footer={[
+
+                    ]}
                 >
-                    <div>
-                        {/* {data?.references[1]} */}
-                    </div>
+                    {
+                        state.referenceText
+                        // !!data?.references?.length &&
+                        // <div>
+                        //     {/* kldsklfslksdlkksdfkslkfsdklflksdlkf */}
+                        //     {data?.references[1]}
+                        // </div>
+                    }
                 </Modal>
             </div>
         </div >
