@@ -49,7 +49,7 @@ const bottomLeftActions = [
 export default function ResultsModule() {
     const { resultsState, colors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
-    const [cardIndex, setCardIndex] = React.useState(false)
+    const [cardIndex, setCardIndex] = React.useState(null)
 
 
     function handleShowModal() {
@@ -162,6 +162,8 @@ const ResultCard = (props) => {
     )
     const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
 
+    let mecelle_id = Percentages[0][3]?.split('.')[0]
+
 
     function onSetDetails() {
         setSelectedResult({ label, description, text })
@@ -195,16 +197,28 @@ const ResultCard = (props) => {
 
     return (
         <Link
-            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`}
+            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}
             className='result-card-wrapper'
-            onMouseEnter={() => setCardIndex(index)}
+        // onMouseEnter={() => setTimeout(() => setCardIndex(index), 1500)}
+        // onMouseOver={() => setCardIndex(false)}
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
-                <div className='date'>{date}</div>
-                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}`}>
+                <div className='date'>
+                    <ActionButton
+                        color='gray'
+                        onClick={(e) => {
+                            e?.preventDefault();
+                            index === cardIndex
+                                ? setCardIndex(null)
+                                : setCardIndex(index)
+                        }}
+                        label={index === cardIndex ? 'Gizlət' : 'Ətraflı'}
+                    />
+                </div>
+                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}>
                     <div dangerouslySetInnerHTML={{ __html: label }}></div>
                 </Link>
-                <div className='description'>{description}</div>
+                <div className='description' dangerouslySetInnerHTML={{ __html: description }}></div>
                 <div className='linear-filter-wrapper'>
                     <div className='linear-filter' onClick={(e) => e?.preventDefault()}>
                         {
@@ -241,7 +255,7 @@ const ResultCard = (props) => {
                                     ?
                                     <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
                                     :
-                                    ""
+                                    !isFetching && ""
                             }
                         </div>
                 }

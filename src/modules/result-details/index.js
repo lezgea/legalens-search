@@ -6,7 +6,7 @@ import Icon from '@ant-design/icons';
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
-import { Divider, Popover } from 'antd';
+import { Divider, Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import { useDetailsIndex } from '@/hooks/use-details-index';
 import { useDetailsReference } from '@/hooks/use-details-reference';
@@ -39,6 +39,8 @@ export default function ResultDetailsModule() {
     const bolme_id = idItems[0]
     const fesil_id = idItems[1]
     const madde_id = idItems[2]
+    const mecelle_id = idItems[3]
+    const ref_id = router.asPath.split('#')[1]
 
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -63,7 +65,7 @@ export default function ResultDetailsModule() {
 
 
     const { data = [], refetch, isFetching } = useDetails({
-        mecelle_id: '0',
+        mecelle_id,
         bolme_id,
         fesil_id,
         madde_id,
@@ -71,16 +73,22 @@ export default function ResultDetailsModule() {
 
 
     const { data: indexData = [], refetch: refetchIndexData, isFetching: isFetchingIndexData } = useDetailsIndex({
-        mecelle_id: '0',
+        mecelle_id,
         bolme_id: state.bolme_id,
         fesil_id: state.fesil_id,
         madde_id: state.madde_id,
     }, () => { })
 
     const { data: referenceData = [], refetch: refetchReferenceData, isFetching: isFetchingReferenceData } = useDetailsReference({
-        mecelle_id: '0',
+        mecelle_id,
         ref_name: state.ref_id,
         qtype: 'ref',
+    }, () => { })
+
+    const { data: kmqData = [], refetch: refetchKmqData, isFetching: isFetchingKmqData } = useDetailsReference({
+        mecelle_id,
+        ref_name: state.ref_id,
+        qtype: 'kmq',
     }, () => { })
 
 
@@ -117,7 +125,6 @@ export default function ResultDetailsModule() {
 
     React.useLayoutEffect(() => {
         if (state.article.index) {
-            console.log('============', state.article.index)
             let indexToScrollTo = state.article.index; // Change this to the index you want to scroll to
             if (arrayRef.current[indexToScrollTo]) {
                 if (state.article.type === 'section') {
@@ -137,10 +144,52 @@ export default function ResultDetailsModule() {
         // }
     };
 
+    const [clickPosition, setClickPosition] = React.useState({ x: null, y: null });
+
+    const handleClick = (event) => {
+        const { clientX, clientY } = event;
+        setClickPosition({ x: clientX, y: clientY });
+    };
 
 
+    useEffect(() => {
+        const handlePathChange = (newPath) => {
+            console.log('Route changed to:', newPath);
+            // Add your logic here to handle link changes
+        };
+
+        // Listen for route changes
+        router.events.on('routeChangeComplete', () => {
+            handlePathChange(router.asPath);
+        });
+
+        // Remove the event listener on component unmount
+        return () => {
+            router.events.off('routeChangeComplete', () => {
+                handlePathChange(router.asPath);
+            });
+        };
+    }, []);
+
+
+    console.log('****', data)
     return (
-        <div className='uniq-wrapper'>
+        <div className='uniq-wrapper' onClick={handleClick}>
+            {/* {clickPosition.x !== null && clickPosition.y !== null && (
+                <div
+                    className='custom-popover'
+                    style={{
+                        position: 'absolute',
+                        top: clickPosition.y - 50, // Adjust for box size
+                        left: clickPosition.x - 25, // Adjust for box size
+                        zIndex: 100,
+                        padding: 10,
+                    }}
+                >
+                    {data.references[1]}
+                </div>
+            )} */}
+
             <Header />
             <div className='results-details-wrapper'>
                 <div className='results-details-left-bar'>
@@ -154,7 +203,8 @@ export default function ResultDetailsModule() {
                         <div className='left-liner-filter'>
                             {
                                 leftLiner?.data?.map((item, i) => {
-                                    let backgroundColor = colors[item[1]]
+                                    console.log('0000000', colors)
+                                    let backgroundColor = data?.colors[item[0][1]]
                                     let percent = (item[0][3] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
                                     // let splittedId = item[0][2]?.split('.')
@@ -209,6 +259,9 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-content'>
+                    {/* <div className='article-label-wrapper'>
+                        <div className='article-label'>{data.mecelle_name}</div>
+                    </div> */}
                     <div className='header-icons-wrapper'>
                         <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
                         <ActionButton color='blue' onClick={() => { }} icon={SquareIcon} />
@@ -290,7 +343,7 @@ export default function ResultDetailsModule() {
                         {
                             data.references?.map((item, i) =>
                                 <Popover placement="left" content={item[1]} overlayStyle={{ maxWidth: '600px' }} >
-                                    <div key={i} className='order-button' onClick={() => setState({ ref_id: item[2] })}>
+                                    <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[4] } })}>
                                         <div className='order-link-label truncate-2'>{item[1]}</div>
                                         <div className='order-count'> </div>
                                     </div>
@@ -299,6 +352,19 @@ export default function ResultDetailsModule() {
                         }
                     </div>
                 </div>
+
+
+                <Modal
+                    width={800}
+                    // title="Edit Item"
+                    open={state.showRefModal}
+                    onOk={() => setState({ showRefModal: false })}
+                    onCancel={() => setState({ showRefModal: false })}
+                >
+                    <div>
+                        {/* {data?.references[1]} */}
+                    </div>
+                </Modal>
             </div>
         </div >
     )

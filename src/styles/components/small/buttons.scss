@@ -12,10 +12,10 @@
     transition: .4s ease-in-out;
 
     .label {
-        color: #212123;
+        color: #212123 !important;
         font-size: 11px;
         font-style: normal;
-        font-weight: 400;
+        font-weight: 400 !important;
         line-height: 125%;
         margin: 0 4px;
     }
@@ -30,7 +30,7 @@
         background: linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%);
 
         .label {
-            color: #fff;
+            color: #fff !important;
         }
 
         .icon {
