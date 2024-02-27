@@ -199,25 +199,13 @@ export default function ResultDetailsModule() {
             <Header />
             <div className='results-details-wrapper'>
                 <div className='results-details-left-bar'>
-                    {/* <div className='header-btns-wrapper'>
-                        <OutlinedButton color='white' label='Axtarış şərtləri' icon={ArrowDownIcon} />
-                        <OutlinedButton color='white' icon={ArrowDownIcon} />
-                        <OutlinedButton color='white' icon={ArrowDownIcon} />
-                    </div> */}
-
                     <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
                             {
                                 leftLiner?.data?.map((item, i) => {
-                                    console.log('======', item)
                                     let backgroundColor = !!data?.colors?.length && data?.colors[item[0][0]] || '#000'
-                                    // let backgroundColor = '#000'
                                     let percent = (item[0][2] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
-                                    // let splittedId = item[0][2]?.split('.')
-                                    // let bolmeId = splittedId[1]
-                                    // let fesilId = splittedId[2]
-                                    // let maddeId = splittedId[3]
 
                                     return (
                                         <div
@@ -236,10 +224,10 @@ export default function ResultDetailsModule() {
                             }
                         </div>
                         {console.log('#####', data?.bolme_info)}
-                        {/* <div className='item-filters-wrapper'>
+                        <div className='item-filters-wrapper'>
                             {
                                 data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
-                                    let percent = item[2]
+                                    let percent = (item[2] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
 
                                     return (
@@ -262,7 +250,7 @@ export default function ResultDetailsModule() {
                                     )
                                 })
                             }
-                        </div> */}
+                        </div>
                     </div>
                 </div>
 
