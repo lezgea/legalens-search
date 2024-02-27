@@ -223,7 +223,7 @@ export default function ResultDetailsModule() {
                                 })
                             }
                         </div>
-                        {console.log('#####', data?.bolme_info)}
+                        {console.log('#####', data)}
                         <div className='item-filters-wrapper'>
                             {
                                 data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
@@ -317,18 +317,16 @@ export default function ResultDetailsModule() {
                     </div> */}
                     <div className='kmq-card'>
                         <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
-                        <div className='order-button'>
-                            <div className='order-label'>KMQ 1</div>
-                            <div className='order-count'>134/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-label'>KMQ 1</div>
-                            <div className='order-count'>134/343</div>
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-label'>KMQ 1</div>
-                            <div className='order-count'>134/343</div>
-                        </div>
+                        {
+                            data.kmqs.filter(item => item[0] !== null)?.map((item, i) =>
+                                <Popover placement="left" content={item[0]} overlayStyle={{ maxWidth: '900px' }} >
+                                    <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[3] } })}>
+                                        <div className='order-label'>{item[1]}</div>
+                                        <div className='order-count'>{item[3]}/{data?.data?.length}</div>
+                                    </div>
+                                </Popover>
+                            )
+                        }
                     </div>
                     <div className='reference-card'>
                         <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
