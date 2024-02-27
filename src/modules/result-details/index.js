@@ -162,20 +162,20 @@ export default function ResultDetailsModule() {
         const handleHashChange = () => {
             const hashString = window.location.hash
             setState({ hashString: hashString })
+            window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
             // const params = new URLSearchParams(hashString);
             // const id = params.get('id');
             // console.log('ID:', id);
             // Do something with the ID
-        };
-
+        }
         // Listen for hash changes
         window.addEventListener('hashchange', handleHashChange);
 
         // Clean up event listener on component unmount
         return () => {
             window.removeEventListener('hashchange', handleHashChange);
-        };
-    }, []);
+        }
+    }, [])
 
 
 
@@ -187,11 +187,10 @@ export default function ResultDetailsModule() {
             setState({
                 referenceText: selectedReference[1],
                 showRefModal: true,
+                hashString: '',
             })
         }
-    }, [
-        state.hashString
-    ])
+    }, [state.hashString])
 
 
     return (
