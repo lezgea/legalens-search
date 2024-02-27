@@ -205,7 +205,7 @@ export default function ResultDetailsModule() {
                         <OutlinedButton color='white' icon={ArrowDownIcon} />
                     </div> */}
 
-                    {/* <div className='left-liner-filter-wrapper'>
+                    <div className='left-liner-filter-wrapper'>
                         <div className='left-liner-filter'>
                             {
                                 leftLiner?.data?.map((item, i) => {
@@ -235,10 +235,11 @@ export default function ResultDetailsModule() {
                                 })
                             }
                         </div>
-                        <div className='item-filters-wrapper'>
+                        {console.log('#####', data?.bolme_info)}
+                        {/* <div className='item-filters-wrapper'>
                             {
                                 data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
-                                    let percent = (item[2] * 100).toString()?.split('.')[0]
+                                    let percent = item[2]
                                     let marginTop = `${percent}%`
 
                                     return (
@@ -261,8 +262,8 @@ export default function ResultDetailsModule() {
                                     )
                                 })
                             }
-                        </div>
-                    </div> */}
+                        </div> */}
+                    </div>
                 </div>
 
                 <div className='results-details-content'>
