@@ -155,7 +155,7 @@ export default function ResultDetailsModule() {
     const handleClick = (event) => {
         const { clientX, clientY } = event;
         setClickPosition({ x: clientX, y: clientY });
-    };
+    }
 
 
     React.useEffect(() => {
@@ -163,14 +163,9 @@ export default function ResultDetailsModule() {
             const hashString = window.location.hash
             setState({ hashString: hashString })
             window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
-            // const params = new URLSearchParams(hashString);
-            // const id = params.get('id');
-            // console.log('ID:', id);
-            // Do something with the ID
         }
         // Listen for hash changes
         window.addEventListener('hashchange', handleHashChange);
-
         // Clean up event listener on component unmount
         return () => {
             window.removeEventListener('hashchange', handleHashChange);
@@ -222,6 +217,7 @@ export default function ResultDetailsModule() {
                                 })
                             }
                         </div>
+                        {console.log('----', data?.bolme_info)}
                         <div className='item-filters-wrapper'>
                             {
                                 data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
