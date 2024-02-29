@@ -41,8 +41,8 @@ export default function MainModule() {
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
         if (!!data?.length) {
-            setResultsState({ list: data.data[0], searchKeys: data.data[1] })
-            setColors([...Object.values(data.data[2])])
+            setResultsState({ list: data[0], searchKeys: data[1] })
+            setColors([...Object.values(data[2])])
         } else {
             setResultsState({ list: [], searchKeys: [] })
             setColors([])
