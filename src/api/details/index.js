@@ -1,26 +1,25 @@
-import client from "../client";
-import { apiURL } from "../routes";
+import { aiClient } from "../client";
 
 
 export const getDetailsData = async ({ mecelle_id, madde_id, bolme_id, fesil_id, query }) => {
-    return await client(
-        apiURL,
+    const { data } = await aiClient.get(
         `/enlarge?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}&query=${query}`,
-    );
-};
+    )
+    return data
+}
 
 
 export const getDetailsIndex = async ({ mecelle_id, madde_id, bolme_id, fesil_id }) => {
-    return await client(
-        apiURL,
+    const { data } = await aiClient.get(
         `/get_index?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}`,
-    );
-};
+    )
+    return data
+}
 
 
 export const getDetailsReferenceIndex = async ({ mecelle_id, ref_name, qtype }) => {
-    return await client(
-        apiURL,
+    const { data } = await aiClient.get(
         `/get_change_scroll?mecelle_id=${mecelle_id}&ref_name=${ref_name}&qtype=${qtype}`,
-    );
-};
+    )
+    return data
+}

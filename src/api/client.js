@@ -1,76 +1,179 @@
 import axios from 'axios';
-import createAuthRefreshInterceptor from 'axios-auth-refresh';
+import qs from 'qs';
+import { getAccessToken, removeAuthCookies, setAuthCookies } from '../utils';
 
-import { parseCookies, setCookie } from 'nookies';
-
-const headers = {
-    "Access-Control-Allow-Origin": "*",
-    'accept': 'application/json',
-    'content-type': 'application/json',
-};
-
-// const baseURL = "https://legalens-api.ailab.az/";
-const domain = "";
+const authToken = getAccessToken();
+const BACK_URL = "https://legalens-back.ailab.az";
+const AI_URL = "https://legalens-api.ailab.az";
 
 
-// Function that will be called to refresh authorization
-async function refreshAuthLogic(failedRequest) {
-    const { refreshToken, remember } = parseCookies();
-    const maxAge = remember ? 60 * 60 * 24 * 30 : undefined;
-    const options = { maxAge, domain, path: '/', sameSite: 'lax' };
-    const baseURL = "https://legalens-api.ailab.az/";
-
-    return axios
-        .post(`${baseURL}/auth/refresh-token`, { refreshToken })
-        .then(trr => {
-            setCookie(null, 'token', trr.data.token, options);
-            setCookie(null, 'refreshToken', trr.data.refreshToken, options);
-            failedRequest.response.config.headers['SZ-Access-Token'] = trr.data.token;
-            return Promise.resolve();
-        });
-};
-
-createAuthRefreshInterceptor(axios, refreshAuthLogic);
-
-/**
- * @param {String} endpoint
- * @param {{body: Object, method: 'post' | 'get' | 'put' | 'delete' | 'patch', ctx: any, skipAuthRefresh: Boolean}}
- * @param {Boolean} returnHeaders
- * @returns {Promise<any>}
- */
+export const backClient = axios.create({
+    baseURL: BACK_URL + '/v1',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+    },
+    paramsSerializer: params => {
+        return qs.stringify(params, { indices: false });
+    },
+})
 
 
-async function client(
-    baseURL,
-    endpoint,
-    { body } = {},
-    returnHeaders = false
-) {
-    // const { token } = parseCookies(ctx);
-    // if (token) {
-    //     headers['SZ-Access-Token'] = token;
-    // }
+export const aiClient = axios.create({
+    baseURL: AI_URL,
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+    },
+    paramsSerializer: params => {
+        return qs.stringify(params, { indices: false });
+    },
+})
 
-    const config = {
-        baseURL: baseURL,
-        url: endpoint,
-        data: body,
-        // ...customConfig,
-        headers: {
-            ...headers,
-            // ...customConfig.headers,
-        },
-    };
 
-    return axios
-        .request(config)
-        .then(response =>
-            returnHeaders
-                ? { data: response?.data === 'not found' ? [] : response.data, headers: response.headers }
-                : response?.data === 'not found' ? [] : response.data
-        )
-        .catch(err => console.log('ERROR', err));
+export const clientPermission = axios.create({
+    baseURL: BACK_URL + '/auth',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+    },
+    paramsSerializer: params => {
+        return qs.stringify(params, { indices: false });
+    },
+});
+
+clientPermission.interceptors.request.use(
+    config => {
+        const accessToken = getAccessToken();
+
+        if (!accessToken) {
+            location.href = '/login';
+            return config;
+        }
+
+        if (accessToken) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    error => Promise.reject(error),
+);
+
+clientPermission.interceptors.response.use(
+    async response => response,
+    async error => {
+        const originalRequest = error.config;
+        if (error.response && error.response.status === 406 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const authToken = getAccessToken();
+                const response = await axios.get(`${BACK_URL}/auth/v1/auth/refresh`, {
+                    headers: { Authorization: `Bearer ${authToken}` },
+                });
+                setAuthCookies(response.data.data.token);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`;
+                originalRequest.headers['Authorization'] = `Bearer ${response.data.data.token}`;
+                return axios(originalRequest);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    removeAuthCookies()
+                    window.location.href = '/login';
+                }
+                return Promise.reject(error);
+            }
+        }
+        return Promise.reject(error);
+    },
+);
+
+backClient.interceptors.request.use(
+    config => {
+        const accessToken = getAccessToken();
+
+        if (!accessToken) {
+            location.href = '/login';
+            return config;
+        }
+
+        if (accessToken) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    error => Promise.reject(error),
+);
+
+let isTokenRefreshing = false;
+let refreshSubscribers = [];
+
+function addRefreshSubscriber(callback) {
+    refreshSubscribers.push(callback);
 }
 
-export default client;
+function processQueue(newToken) {
+    refreshSubscribers.forEach(callback => callback(newToken));
+    refreshSubscribers = [];
+}
+
+
+backClient.interceptors.response.use(
+
+    response => response,
+    async error => {
+        const originalRequest = error.config;
+        if (error.response && error.response.status === 406 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            if (!isTokenRefreshing) {
+                isTokenRefreshing = true;
+                try {
+                    const authToken = getAccessToken();
+                    const response = await axios.get(`${BACK_URL}/auth/v1/auth/refresh`, {
+                        headers: { Authorization: `Bearer ${authToken}` },
+                    });
+                    removeAuthCookies();
+                    setAuthCookies(response?.data?.data?.token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${response?.data?.data?.token}`;
+                    originalRequest.headers['Authorization'] = `Bearer ${response?.data?.data?.token}`;
+                    processQueue(response?.data?.data?.token);
+                    isTokenRefreshing = false;
+                    return axios(originalRequest);
+                } catch (error) {
+                    if (error?.response && error?.response?.status === 401) {
+                        removeAuthCookies();
+                        window.location.href = '/login';
+                    }
+                    return Promise.reject(error);
+                }
+            } else {
+                return new Promise(resolve => {
+                    addRefreshSubscriber(newToken => {
+                        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                        resolve(axios(originalRequest));
+                    });
+                });
+            }
+        } else if (error?.response && error?.response?.status === 401 && !originalRequest._retry) {
+            removeAuthCookies();
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    },
+);
+
+
+export const clientLogin = axios.create({
+    baseURL: BACK_URL + '/auth',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+export const clientRegister = axios.create({
+    baseURL: BACK_URL + '/auth',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+    },
+});
 

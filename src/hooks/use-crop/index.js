@@ -1,4 +1,4 @@
-import { getCropData } from "@/api/crop/getCropData";
+import { getCropData } from "@/api/crop";
 import { useQuery } from "react-query";
 
 

@@ -9,9 +9,10 @@ import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
 import { LeftFixedBar } from './components/left-fixed-bar';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
-import { getSearchData } from '@/api/search/getSearchData';
+import { getSearchData } from '@/api/search';
 import { Header } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
+import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
@@ -21,6 +22,7 @@ export default function MainModule() {
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+    // const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
 
 
     const getDeviceID = () => {
@@ -38,9 +40,9 @@ export default function MainModule() {
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
-        if (!!data.length) {
-            setResultsState({ list: data[0], searchKeys: data[1] })
-            setColors([...Object.values(data[2])])
+        if (!!data?.length) {
+            setResultsState({ list: data.data[0], searchKeys: data.data[1] })
+            setColors([...Object.values(data.data[2])])
         } else {
             setResultsState({ list: [], searchKeys: [] })
             setColors([])
@@ -49,6 +51,12 @@ export default function MainModule() {
 
 
     async function getSearchDataAndKeys() {
+        // postSearchHistory({
+        //     search: searchState.searchValue,
+        //     uniqueId: deviceID,
+        //     source: "",
+        //     campaignId: "",
+        // })
         refetch()
         router.push('/results')
     }

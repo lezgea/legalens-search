@@ -1,4 +1,4 @@
-import { getDetailsData } from "@/api/details/getDetailsData";
+import { getDetailsData } from "@/api/details";
 import { useQuery } from "react-query";
 
 
