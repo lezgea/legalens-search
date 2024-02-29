@@ -12,7 +12,7 @@ import { useSearch } from '@/hooks/use-search';
 import { getSearchData } from '@/api/search';
 import { Header } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { useSearchHistoryData, useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
@@ -22,7 +22,12 @@ export default function MainModule() {
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
-    // const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const {
+        data: searchHistory = [],
+        refetch: refretchSearchHistory,
+        isFetching: isFetchingSearchHistory,
+    } = useSearchHistoryData()
 
 
     const getDeviceID = () => {
@@ -51,15 +56,18 @@ export default function MainModule() {
 
 
     async function getSearchDataAndKeys() {
-        // postSearchHistory({
-        //     search: searchState.searchValue,
-        //     uniqueId: deviceID,
-        //     source: "",
-        //     campaignId: "",
-        // })
+        postSearchHistory({
+            search: searchState.searchValue,
+            uniqueId: deviceID,
+            source: "",
+            campaignId: "",
+        })
         refetch()
         router.push('/results')
     }
+
+
+    console.log('@@@@@', searchHistory)
 
 
     return (
@@ -71,15 +79,32 @@ export default function MainModule() {
                     <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
                 </div>
                 <div className='search-wrapper'>
-                    <div className='search-box'>
-                        <Input
-                            value={searchState.searchValue}
-                            className='input'
-                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                        />
-                        <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
-                    </div>
+                    <Dropdown
+                        menu={{
+                            items: [
+                                {
+                                    key: '1',
+                                    label: (
+                                        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                                            1st menu item
+                                        </a>
+                                    ),
+                                },
+                            ]
+                        }}
+                        placement="bottom"
+                    >
+                        <div className='search-box'>
+                            <Input
+                                value={searchState.searchValue}
+                                className='input'
+                                onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                                onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                            />
+                            <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
+                        </div>
+                    </Dropdown>
+
                     {/* <div className='search-filters-wrapper'>
                         {
                             MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>

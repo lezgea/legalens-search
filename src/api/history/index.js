@@ -6,9 +6,7 @@ export const postSearchHistory = async (data) => {
 };
 
 
-// export const getSearchHistory = async ({ mecelle_id, ref_name, qtype }) => {
-//     const { data } = await backClient.get(
-//         `/get_change_scroll?mecelle_id=${mecelle_id}&ref_name=${ref_name}&qtype=${qtype}`,
-//     )
-//     return data
-// }
+export const getSearchHistory = async () => {
+    const { data } = await backClient.get("/search-histories")
+    return data
+}
