@@ -10,7 +10,11 @@ export const SearchKey = (props) => {
 
 
     return (
-        <div className='filter-item' style={{ color: '#fff', backgroundColor: color || '#dedede' }} onClick={onClickKey}>
+        <div
+            className='filter-item'
+            style={{ color: '#fff', backgroundColor: color || '#dedede' }}
+        // onClick={onClickKey}
+        >
             <div className='label'>{label}</div>
         </div>
     )

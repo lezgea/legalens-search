@@ -23,11 +23,11 @@ export default function MainModule() {
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
-    const {
-        data: searchHistory = [],
-        refetch: refretchSearchHistory,
-        isFetching: isFetchingSearchHistory,
-    } = useSearchHistoryData()
+    // const {
+    //     data: searchHistory = [],
+    //     refetch: refretchSearchHistory,
+    //     isFetching: isFetchingSearchHistory,
+    // } = useSearchHistoryData()
 
 
     const getDeviceID = () => {
@@ -67,7 +67,7 @@ export default function MainModule() {
     }
 
 
-    console.log('@@@@@', searchHistory)
+    // console.log('@@@@@', searchHistory)
 
 
     return (
@@ -98,6 +98,7 @@ export default function MainModule() {
                             <Input
                                 value={searchState.searchValue}
                                 className='input'
+                                placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
                                 onChange={(e) => setSearchState({ searchValue: e.target.value })}
                                 onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                             />

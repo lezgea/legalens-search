@@ -217,7 +217,6 @@ export default function ResultDetailsModule() {
                                 })
                             }
                         </div>
-                        {console.log('----', data?.bolme_info)}
                         <div className='item-filters-wrapper'>
                             {
                                 data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
