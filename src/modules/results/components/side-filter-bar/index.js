@@ -1,7 +1,7 @@
 import React from 'react'
 import { SIDEBAR_INITIAL } from '@/constants/initial-states';
 import { Checkbox } from 'antd';
-import { ArrowDownIcon } from '@/assets/icons'
+import { ArrowDownIcon } from '../../../../assets/icons'
 import Icon from '@ant-design/icons';
 
 
@@ -68,7 +68,7 @@ const FilterItem = (props) => {
             {
                 opened && !!children.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
-                    <div className='line'></div>
+                    {/* <div className='line'></div> */}
                     <div className='children'>
                         {
                             children.map((item, i) =>

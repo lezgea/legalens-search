@@ -19,9 +19,24 @@ import SquareIcon from './square.svg'
 import CircleQuestionIcon from './circle-question.svg'
 import ThinSearchIcon from './thin-search.svg'
 import ArrowRightIcon from './arrow-right.svg'
+import LegalensIcon from './legalens-icon.svg'
+import FacebookIcon from './facebook.svg'
+import InstagramIcon from './instagram.svg'
+import LinkedinIcon from './linkedin.svg'
+import TiktokIcon from './tik-tok.svg'
+import YoutubeIcon from './youtube.svg'
+import DownloadIcon from './download.svg'
+import LegalensLogo from './legalens-logo.svg'
+import LinkIcon from './link.svg'
+import LayoutIcon from './layout.svg'
+import DownloadBoldIcon from './download-bold.svg'
+
 
 // FILLED ICON IMPORTS
 import FilledNotificationIcon from './filled-notification.svg'
+import GoogleIcon from './google-icon.svg'
+import LegalensLogoWhite from './legalens-logo-white.svg'
+import AuthBgLines from './auth-bg-lines.svg'
 
 
 
@@ -46,7 +61,21 @@ export {
     CircleQuestionIcon,
     ThinSearchIcon,
     ArrowRightIcon,
+    LegalensIcon,
+    FacebookIcon,
+    InstagramIcon,
+    LinkedinIcon,
+    TiktokIcon,
+    YoutubeIcon,
+    DownloadIcon,
+    LegalensLogo,
+    LinkIcon,
+    LayoutIcon,
+    DownloadBoldIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,
+    GoogleIcon,
+    LegalensLogoWhite,
+    AuthBgLines,
 }

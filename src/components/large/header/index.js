@@ -1,13 +1,12 @@
 import React from 'react'
 import { Avatar, Image, Input } from 'antd'
 import Icon from '@ant-design/icons';
-import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '@/assets/icons';
+import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '../../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { TEST_RESULTS_LIST } from '@/constants/test-data';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
-import { getSearchData } from '@/api/search/getSearchData';
+import Link from 'next/link';
 
 
 const filtersRow = [
@@ -19,44 +18,30 @@ const filtersRow = [
 
 
 export const Header = (props) => {
-    let { } = props
+    let { hideSearch } = props
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, colors, setColors } = useResultsContext()
+    const { setResultsState, setColors } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
 
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
+        if (!!data.length) {
+            setResultsState({ list: data[0], searchKeys: data[1] })
+            setColors([...Object.values(data[2])])
+        } else {
+            setResultsState({ list: [], searchKeys: [] })
+            setColors([])
+        }
     }, [isFetching])
 
 
     async function getSearchDataAndKeys() {
-        // setResultsState({ loading: true })
         refetch()
-        if (data.length) {
-            setResultsState({
-                // loading: isFetching,
-                list: data[0],
-                searchKeys: data[1],
-            })
-            setColors([...Object.values(data[2])])
-            console.log('$$$$', data[0][0][1].Crop)
-            // console.log('$$$$', Object.values(data[2]))
-        }
-
-        // router.push('/results'
+        router.push('/results')
     }
-
-
-    function getKeys() {
-        let words = searchState.searchValue?.toLowerCase().match(/\b\w+\b/g)
-        return words?.map((item, i) => ({ id: i, label: item, color: colors[i] }))
-    }
-
-    getKeys()
-
 
 
     return (
@@ -67,30 +52,38 @@ export const Header = (props) => {
                 preview={false}
                 onClick={() => router.push('/')}
             />
-            <div className='search-wrapper'>
-                {
-                    // filtersRow.map(item =>
-                    //     <FilterButton
-                    //         key={item.value}
-                    //         selected={searchState.activeFilter}
-                    //         setSelected={(v) => setSearchState({ activeFilter: v })}
-                    //         {...item}
-                    //     />
-                    // )
-                }
-                <div className='searcher'>
-                    <Input
-                        value={searchState.searchValue}
-                        onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                        onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                    />
-                    <div className='button' onClick={getSearchDataAndKeys}>
-                        <Icon component={SearchIcon} className='icon' />
-                        <div className='label'>Axtar</div>
+            {
+                !hideSearch &&
+                <div className='search-wrapper'>
+                    {
+                        // filtersRow.map(item =>
+                        //     <FilterButton
+                        //         key={item.value}
+                        //         selected={searchState.activeFilter}
+                        //         setSelected={(v) => setSearchState({ activeFilter: v })}
+                        //         {...item}
+                        //     />
+                        // )
+                    }
+                    <div className='searcher'>
+                        <Input
+                            value={searchState.searchValue}
+                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                        />
+                        <div className='button' onClick={getSearchDataAndKeys}>
+                            <Icon component={SearchIcon} className='icon' />
+                            <div className='label'>Axtar</div>
+                        </div>
                     </div>
                 </div>
+            }
+
+            <div className='auth-buttons-wrapper'>
+                <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>
+                <Link className='login-button' href="/sign-in">Giriş et</Link>
             </div>
-            <div className='profile-wrapper'>
+            {/* <div className='profile-wrapper'>
                 <div className='notification-wrapper'>
                     <Icon component={NotificationIcon} className='icon' />
                     <div className='count-circle'>
@@ -98,8 +91,8 @@ export const Header = (props) => {
                     </div>
                 </div>
                 <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
-            </div>
-        </div>
+            </div> */}
+        </div >
     )
 }
 

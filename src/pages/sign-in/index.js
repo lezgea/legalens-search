@@ -1,15 +1,19 @@
 import React from 'react';
 import Head from 'next/head';
 import dynamic from "next/dynamic";
+import Loader from '@/components/large/loader';
 
 
 const SignInModule = dynamic(
     () => import('@/modules/auth/sign-in'),
-    { ssr: false }
+    {
+        ssr: false,
+        loading: Loader,
+    }
 )
 
 
-export default function ResultsPage() {
+export default function SignInPage() {
     return (
         <>
             <Head>

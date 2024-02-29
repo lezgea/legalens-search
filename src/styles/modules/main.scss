@@ -1,29 +1,52 @@
 .main-wrapper {
+    // height: 100vh;
     height: 100%;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    // justify-content: flex-start;
     user-select: none;
 
+    .ant-input,
+    .ant-input-focused,
+    .ant-input:focus,
+    .ant-input:active,
+    .ant-input:hover {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        background: none !important;
+    }
+
+    .content-wrapper {
+        height: 90vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+    }
+
     .title-wrapper {
-        width: 50%;
-        padding: 4% 0 4% 0;
+        width: 70%;
+        // padding: 20% 0 3% 0;
 
         .label {
             color: #212123;
             text-align: center;
-            font-size: 36px;
+            font-size: 32px;
             font-style: normal;
             font-weight: 600;
             line-height: 140%;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .description {
             color: #544E6B;
             text-align: center;
-            font-size: 18px;
+            font-size: 20px;
             font-style: normal;
             font-weight: 400;
             line-height: 125%;
@@ -40,9 +63,12 @@
             width: 100%;
             display: flex;
             flex-shrink: 0;
+            margin-top: 40px;
             padding: 0 20px;
             border-radius: 29px;
             background: #F2F4F8;
+            border: 1px solid transparent;
+            transition: .3s ease-in-out;
 
             .question-icon {
                 font-size: 1.9rem;
@@ -60,8 +86,32 @@
             }
 
             .search-icon {
+                cursor: pointer;
                 font-size: 1.8rem;
                 color: #6BA6FF;
+                transition: .2s ease-in-out;
+
+                &:hover {
+                    font-size: 2rem;
+                    transform: scale(1.2);
+                }
+
+                &:active {
+                    font-size: 2rem;
+                    transform: scale(1);
+                    color: #4376c4;
+                }
+            }
+
+            &:hover {
+                border: 1px solid #90cfff;
+                box-shadow: 0px 0px 2px 1px #a4d2ff;
+            }
+
+            &:focus,
+            &:active {
+                border: 1px solid #90cfff;
+                box-shadow: 0px 0px 2px 1px #a4d2ff;
             }
         }
 
@@ -75,16 +125,69 @@
     }
 
     .main-footer {
-        // max-height: 100px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: auto;
+        bottom: 0;
+        padding: 20px;
         width: 100%;
+        border-radius: 20px 20px 0 0;
+        background-color: #F2F4F8;
 
-        .footer-image {
+        .footer-legalens-logo {
+            cursor: pointer;
+            height: 50px;
+            width: 180px;
+        }
 
-            // position: absolute;
-            object-fit: contain;
-            width: 100% !important;
-            // position: relative !important;
-            height: unset !important;
+        .footer-description {
+            text-align: center;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 20px 200px 40px 200px;
+        }
+
+        .footer-rights {
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            // align-items: center;
+            align-content: space-between;
+            justify-content: space-between;
+            padding: 20px;
+
+            .footer-icons-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+
+                .footer-icon {
+                    font-size: 18px;
+                }
+            }
+
+            .footer-ai-wrapper {
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                padding-right: 20px;
+
+                .footer-ai-text {
+                    font-size: 14px;
+                }
+
+                .footer-ai-logo {
+                    margin-left: 10px;
+                }
+            }
         }
     }
 }

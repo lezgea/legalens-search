@@ -1,88 +1,84 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
-import { HeaderForMain } from './components/header-for-main'
-import { TEST_RESULTS_LIST } from '@/constants/test-data'
 import { useRouter } from 'next/router'
-import { CircleQuestionIcon, ThinSearchIcon } from '@/assets/icons';
+import { CircleQuestionIcon, FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon, TiktokIcon, YoutubeIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
 import { Button, Dropdown, Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
 import { LeftFixedBar } from './components/left-fixed-bar';
-import Image from 'next/image';
+import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
-import { getSearchData } from '@/api/search/getSearchData';
+import { getSearchData } from '@/api/search';
+import { Header } from '@/components/large';
+import { v4 as uuidv4 } from 'uuid';
+import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
-
-
-const items = [
-    {
-        key: '1',
-        label: 'aTest',
-    },
-    {
-        key: '2',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                3rd menu item
-            </a>
-        ),
-    },
-];
 
 
 export default function MainModule() {
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, colors } = useResultsContext()
+    const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+    // const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
 
 
-    // React.useEffect(() => {
-    //     setResultsState({
-    //         loading: isFetching,
-    //         list: data[0],
-    //         searchKeys: data[1],
-    //     })
-    //     console.log('$$$$', data)
-    // }, [data])
+    const getDeviceID = () => {
+        let deviceID = localStorage.getItem('deviceID')
+        if (!deviceID) {
+            deviceID = uuidv4()
+            localStorage.setItem('deviceID', deviceID)
+        }
+        console.log('===', deviceID)
+        return deviceID
+    }
+
+    const deviceID = getDeviceID()
+
+
+    React.useEffect(() => {
+        setResultsState({ loading: isFetching })
+        if (!!data?.length) {
+            setResultsState({ list: data.data[0], searchKeys: data.data[1] })
+            setColors([...Object.values(data.data[2])])
+        } else {
+            setResultsState({ list: [], searchKeys: [] })
+            setColors([])
+        }
+    }, [isFetching])
 
 
     async function getSearchDataAndKeys() {
-        // setResultsState({ loading: isFetching })
+        // postSearchHistory({
+        //     search: searchState.searchValue,
+        //     uniqueId: deviceID,
+        //     source: "",
+        //     campaignId: "",
+        // })
         refetch()
         router.push('/results')
     }
 
 
     return (
-        <div className='uniq-wrapper'>
-            <HeaderForMain />
-            {/* <LeftFixedBar /> */}
-            <div className='main-wrapper'>
+        <div className='main-wrapper'>
+            <Header hideSearch />
+            <div className='content-wrapper'>
                 <div className='title-wrapper'>
-                    <div className='label'>Lorem ipsum dolor</div>
-                    <div className='description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna </div>
+                    <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
+                    <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
                 </div>
                 <div className='search-wrapper'>
                     <div className='search-box'>
-                        {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
                         <Input
                             value={searchState.searchValue}
                             className='input'
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
                             onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                         />
-                        <Icon component={ThinSearchIcon} className='search-icon' />
+                        <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
                     </div>
                     {/* <div className='search-filters-wrapper'>
                         {
@@ -104,7 +100,42 @@ export default function MainModule() {
                 </div>
             </div>
             <div className='main-footer'>
-                {/* <Image src='/assets/SVG/footer.svg' style={{ objectFit: "contain" }} className='footer-image' /> */}
+                <Image
+                    src='/assets/SVG/legalens-logo.svg'
+                    className='footer-legalens-logo'
+                    preview={false}
+                    onClick={() => router.push('/')}
+                />
+                <div className='footer-description'>Platformanın demo versiyasında qanunvericilik bazasında məcəllələrə dair axtarış imkanı təqdim edilir. Tam təminatlı versiya istifadəyə verildikdə, istifadəçilər həmçinin Normativ Hüquqi Aktlar, Beynəlxalq Müqavilələr, Məhkəmə Qərarları, Sərəncamlar, Fərmanlar və Bəyənatlar kimi geniş hüquqi resurslara asanlıqla çıxış əldə edə biləcəklər</div>
+                <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
+                <div className='footer-bottom'>
+                    <div className='footer-icons-wrapper'>
+                        {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
+                        {/* <Icon component={TiktokIcon} className='footer-icon' /> */}
+                        {/* </a> */}
+                        <a href='https://www.linkedin.com/company/legalens/' target='_blank'>
+                            <Icon component={LinkedinIcon} className='footer-icon' />
+                        </a>
+                        <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'>
+                            <Icon component={FacebookIcon} className='footer-icon' />
+                        </a>
+                        <a href='https://www.instagram.com/legalens.ai/' target='_blank'>
+                            <Icon component={InstagramIcon} className='footer-icon' />
+                        </a>
+                        {/* <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'> */}
+                        {/* <Icon component={YoutubeIcon} className='footer-icon' /> */}
+                        {/* </a> */}
+                    </div>
+                    <div className='footer-ai-wrapper'>
+                        <div className='footer-ai-text'>Product of</div>
+                        <Image
+                            src='/assets/SVG/ai-logo.svg'
+                            className='footer-ai-logo'
+                            preview={false}
+                            onClick={() => router.push('/')}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     )

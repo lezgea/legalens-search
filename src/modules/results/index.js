@@ -6,6 +6,7 @@ import { ActionButton, SearchKey } from '@/components/small';
 import { useResultsContext } from '@/context/results-context';
 import {
     ArrowDownIcon,
+    ArrowUpIcon,
     CirclesIcon,
     DocumentIcon,
     EditIcon,
@@ -14,17 +15,24 @@ import {
     ListIcon,
     NotificationIcon,
     StatisticsIcon
-} from '@/assets/icons';
-import { Empty } from 'antd';
+} from '../../assets/icons';
+import { Empty, notification } from 'antd';
 import Link from 'next/link';
+import Icon from '@ant-design/icons';
 import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
+import { useCrop } from '@/hooks/use-crop';
+import Loader from '@/components/large/loader';
 
 const { Search } = Input;
 
 
-
 const topRightActions = [
+    // { id: 3, label: 'Sırala', icon: null, size: 16 },
+    { id: 4, label: 'Tarix', icon: ArrowDownIcon, size: 13 },
+]
+
+const bottomRightActions = [
     { id: 1, label: 'Düzəliş et', icon: EditIcon, size: 16 },
     { id: 2, label: 'Xəbərdar et', icon: NotificationIcon, size: 16 },
     { id: 3, label: 'Qovluğa əlvə et', icon: FolderIcon, size: 16 },
@@ -39,17 +47,13 @@ const bottomLeftActions = [
     { id: 2, label: 'Çap versiyası', icon: DocumentIcon, size: 16 },
 ]
 
-const bottomRightActions = [
-    { id: 3, label: 'Sırala', icon: null, size: 16 },
-    { id: 4, label: 'Tarix', icon: ArrowDownIcon, size: 13 },
-]
-
 
 export default function ResultsModule() {
     const { resultsState, colors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
+    const [cardIndex, setCardIndex] = React.useState(null)
 
-    
+
     function handleShowModal() {
         setShowModal(true)
     }
@@ -71,24 +75,25 @@ export default function ResultsModule() {
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
-                    <div className='list-filters-fixed'>
-                        <div className='filter-items-wrapper'>
-                            {resultsState.searchKeys?.map((item, i) => <SearchKey key={i} color={colors[i]} label={item} />)}
-                        </div>
-                        <div className='action-buttons-wrapper'>
-                            {topRightActions.map(item => <ActionButton key={item.id} color='gray' onClick={handleShowModal} {...item} />)}
-                        </div>
-                    </div>
                     <div className='results-list-wrapper'>
                         <div className='list-header-wrapper'>
-                            <Checkbox checked={false} onChange={() => { }} />
                             <div className='list-header'>
+                                <div className='filter-items-wrapper'>
+                                    {
+                                        !!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) =>
+                                            <SearchKey key={i} color={colors[i]} label={item} />
+                                        )
+                                    }
+                                </div>
                                 <div className='action-buttons-wrapper'>
+                                    {/* {topRightActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)} */}
+                                </div>
+                                {/* <div className='action-buttons-wrapper'>
                                     {bottomLeftActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)}
                                 </div>
                                 <div className='action-buttons-wrapper'>
                                     {bottomRightActions.map(item => <ActionButton key={item.id} color='white' onClick={handleShowModal} {...item} />)}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         {
@@ -99,15 +104,19 @@ export default function ResultsModule() {
                             !resultsState.loading && resultsState?.list?.map((item, i) =>
                                 <ResultCard
                                     key={i}
+                                    index={i}
                                     {...item[1]}
-                                    text={item[1].Crop
+                                    item={item}
+                                    text={item[1].Crop}
+                                    cardIndex={cardIndex}
+                                    setCardIndex={setCardIndex}
                                 />
                             )
                         }
                         {
                             !resultsState.loading && !resultsState?.list?.length &&
                             <div className='empty-content'>
-                                <Empty description={'No Results'} />
+                                <Empty description={'Məlumat Tapılmadı'} />
                             </div>
                         }
                     </div>
@@ -130,40 +139,33 @@ export default function ResultsModule() {
 
 
 const ResultCard = (props) => {
-    let { Headline: label, description, Percentages, text, checked, date } = props
+    let {
+        Headline: label,
+        description,
+        Percentages,
+        text,
+        date,
+        madde_id,
+        bolme_id,
+        fesil_id,
+        index,
+        cardIndex,
+        setCardIndex,
+    } = props
     const { resultsState, setSelectedResult, colors } = useResultsContext()
+    const [api, contextHolder] = notification.useNotification();
 
     const [linerData, setLinerData] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
+            crop_id: '',
             data: [],
-            step: 0,
+            text: '',
+            loading: false,
         }
     )
+    const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
 
-    console.log('$$$$$$', Percentages)
-
-    // counts words by searchkeys for result cards horizontal liner 
-    function countWordOccurrences() {
-        const words = text.toLowerCase().match(/\b\w+\b/g)
-        let data = []
-        let step = 0
-        let wordsCount = 0
-        let keys = resultsState.searchKeys.map(item => item.label)
-
-        if (words) {
-            words.forEach((word, index) => {
-                wordsCount += 1
-                let wordExist = keys.includes(word)
-                if (wordExist) {
-                    data.push(resultsState.searchKeys.find(item => item.label === word))
-                } else {
-                    data.push({ id: index, color: 'transparent' })
-                }
-            })
-        }
-        step = wordsCount / 100
-        setLinerData({ data: data, step: step })
-    }
+    let mecelle_id = Percentages[0][3]?.split('.')[0]
 
 
     function onSetDetails() {
@@ -171,52 +173,100 @@ const ResultCard = (props) => {
     }
 
 
-    // React.useEffect(() => {
-    //     if (!!resultsState.searchKeys?.length)
-    //         countWordOccurrences()
-    // }, [resultsState.searchKeys])
+    function onSelectCrop(crop) {
+        setLinerData({ crop_id: crop })
+        if (linerData.crop_id === crop)
+            refetch()
+    }
+
+
+    if (error)
+        api.error({ message: error })
+
 
     React.useEffect(() => {
-        setLinerData({ data: [...Percentages] })
+        setLinerData({
+            data: [...Percentages],
+            text: text,
+        })
     }, [Percentages])
 
 
+    React.useEffect(() => {
+        setLinerData({ loading: false })
+        if (!!linerData.crop_id) {
+            console.log('@@@@', isFetching)
+            setLinerData({
+                text: data?.data,
+                loading: false,
+            })
+        }
+    }, [linerData.crop_id])
+
+
+
     return (
-        <div className='result-card-wrapper'>
-            <Checkbox checked={checked} onChange={() => { }} />
-            <div className='result-card'>
-                <div className='date'>{date}</div>
-                <Link
-                    className='label'
-                    href='/result-details'
-                    onClick={onSetDetails}
+        <Link
+            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}
+            className='result-card-wrapper'
+        >
+            <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
+                <div
+                    className='action-btn'
+                    onClick={(e) => {
+                        e?.preventDefault();
+                        index === cardIndex
+                            ? setCardIndex(null)
+                            : setCardIndex(index)
+                    }}
                 >
-                    {label}
+                    <Icon component={ArrowDownIcon} className='icon' style={{ transform: index === cardIndex ? 'rotate(0.5turn)' : 'rotate(0)' }} />
+                </div>
+                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}>
+                    <div dangerouslySetInnerHTML={{ __html: label }}></div>
                 </Link>
-                <div className='description'>{description}</div>
+                <div className='description' dangerouslySetInnerHTML={{ __html: description }}></div>
                 <div className='linear-filter-wrapper'>
-                    <div className='linear-filter'>
+                    <div className='linear-filter' onClick={(e) => e?.preventDefault()}>
                         {
                             linerData?.data?.map((item, i) => {
                                 let backgroundColor = colors[item[1]]
                                 let marginLeft = `${(item[2] * 100)}%`
 
                                 return (
-                                    <div key={i} className='item' style={{ marginLeft: marginLeft }}>
+                                    <div
+                                        key={i}
+                                        className='item'
+                                        style={{ marginLeft: marginLeft }}
+                                        onClick={(e) => {
+                                            e?.preventDefault();
+                                            onSelectCrop(item[3]);
+                                            setCardIndex(index);
+                                        }}
+                                    >
                                         <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                     </div>
                                 )
-                            }
-
-                            )
+                            })
                         }
                     </div>
                 </div>
-                <div className='text-container'>
-                    <div className='text truncate' dangerouslySetInnerHTML={{ __html: text }}></div>
-                </div>
+                {
+                    linerData.loading &&
+                    <div className='text-container'>
+                        <div className='text-skeleton' />
+                        <div className='text-skeleton' />
+                        <div className='text-skeleton' />
+                    </div>
+                }
+                {
+                    (linerData.text || data.data) &&
+                    < div className='text-container'>
+                        <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
+                    </div>
+                }
             </div>
-        </div>
+        </Link >
     )
 }
 
