@@ -11,6 +11,7 @@ import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
 import { getSearchData } from '@/api/search/getSearchData';
 import { Header } from '@/components/large';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -20,6 +21,19 @@ export default function MainModule() {
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+
+
+    const getDeviceID = () => {
+        let deviceID = localStorage.getItem('deviceID')
+        if (!deviceID) {
+            deviceID = uuidv4()
+            localStorage.setItem('deviceID', deviceID)
+        }
+        console.log('===', deviceID)
+        return deviceID
+    }
+
+    const deviceID = getDeviceID()
 
 
     React.useEffect(() => {
@@ -42,15 +56,14 @@ export default function MainModule() {
 
     return (
         <div className='main-wrapper'>
+            <Header hideSearch />
             <div className='content-wrapper'>
-                <Header hideSearch />
                 <div className='title-wrapper'>
                     <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
                     <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
                 </div>
                 <div className='search-wrapper'>
                     <div className='search-box'>
-                        {/* <Icon component={CircleQuestionIcon} className='question-icon' /> */}
                         <Input
                             value={searchState.searchValue}
                             className='input'

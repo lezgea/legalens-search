@@ -6,6 +6,7 @@ import { ActionButton, SearchKey } from '@/components/small';
 import { useResultsContext } from '@/context/results-context';
 import {
     ArrowDownIcon,
+    ArrowUpIcon,
     CirclesIcon,
     DocumentIcon,
     EditIcon,
@@ -17,6 +18,7 @@ import {
 } from '../../assets/icons';
 import { Empty, notification } from 'antd';
 import Link from 'next/link';
+import Icon from '@ant-design/icons';
 import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
 import { useCrop } from '@/hooks/use-crop';
@@ -158,6 +160,7 @@ const ResultCard = (props) => {
             crop_id: '',
             data: [],
             text: '',
+            loading: false,
         }
     )
     const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
@@ -190,30 +193,34 @@ const ResultCard = (props) => {
 
 
     React.useEffect(() => {
-        if (!!linerData.crop_id)
-            setLinerData({ text: data?.data })
+        setLinerData({ loading: false })
+        if (!!linerData.crop_id) {
+            console.log('@@@@', isFetching)
+            setLinerData({
+                text: data?.data,
+                loading: false,
+            })
+        }
     }, [linerData.crop_id])
+
 
 
     return (
         <Link
             href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}
             className='result-card-wrapper'
-        // onMouseEnter={() => setTimeout(() => setCardIndex(index), 1500)}
-        // onMouseOver={() => setCardIndex(false)}
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
-                <div className='date'>
-                    <ActionButton
-                        color='colored'
-                        onClick={(e) => {
-                            e?.preventDefault();
-                            index === cardIndex
-                                ? setCardIndex(null)
-                                : setCardIndex(index)
-                        }}
-                        label={index === cardIndex ? 'Gizlət' : 'Ətraflı'}
-                    />
+                <div
+                    className='action-btn'
+                    onClick={(e) => {
+                        e?.preventDefault();
+                        index === cardIndex
+                            ? setCardIndex(null)
+                            : setCardIndex(index)
+                    }}
+                >
+                    <Icon component={ArrowDownIcon} className='icon' style={{ transform: index === cardIndex ? 'rotate(0.5turn)' : 'rotate(0)' }} />
                 </div>
                 <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}>
                     <div dangerouslySetInnerHTML={{ __html: label }}></div>
@@ -231,7 +238,11 @@ const ResultCard = (props) => {
                                         key={i}
                                         className='item'
                                         style={{ marginLeft: marginLeft }}
-                                        onClick={(e) => { e?.preventDefault(); onSelectCrop(item[3]) }}
+                                        onClick={(e) => {
+                                            e?.preventDefault();
+                                            onSelectCrop(item[3]);
+                                            setCardIndex(index);
+                                        }}
                                     >
                                         <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
                                     </div>
@@ -241,26 +252,21 @@ const ResultCard = (props) => {
                     </div>
                 </div>
                 {
-                    isFetching
-                        ?
-                        <div className='text-container'>
-                            <div className='text-skeleton' />
-                            <div className='text-skeleton' />
-                            <div className='text-skeleton' />
-                        </div>
-                        :
-                        <div className='text-container'>
-                            {
-                                !!(linerData.text || data?.data)
-                                    ?
-                                    <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
-                                    :
-                                    !isFetching && ""
-                            }
-                        </div>
+                    linerData.loading &&
+                    <div className='text-container'>
+                        <div className='text-skeleton' />
+                        <div className='text-skeleton' />
+                        <div className='text-skeleton' />
+                    </div>
+                }
+                {
+                    (linerData.text || data.data) &&
+                    < div className='text-container'>
+                        <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
+                    </div>
                 }
             </div>
-        </Link>
+        </Link >
     )
 }
 

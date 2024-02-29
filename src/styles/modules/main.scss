@@ -25,13 +25,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        // justify-content: flex-start;
+        justify-content: center;
         user-select: none;
     }
 
     .title-wrapper {
         width: 70%;
-        padding: 20% 0 3% 0;
+        // padding: 20% 0 3% 0;
 
         .label {
             color: #212123;
@@ -63,6 +63,7 @@
             width: 100%;
             display: flex;
             flex-shrink: 0;
+            margin-top: 40px;
             padding: 0 20px;
             border-radius: 29px;
             background: #F2F4F8;

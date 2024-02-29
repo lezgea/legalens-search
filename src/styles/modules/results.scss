@@ -247,6 +247,7 @@
         align-items: baseline;
         padding-bottom: 15px;
         transition: .2s ease-in-out;
+        position: relative;
 
         .result-card {
             display: flex;
@@ -330,16 +331,34 @@
                 }
             }
 
-            .date {
+            .action-btn {
                 position: absolute;
                 right: 20px;
-                top: 20px;
+                bottom: 20px;
                 color: #696969;
                 text-align: right;
-                font-size: 12px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 145%;
+                background-color: #C3B9FF;
+                padding: 7px 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px;
+                transition: .3s ease-in-out;
+
+                .icon {
+                    color: #212123;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 125%;
+                    transform: rotateY(0);
+                    margin-right: -3px;
+                    transition: .2s ease-in-out;
+                }
             }
         }
 
@@ -427,15 +446,34 @@
                 }
             }
 
-            .date {
+            .action-btn {
                 position: absolute;
                 right: 20px;
+                bottom: 20px;
                 color: #696969;
                 text-align: right;
-                font-size: 12px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 145%;
+                background-color: #C3B9FF;
+                padding: 7px 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px;
+                transition: .3s ease-in-out;
+
+                .icon {
+                    color: #212123;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 125%;
+                    transform: rotateY(0);
+                    margin-right: -3px;
+                    transition: .2s ease-in-out;
+                }
             }
         }
     }

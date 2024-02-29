@@ -9,7 +9,7 @@ const headers = {
     'content-type': 'application/json',
 };
 
-const baseURL = "https://legalens-api.ailab.az/";
+// const baseURL = "https://legalens-api.ailab.az/";
 const domain = "";
 
 
@@ -18,6 +18,7 @@ async function refreshAuthLogic(failedRequest) {
     const { refreshToken, remember } = parseCookies();
     const maxAge = remember ? 60 * 60 * 24 * 30 : undefined;
     const options = { maxAge, domain, path: '/', sameSite: 'lax' };
+    const baseURL = "https://legalens-api.ailab.az/";
 
     return axios
         .post(`${baseURL}/auth/refresh-token`, { refreshToken })
@@ -40,6 +41,7 @@ createAuthRefreshInterceptor(axios, refreshAuthLogic);
 
 
 async function client(
+    baseURL,
     endpoint,
     { body } = {},
     returnHeaders = false
