@@ -23,6 +23,8 @@ import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
 import { useCrop } from '@/hooks/use-crop';
 import Loader from '@/components/large/loader';
+import { useSearchContext } from '@/context/search-context';
+import { useSearch, useUpadateSearch } from '@/hooks/use-search';
 
 const { Search } = Input;
 
@@ -49,9 +51,15 @@ const bottomLeftActions = [
 
 
 export default function ResultsModule() {
-    const { resultsState, colors } = useResultsContext()
+    const { searchState, setSearchState } = useSearchContext()
+    const { resultsState, colors, setResultsState, setColors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
+    const [localSearchValues, setLocalSearchValues] = React.useState([])
+    const [localSearchString, setLocalSearchString] = React.useState('')
+    // let localSearchString = ''
+    const { data = [], refetch, isFetching } = useUpadateSearch(localSearchString, () => { })
+
 
 
     function handleShowModal() {
@@ -69,6 +77,36 @@ export default function ResultsModule() {
     }
 
 
+    function updateSearchByItem(item) {
+        let newString = ''
+        let newSearchArr = localSearchValues?.filter(key => key !== item)
+        setLocalSearchValues(newSearchArr)
+        newSearchArr.map(item => newString = newString + ' ' + item)
+        setLocalSearchString(newString)
+        refetch()
+    }
+
+
+    React.useEffect(() => {
+        setLocalSearchString(searchState.searchValue)
+    }, [])
+
+
+    React.useEffect(() => {
+        setLocalSearchValues(resultsState.searchKeys)
+    }, [resultsState.searchKeys])
+
+
+    React.useEffect(() => {
+        setResultsState({ loading: isFetching })
+        if (!!data.length) {
+            setResultsState({ list: data[0], searchKeys: data[1] })
+        } else {
+            setResultsState({ list: [], searchKeys: [] })
+        }
+    }, [isFetching])
+
+
     return (
         <div className='uniq-wrapper'>
             <Header />
@@ -81,7 +119,13 @@ export default function ResultsModule() {
                                 <div className='filter-items-wrapper'>
                                     {
                                         !!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) =>
-                                            <SearchKey key={i} color={colors[i]} label={item} />
+                                            <SearchKey
+                                                key={i}
+                                                color={colors[i]}
+                                                label={item}
+                                                active={!!localSearchValues.filter(sv => sv == item)?.length}
+                                                onClick={() => updateSearchByItem(item)}
+                                            />
                                         )
                                     }
                                 </div>

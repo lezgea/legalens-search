@@ -15,3 +15,18 @@ export function useSearch(query, onSuccess) {
 
     return { data, refetch, isFetching };
 }
+
+
+export function useUpadateSearch(query, onSuccess) {
+    const { data, isFetching, error, refetch } = useQuery(
+        ['update-search-data', query],
+        () => getSearchData({ query_strig: query }),
+        {
+            refetchOnWindowFocus: false,
+            enabled: !!query,
+            onSuccess: onSuccess,
+        }
+    );
+
+    return { data, refetch, isFetching };
+}

@@ -73,6 +73,7 @@
                 cursor: pointer;
 
                 .item-marker {
+                    position: relative;
                     // left: 0;
                     height: 7px;
                     // position: absolute;
@@ -82,6 +83,19 @@
                     // padding: 5px;
                     background-color: #85be24;
                     animation: verticalLinerFilterItemAnimation .5s ease-in-out;
+                }
+
+                .item-selected {
+                    position: absolute;
+                    top: -5px;
+                    left: -5px;
+                    width: 42px;
+                    height: 17px;
+                    background: #efd5f61e;
+                    z-index: 200;
+                    backdrop-filter: blur(3px);
+                    border: 2px solid #a009eb;
+                    border-radius: 10px;
                 }
 
                 &:hover {

@@ -205,6 +205,7 @@
     gap: 5px;
 
     .filter-item {
+        cursor: pointer;
         display: flex;
         height: 35px;
         padding: 9px 15px;
@@ -214,6 +215,7 @@
         flex-shrink: 0;
         border-radius: 20px;
         animation: valueBoxAnimation .4s ease-in-out;
+        transition: .2s ease-in-out;
 
         .label {
             color: #FFF;
@@ -223,6 +225,10 @@
             font-weight: 500;
             line-height: 125%;
             // animation: fadeIn .3s ease-in-out;
+        }
+
+        &:hover {
+            box-shadow: 1px 5px 10px 0px rgba(78, 78, 78, 0.2);
         }
     }
 }

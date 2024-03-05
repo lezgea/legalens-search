@@ -1,18 +1,15 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { CircleQuestionIcon, FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon, TiktokIcon, YoutubeIcon } from '../../assets/icons';
+import { FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { Button, Dropdown, Input } from 'antd';
+import { Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
-import { MAIN_PAGE_FILTER_BUTTONS } from '@/constants/initial-states';
-import { LeftFixedBar } from './components/left-fixed-bar';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
-import { getSearchData } from '@/api/search';
 import { Header } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchHistoryData, useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
@@ -36,11 +33,33 @@ export default function MainModule() {
             deviceID = uuidv4()
             localStorage.setItem('deviceID', deviceID)
         }
-        console.log('===', deviceID)
         return deviceID
     }
 
+
+    const getSourceID = () => {
+        let legalSourceID = localStorage.getItem('legalSourceID')
+        if (!legalSourceID) {
+            legalSourceID = router?.query?.s
+            localStorage.setItem('legalSourceID', legalSourceID)
+        }
+        return legalSourceID
+    }
+
+
+    const getCompanyID = () => {
+        let legalCompanyID = localStorage.getItem('legalCompanyID')
+        if (!legalCompanyID) {
+            legalCompanyID = router?.query?.c
+            localStorage.setItem('legalCompanyID', legalCompanyID)
+        }
+        return legalCompanyID
+    }
+
+
     const deviceID = getDeviceID()
+    const legalSourceID = getSourceID()
+    const legalCompanyID = getCompanyID()
 
 
     React.useEffect(() => {
@@ -59,15 +78,12 @@ export default function MainModule() {
         postSearchHistory({
             search: searchState.searchValue,
             uniqueId: deviceID,
-            source: "",
-            campaignId: "",
+            source: legalSourceID,
+            campaignId: legalCompanyID,
         })
         refetch()
         router.push('/results')
     }
-
-
-    // console.log('@@@@@', searchHistory)
 
 
     return (
@@ -79,7 +95,7 @@ export default function MainModule() {
                     <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
                 </div>
                 <div className='search-wrapper'>
-                    <Dropdown
+                    {/* <Dropdown
                         menu={{
                             items: [
                                 {
@@ -93,18 +109,18 @@ export default function MainModule() {
                             ]
                         }}
                         placement="bottom"
-                    >
-                        <div className='search-box'>
-                            <Input
-                                value={searchState.searchValue}
-                                className='input'
-                                placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
-                                onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                                onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                            />
-                            <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
-                        </div>
-                    </Dropdown>
+                    > */}
+                    <div className='search-box'>
+                        <Input
+                            value={searchState.searchValue}
+                            className='input'
+                            placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
+                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
+                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                        />
+                        <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
+                    </div>
+                    {/* </Dropdown> */}
 
                     {/* <div className='search-filters-wrapper'>
                         {

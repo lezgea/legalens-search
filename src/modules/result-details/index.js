@@ -205,13 +205,30 @@ export default function ResultDetailsModule() {
                                         <div
                                             key={i}
                                             className='item'
-                                            style={{ top: marginTop }}
+                                            style={{
+                                                top: marginTop,
+                                                // padding: 5,
+                                            }}
                                             onClick={(e) => {
                                                 e?.preventDefault();
                                                 setState({ article: { type: 'item', index: item[1] } })
                                             }}
                                         >
-                                            <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
+
+                                            <div
+                                                className='item-marker'
+                                                style={{
+                                                    // border: state.article?.index == item[1] && '2px solid #000',
+                                                    backgroundColor: backgroundColor,
+                                                }}
+                                            >
+                                                {
+                                                    state.article?.index == item[1] &&
+                                                    <div
+                                                        className='item-selected'
+                                                    ></div>
+                                                }
+                                            </div>
                                         </div>
                                     )
                                 })
