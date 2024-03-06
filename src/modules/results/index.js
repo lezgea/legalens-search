@@ -106,6 +106,7 @@ export default function ResultsModule() {
         }
     }, [isFetching])
 
+    console.log("@@@@@@", resultsState?.list)
 
     return (
         <div className='uniq-wrapper'>
@@ -149,9 +150,9 @@ export default function ResultsModule() {
                                 <ResultCard
                                     key={i}
                                     index={i}
-                                    {...item[1]}
+                                    {...item[2]}
                                     item={item}
-                                    text={item[1].Crop}
+                                    text={item[2].Crop}
                                     cardIndex={cardIndex}
                                     setCardIndex={setCardIndex}
                                 />
@@ -192,6 +193,7 @@ const ResultCard = (props) => {
         madde_id,
         bolme_id,
         fesil_id,
+        mecelle_id,
         index,
         cardIndex,
         setCardIndex,
@@ -209,7 +211,7 @@ const ResultCard = (props) => {
     )
     const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
 
-    let mecelle_id = Percentages[0][3]?.split('.')[0]
+    // console.log("@@@@@", Percentages)
 
 
     function onSetDetails() {
@@ -239,7 +241,6 @@ const ResultCard = (props) => {
     React.useEffect(() => {
         setLinerData({ loading: false })
         if (!!linerData.crop_id) {
-            console.log('@@@@', isFetching)
             setLinerData({
                 text: data?.data,
                 loading: false,
@@ -274,8 +275,8 @@ const ResultCard = (props) => {
                     <div className='linear-filter' onClick={(e) => e?.preventDefault()}>
                         {
                             linerData?.data?.map((item, i) => {
-                                let backgroundColor = colors[item[1]]
-                                let marginLeft = `${(item[2] * 100)}%`
+                                let backgroundColor = item[2]
+                                let marginLeft = `${(item[1] * 100)}%`
 
                                 return (
                                     <div
@@ -284,7 +285,7 @@ const ResultCard = (props) => {
                                         style={{ marginLeft: marginLeft }}
                                         onClick={(e) => {
                                             e?.preventDefault();
-                                            onSelectCrop(item[3]);
+                                            onSelectCrop(item[0]);
                                             setCardIndex(index);
                                         }}
                                     >

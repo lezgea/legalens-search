@@ -1,6 +1,6 @@
 
 export const SEARCH_STATE_INITIAL = {
-    searchValue: '',
+    searchValue: 'beynəlxalq hüquq aktları',
     activeFilter: 'h',
 }
 

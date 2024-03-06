@@ -3,7 +3,7 @@ import { aiClient } from "../client";
 
 export const getDetailsData = async ({ mecelle_id, madde_id, bolme_id, fesil_id, query }) => {
     const { data } = await aiClient.get(
-        `/enlarge_v2?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}&query=${query}`,
+        `/v3/enlarge?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}&query=${query}`,
     )
     return data
 }
