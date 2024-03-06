@@ -198,7 +198,7 @@ export default function ResultDetailsModule() {
                             {
                                 leftLiner?.data?.map((item, i) => {
                                     let backgroundColor = !!data?.colors?.length && data?.colors[item[0][0]] || '#000'
-                                    let percent = (item[0][2] * 100).toString()?.split('.')[0]
+                                    let percent = (item[1] * 100)
                                     let marginTop = `${percent}%`
 
                                     return (
@@ -298,7 +298,7 @@ export default function ResultDetailsModule() {
                                             key={index}
                                             className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
                                             ref={(element) => arrayRef.current[index] = element}
-                                            dangerouslySetInnerHTML={{ __html: item[0] }}
+                                            dangerouslySetInnerHTML={{ __html: item }}
                                         ></div>
                                     )
                                 }
