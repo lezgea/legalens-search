@@ -1,35 +1,18 @@
-import React, { useEffect } from 'react'
-import { ArrowDownIcon, DownloadBoldIcon, DownloadIcon, InfoIcon, LinkIcon, SearchIcon, SquareIcon } from '@/assets/icons'
+import React from 'react'
+import { DownloadIcon, SearchIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
-import { useResultsContext } from '@/context/results-context'
-import Icon from '@ant-design/icons';
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
-import { Divider, Modal, Popover } from 'antd';
+import { Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import { useDetailsIndex } from '@/hooks/use-details-index';
-import { useDetailsReference } from '@/hooks/use-details-reference';
 import { useSearchContext } from '@/context/search-context';
+import { useDetailsKmq } from '@/hooks/use-details-kmq';
 
-
-
-const rightBarItems = [
-    { label: 'Mənbə məlumatı', values: [{ label: 'Qanunvericilik', icon: null }] },
-    { label: 'Müvafiq mətn', values: [{ label: 'Qanunvercilik', icon: SearchIcon }] },
-    { label: 'Mövzu xülasələri', values: [{ label: 'Hesabata bax', icon: null }] },
-]
-
-const infoItems = [
-    { label: 'Diqqət', color: '#FFC107', value: 250 },
-    { label: 'Müsbət', color: '#77D47B', value: 144 },
-    { label: 'Neytral', color: '#3F51B5', value: 97 },
-    { label: 'İstinad edilmiş', color: '#03A9F4', value: 206 },
-]
 
 
 export default function ResultDetailsModule() {
-    const { resultsState, selectedResult, colors } = useResultsContext()
     const { searchState } = useSearchContext()
 
     const router = useRouter()
@@ -42,7 +25,6 @@ export default function ResultDetailsModule() {
     const fesil_id = idItems[1]
     const madde_id = idItems[2]
     const mecelle_id = idItems[3]
-    const ref_id = router.asPath.split('#')[1]
 
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -58,16 +40,12 @@ export default function ResultDetailsModule() {
             }
         }
     )
-    const [reference, setReference] = React.useState('')
     const [leftLiner, setLeftLiner] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             data: [],
             step: 0,
         }
     )
-    // articleIndex
-    // const [article, setArticle] = React.useState();
-
 
     const { data = [], refetch, isFetching } = useDetails({
         mecelle_id,
@@ -85,24 +63,57 @@ export default function ResultDetailsModule() {
         madde_id: state.madde_id,
     }, () => { })
 
-    const { data: referenceData = [], refetch: refetchReferenceData, isFetching: isFetchingReferenceData } = useDetailsReference({
-        mecelle_id,
-        ref_name: state.ref_id,
-        qtype: 'ref',
-    }, () => { })
 
-    const { data: kmqData = [], refetch: refetchKmqData, isFetching: isFetchingKmqData } = useDetailsReference({
+    const { data: kmqData = [], refetch: refetchKmqData, isFetching: isFetchingKmqData } = useDetailsKmq({
         mecelle_id,
-        ref_name: state.ref_id,
-        qtype: 'kmq',
     }, () => { })
-
 
 
     const onClickDownload = useReactToPrint({
         onBeforePrint: () => document.title = `Məcəllə`,
         content: () => componentRef.current,
     })
+
+
+    const handleScroll = (event) => {
+        const { scrollTop } = event.target
+    }
+
+    const [clickPosition, setClickPosition] = React.useState({ x: null, y: null })
+
+
+    const handleClick = (event) => {
+        const { clientX, clientY } = event;
+        setClickPosition({ x: clientX, y: clientY });
+    }
+
+
+    React.useEffect(() => {
+        const handleHashChange = () => {
+            const hashString = window.location.hash
+            setState({ hashString: hashString })
+            window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+        }
+    }, [])
+
+
+    React.useEffect(() => {
+        if (!!state.hashString) {
+            let selectedReference = data?.references?.find(item =>
+                item[2] === state.hashString.split('#')[1]
+            )
+            setState({
+                referenceText: selectedReference[1],
+                showRefModal: true,
+                hashString: '',
+            })
+        }
+    }, [state.hashString])
 
 
     React.useEffect(() => {
@@ -124,9 +135,9 @@ export default function ResultDetailsModule() {
             setState({ article: { type: 'item', index: data.index } })
         if (!!indexData?.index)
             setState({ article: { type: 'item', index: indexData.index } })
-        if (!!referenceData?.index)
-            setState({ article: { type: 'item', index: referenceData.index } })
-    }, [indexData?.index, referenceData?.index, data?.index, data])
+        // if (!!referenceData?.index)
+        //     setState({ article: { type: 'item', index: referenceData.index } })
+    }, [indexData?.index, data?.index, data])
 
 
     React.useLayoutEffect(() => {
@@ -143,51 +154,6 @@ export default function ResultDetailsModule() {
     }, [state.article.index])
 
 
-    const handleScroll = (event) => {
-        const { scrollTop } = event.target;
-        // if (box2Ref.current) {
-        //     box2Ref.current.scrollTop = scrollTop;
-        // }
-    };
-
-    const [clickPosition, setClickPosition] = React.useState({ x: null, y: null });
-
-    const handleClick = (event) => {
-        const { clientX, clientY } = event;
-        setClickPosition({ x: clientX, y: clientY });
-    }
-
-
-    React.useEffect(() => {
-        const handleHashChange = () => {
-            const hashString = window.location.hash
-            setState({ hashString: hashString })
-            window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
-        }
-        // Listen for hash changes
-        window.addEventListener('hashchange', handleHashChange);
-        // Clean up event listener on component unmount
-        return () => {
-            window.removeEventListener('hashchange', handleHashChange);
-        }
-    }, [])
-
-
-
-    React.useEffect(() => {
-        if (!!state.hashString) {
-            let selectedReference = data?.references?.find(item =>
-                item[2] === state.hashString.split('#')[1]
-            )
-            setState({
-                referenceText: selectedReference[1],
-                showRefModal: true,
-                hashString: '',
-            })
-        }
-    }, [state.hashString])
-
-
     return (
         <div className='uniq-wrapper' onClick={handleClick}>
             <Header />
@@ -197,7 +163,7 @@ export default function ResultDetailsModule() {
                         <div className='left-liner-filter'>
                             {
                                 leftLiner?.data?.map((item, i) => {
-                                    let backgroundColor = !!data?.colors?.length && data?.colors[item[0][0]] || '#000'
+                                    let backgroundColor = item[2] || '#000'
                                     let percent = (item[1] * 100)
                                     let marginTop = `${percent}%`
 
@@ -205,28 +171,19 @@ export default function ResultDetailsModule() {
                                         <div
                                             key={i}
                                             className='item'
-                                            style={{
-                                                top: marginTop,
-                                                // padding: 5,
-                                            }}
+                                            style={{ top: marginTop }}
                                             onClick={(e) => {
                                                 e?.preventDefault();
-                                                setState({ article: { type: 'item', index: item[1] } })
+                                                setState({ article: { type: 'item', index: item[0] } })
                                             }}
                                         >
-
                                             <div
                                                 className='item-marker'
-                                                style={{
-                                                    // border: state.article?.index == item[1] && '2px solid #000',
-                                                    backgroundColor: backgroundColor,
-                                                }}
+                                                style={{ backgroundColor: backgroundColor }}
                                             >
                                                 {
                                                     state.article?.index == item[1] &&
-                                                    <div
-                                                        className='item-selected'
-                                                    ></div>
+                                                    <div className='item-selected'></div>
                                                 }
                                             </div>
                                         </div>
@@ -245,7 +202,7 @@ export default function ResultDetailsModule() {
                                             key={index}
                                             className='item-wrapper'
                                             style={{ top: marginTop }}
-                                            onClick={() => setState({ article: { type: 'section', index: item[0] - 4 } })
+                                            onClick={() => setState({ article: { type: 'section', index: item[0] } })
                                             }
                                         >
                                             <div className='line' />
@@ -265,9 +222,6 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-content'>
-                    {/* <div className='article-label-wrapper'>
-                        <div className='article-label'>{data.mecelle_name}</div>
-                    </div> */}
                     <div className='header-icons-wrapper'>
                         <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
@@ -276,7 +230,6 @@ export default function ResultDetailsModule() {
                     {
                         isFetching
                             ?
-                            // text skeleton which appears while fetching
                             <div className='text-wrapper'>
                                 <div className='text-container'>
                                     <div className='label-skeleton' />
@@ -326,15 +279,15 @@ export default function ResultDetailsModule() {
                         </div>
                     </div> */}
                     {
-                        !!data.kmqs?.length &&
+                        !!kmqData?.kmqs?.length &&
                         <div className='kmq-card'>
                             <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
                             {
-                                data.kmqs?.filter(item => item[0] !== null)?.map((item, i) =>
+                                kmqData?.kmqs?.filter(item => item[0] !== null)?.map((item, i) =>
                                     <Popover placement="left" content={item[0]} overlayStyle={{ maxWidth: '900px' }} >
                                         <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[3] } })}>
                                             <div className='order-label'>{item[1]}</div>
-                                            <div className='order-count'>{item[3]}/{data?.data?.length}</div>
+                                            <div className='order-count'>{item[3] ? `${item[3]} / ${data?.data?.length}` : item[2]}</div>
                                         </div>
                                     </Popover>
                                 )

@@ -106,7 +106,6 @@ export default function ResultsModule() {
         }
     }, [isFetching])
 
-    console.log("@@@@@@", resultsState?.list)
 
     return (
         <div className='uniq-wrapper'>
@@ -211,8 +210,6 @@ const ResultCard = (props) => {
     )
     const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
 
-    // console.log("@@@@@", Percentages)
-
 
     function onSetDetails() {
         setSelectedResult({ label, description, text })
@@ -306,7 +303,7 @@ const ResultCard = (props) => {
                 }
                 {
                     (linerData.text || data.data) &&
-                    < div className='text-container'>
+                    <div className='text-container'>
                         <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
                     </div>
                 }
