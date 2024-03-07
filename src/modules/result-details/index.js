@@ -6,9 +6,9 @@ import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
 import { Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
-import { useDetailsIndex } from '@/hooks/use-details-index';
 import { useSearchContext } from '@/context/search-context';
 import { useDetailsKmq } from '@/hooks/use-details-kmq';
+import { useDetailsReference } from '@/hooks/use-details-reference';
 
 
 
@@ -56,17 +56,17 @@ export default function ResultDetailsModule() {
     }, () => { })
 
 
-    const { data: indexData = [], refetch: refetchIndexData, isFetching: isFetchingIndexData } = useDetailsIndex({
-        mecelle_id,
-        bolme_id: state.bolme_id,
-        fesil_id: state.fesil_id,
-        madde_id: state.madde_id,
-    }, () => { })
-
-
     const { data: kmqData = [], refetch: refetchKmqData, isFetching: isFetchingKmqData } = useDetailsKmq({
         mecelle_id,
     }, () => { })
+
+
+    const { data: refData = [], refetch: refetchRefData, isFetching: isFetchingRefData } = useDetailsReference({
+        mecelle_id,
+    }, () => { })
+
+
+    console.log('@@@@', refData)
 
 
     const onClickDownload = useReactToPrint({
@@ -133,11 +133,7 @@ export default function ResultDetailsModule() {
     React.useLayoutEffect(() => {
         if (!!data?.index)
             setState({ article: { type: 'item', index: data.index } })
-        if (!!indexData?.index)
-            setState({ article: { type: 'item', index: indexData.index } })
-        // if (!!referenceData?.index)
-        //     setState({ article: { type: 'item', index: referenceData.index } })
-    }, [indexData?.index, data?.index, data])
+    }, [data?.index, data])
 
 
     React.useLayoutEffect(() => {
@@ -182,7 +178,7 @@ export default function ResultDetailsModule() {
                                                 style={{ backgroundColor: backgroundColor }}
                                             >
                                                 {
-                                                    state.article?.index == item[1] &&
+                                                    state.article?.index == item[0] &&
                                                     <div className='item-selected'></div>
                                                 }
                                             </div>
@@ -294,7 +290,7 @@ export default function ResultDetailsModule() {
                             }
                         </div>
                     }
-                    <div className='reference-card' style={{ height: !data.kmqs?.length && "88vh" }}>
+                    <div className='reference-card' style={{ height: !kmqData?.kmqs?.length && "88vh" }}>
                         <div className='title'>Məcəlləyə edilmiş dəyişiklik və əlavələrin siyahısı</div>
                         {
                             isFetching &&
@@ -304,7 +300,7 @@ export default function ResultDetailsModule() {
                             </div>
                         }
                         {
-                            data.references?.map((item, i) =>
+                            refData?.map((item, i) =>
                                 <Popover placement="left" content={item[1]} overlayStyle={{ maxWidth: '600px' }} >
                                     <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[4] } })}>
                                         <div className='order-link-label truncate-2'>{item[1]}</div>
@@ -315,7 +311,6 @@ export default function ResultDetailsModule() {
                         }
                     </div>
                 </div>
-
 
                 <Modal
                     width={800}

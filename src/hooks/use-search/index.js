@@ -4,11 +4,11 @@ import { useQuery } from "react-query";
 
 export function useSearch(query, onSuccess) {
     const { data, isFetching, error, refetch } = useQuery(
-        ['search-data'],
+        ['search-data', query],
         () => getSearchData({ query_strig: query }),
         {
             refetchOnWindowFocus: false,
-            enabled: false,
+            enabled: !!query,
             onSuccess: onSuccess,
         }
     );

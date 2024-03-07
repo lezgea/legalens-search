@@ -30,6 +30,7 @@ import LegalensLogo from './legalens-logo.svg'
 import LinkIcon from './link.svg'
 import LayoutIcon from './layout.svg'
 import DownloadBoldIcon from './download-bold.svg'
+import CloseIcon from './close.svg'
 
 
 // FILLED ICON IMPORTS
@@ -72,6 +73,7 @@ export {
     LinkIcon,
     LayoutIcon,
     DownloadBoldIcon,
+    CloseIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,

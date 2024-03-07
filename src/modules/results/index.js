@@ -55,10 +55,8 @@ export default function ResultsModule() {
     const { resultsState, colors, setResultsState, setColors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
-    const [localSearchValues, setLocalSearchValues] = React.useState([])
-    const [localSearchString, setLocalSearchString] = React.useState('')
     // let localSearchString = ''
-    const { data = [], refetch, isFetching } = useUpadateSearch(localSearchString, () => { })
+    // const { data = [], refetch, isFetching } = useUpadateSearch(localSearchString, () => { })
 
 
 
@@ -77,34 +75,27 @@ export default function ResultsModule() {
     }
 
 
-    function updateSearchByItem(item) {
+    function removeSearchKey(item) {
         let newString = ''
-        let newSearchArr = localSearchValues?.filter(key => key !== item)
-        setLocalSearchValues(newSearchArr)
+        let newSearchArr = resultsState.searchKeys?.filter(key => key !== item)
         newSearchArr.map(item => newString = newString + ' ' + item)
-        setLocalSearchString(newString)
-        refetch()
+        setResultsState({ searchKeys: newSearchArr })
+        setSearchState({ searchValue: newString })
+        // setLocalSearchValues(newSearchArr)
+        // 
+        // setLocalSearchString(newString)
+        // refetch()
     }
 
 
-    React.useEffect(() => {
-        setLocalSearchString(searchState.searchValue)
-    }, [])
-
-
-    React.useEffect(() => {
-        setLocalSearchValues(resultsState.searchKeys)
-    }, [resultsState.searchKeys])
-
-
-    React.useEffect(() => {
-        setResultsState({ loading: isFetching })
-        if (!!data.length) {
-            setResultsState({ list: data[0], searchKeys: data[1] })
-        } else {
-            setResultsState({ list: [], searchKeys: [] })
-        }
-    }, [isFetching])
+    // React.useEffect(() => {
+    //     setResultsState({ loading: isFetching })
+    //     if (!!data.length) {
+    //         setResultsState({ list: data[0], searchKeys: data[1] })
+    //     } else {
+    //         setResultsState({ list: [], searchKeys: [] })
+    //     }
+    // }, [isFetching])
 
 
     return (
@@ -123,8 +114,8 @@ export default function ResultsModule() {
                                                 key={i}
                                                 color={colors[i]}
                                                 label={item}
-                                                active={!!localSearchValues.filter(sv => sv == item)?.length}
-                                                onClick={() => updateSearchByItem(item)}
+                                                hideClose={resultsState.searchKeys?.length > 1}
+                                                onClick={() => removeSearchKey(item)}
                                             />
                                         )
                                     }

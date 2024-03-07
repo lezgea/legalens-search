@@ -1,11 +1,11 @@
-import { getKmqData } from "@/api/details";
+import { getDetailsKmq } from "@/api/details";
 import { useQuery } from "react-query";
 
 
 export function useDetailsKmq({ mecelle_id }, onSuccess) {
     const { data = [], isFetching, error, refetch } = useQuery(
         ['details-kmq-data', mecelle_id],
-        () => getKmqData({ mecelle_id }),
+        () => getDetailsKmq({ mecelle_id }),
         {
             refetchOnWindowFocus: false,
             enabled: !!mecelle_id,

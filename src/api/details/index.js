@@ -9,12 +9,17 @@ export const getDetailsData = async ({ mecelle_id, madde_id, bolme_id, fesil_id,
 }
 
 
-export const getKmqData = async ({ mecelle_id }) => {
-    const { data } = await aiClient.get(
-        `/kmqs?mecelle_id=${mecelle_id}`,
-    )
+export const getDetailsKmq = async ({ mecelle_id }) => {
+    const { data } = await aiClient.get(`/kmqs?mecelle_id=${mecelle_id}`)
     return data
 }
+
+
+export const getDetailsReferences = async ({ mecelle_id }) => {
+    const { data } = await aiClient.get(`/references?mecelle_id=${mecelle_id}`)
+    return data
+}
+
 
 
 export const getDetailsIndex = async ({ mecelle_id, madde_id, bolme_id, fesil_id }) => {

@@ -1,14 +1,14 @@
-import { getDetailsReferenceIndex } from "@/api/details";
+import { getDetailsReferences } from "@/api/details";
 import { useQuery } from "react-query";
 
 
-export function useDetailsReference({ mecelle_id, ref_name, qtype }, onSuccess) {
+export function useDetailsReference({ mecelle_id }, onSuccess) {
     const { data = [], isFetching, error, refetch } = useQuery(
-        ['details-data-reference', mecelle_id, ref_name, qtype],
-        () => getDetailsReferenceIndex({ mecelle_id, ref_name, qtype }),
+        ['details-reference-data', mecelle_id],
+        () => getDetailsReferences({ mecelle_id }),
         {
             refetchOnWindowFocus: false,
-            enabled: !!ref_name || !!qtype,
+            enabled: !!mecelle_id,
             onSuccess: onSuccess,
         }
     );

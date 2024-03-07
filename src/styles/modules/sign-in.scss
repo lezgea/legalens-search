@@ -7,14 +7,14 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background-color: #000;
+    // background-color: #000;
     // animation: authBackgroundAnimation .5s ease-in-out;
 
     .bg-lines {
         font-size: 70em;
         // margin-left: 10em;
         padding-left: 15%;
-        animation: bgLinesAnimation 1.8s ease-in-out;
+        animation: bgLinesAnimation 1.5s ease-out;
     }
 
 
@@ -54,7 +54,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 35vw;
+            min-width: 28vw;
             padding: 30px 35px;
             border-radius: 15px;
             background-color: #ffffffc1;
@@ -83,6 +83,7 @@
 
                 .input {
                     height: 45px;
+                    border-radius: 10px;
                 }
             }
 
