@@ -253,6 +253,31 @@
             line-height: 145%;
         }
 
+        .adds {
+            text-align: center;
+            font-style: normal;
+            white-space: normal;
+            width: 100%;
+            text-wrap: wrap;
+            font-size: 14px;
+            padding: 0 20px;
+            border: 2px solid #fff;
+
+            h4 {
+                font-size: 18px;
+                line-height: 20px;
+                margin-bottom: 0;
+                margin-top: 5px;
+                color: #3996d5;
+            }
+
+            h5 {
+                font-size: 15px;
+                margin-bottom: 0;
+                margin-top: 5px;
+            }
+        }
+
         .text {
             text-align: start;
             font-style: normal;

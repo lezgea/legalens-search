@@ -9,6 +9,7 @@ import { useReactToPrint } from "react-to-print";
 import { useSearchContext } from '@/context/search-context';
 import { useDetailsKmq } from '@/hooks/use-details-kmq';
 import { useDetailsReference } from '@/hooks/use-details-reference';
+import { useDetailsAdds } from '@/hooks/use-details-adds';
 
 
 
@@ -61,12 +62,17 @@ export default function ResultDetailsModule() {
     }, () => { })
 
 
+    const { data: addsData = [], refetch: refetchAddsData, isFetching: isFetchingAddsData } = useDetailsAdds({
+        mecelle_id,
+    }, () => { })
+
+
     const { data: refData = [], refetch: refetchRefData, isFetching: isFetchingRefData } = useDetailsReference({
         mecelle_id,
     }, () => { })
 
 
-    console.log('@@@@', refData)
+    console.log('****', addsData)
 
 
     const onClickDownload = useReactToPrint({
@@ -252,7 +258,21 @@ export default function ResultDetailsModule() {
                                     )
                                 }
                                 {
-                                    // data?.data?.length && data.elave
+                                    addsData?.elave?.length && addsData.elave?.map((item, index) =>
+                                        <>
+                                            {
+                                                item[1].map((addItem, j) =>
+                                                    <div
+                                                        key={index}
+                                                        // className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
+                                                        className='adds'
+                                                        // ref={(element) => arrayRef.current[index] = element}
+                                                        dangerouslySetInnerHTML={{ __html: addItem }}
+                                                    ></div>
+                                                )
+                                            }
+                                        </>
+                                    )
                                 }
                             </div>
                     }

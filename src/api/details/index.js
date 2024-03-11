@@ -36,3 +36,9 @@ export const getDetailsReferenceIndex = async ({ mecelle_id, ref_name, qtype }) 
     )
     return data
 }
+
+
+export const getDetailsAdds = async ({ mecelle_id }) => {
+    const { data } = await aiClient.get(`/adds?mecelle_id=${mecelle_id}`)
+    return data
+}
