@@ -71,7 +71,6 @@ export default function ResultDetailsModule() {
         mecelle_id,
     }, () => { })
 
-
     console.log('****', addsData)
 
 
@@ -110,7 +109,7 @@ export default function ResultDetailsModule() {
 
     React.useEffect(() => {
         if (!!state.hashString) {
-            let selectedReference = data?.references?.find(item =>
+            let selectedReference = refData?.find(item =>
                 item[2] === state.hashString.split('#')[1]
             )
             setState({
@@ -258,42 +257,27 @@ export default function ResultDetailsModule() {
                                     )
                                 }
                                 {
-                                    addsData?.elave?.length && addsData.elave?.map((item, index) =>
-                                        <>
-                                            {
-                                                item[1].map((addItem, j) =>
-                                                    <div
-                                                        key={index}
-                                                        // className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
-                                                        className='adds'
-                                                        // ref={(element) => arrayRef.current[index] = element}
-                                                        dangerouslySetInnerHTML={{ __html: addItem }}
-                                                    ></div>
-                                                )
-                                            }
-                                        </>
-                                    )
+                                    // addsData?.elave?.length && addsData.elave?.map((item, index) =>
+                                    //     <>
+                                    //         {
+                                    //             item[1].map((addItem, j) =>
+                                    //                 <div
+                                    //                     key={index}
+                                    //                     // className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
+                                    //                     className='adds'
+                                    //                     // ref={(element) => arrayRef.current[index] = element}
+                                    //                     dangerouslySetInnerHTML={{ __html: addItem }}
+                                    //                 ></div>
+                                    //             )
+                                    //         }
+                                    //     </>
+                                    // )
                                 }
                             </div>
                     }
                 </div>
 
                 <div className='results-details-right-bar'>
-                    {/* <div className='card'>
-                        <div className='title'>Related</div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>Qanunvericilik</div>
-                            <Icon className='order-icon' component={LinkIcon} />
-                        </div>
-                        <div className='order-button'>
-                            <div className='order-link-label'>Rekvizit</div>
-                            <div className='order-buttons-wrapper'>
-                                <OrderButton type='pdf' />
-                                <OrderButton type='doc' />
-                                <OrderButton type='txt' />
-                            </div>
-                        </div>
-                    </div> */}
                     {
                         !!kmqData?.kmqs?.length &&
                         <div className='kmq-card'>
@@ -334,22 +318,12 @@ export default function ResultDetailsModule() {
 
                 <Modal
                     width={800}
-                    // title="Edit Item"
                     open={state.showRefModal}
                     onOk={() => setState({ showRefModal: false })}
                     onCancel={() => setState({ showRefModal: false })}
-                    footer={[
-
-                    ]}
+                    footer={[]}
                 >
-                    {
-                        state.referenceText
-                        // !!data?.references?.length &&
-                        // <div>
-                        //     {/* kldsklfslksdlkksdfkslkfsdklflksdlkf */}
-                        //     {data?.references[1]}
-                        // </div>
-                    }
+                    {state.referenceText}
                 </Modal>
             </div>
         </div >

@@ -114,7 +114,7 @@ export default function ResultsModule() {
                                                 key={i}
                                                 color={colors[i]}
                                                 label={item}
-                                                hideClose={resultsState.searchKeys?.length > 1}
+                                                showClose={resultsState.searchKeys?.length > 1}
                                                 onClick={() => removeSearchKey(item)}
                                             />
                                         )
