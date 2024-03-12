@@ -223,6 +223,16 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-content'>
+                    <div className='scroll-to-top'>
+                        <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
+                    </div>
+                    <div className='scroll-to-bottom'>
+                        <ActionButton
+                            color='blue'
+                            onClick={() => window.scrollTo({ bottom: 0, behavior: 'smooth' })}
+                            icon={DownloadIcon}
+                        />
+                    </div>
                     <div className='header-icons-wrapper'>
                         <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />

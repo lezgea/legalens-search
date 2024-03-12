@@ -130,7 +130,7 @@
                 .line {
                     height: 1px;
                     min-width: 50px;
-                    margin-left: 20px;
+                    margin-left: 5cqb;
                     margin-right: 10px;
                     background-color: #CFCFDD;
                     margin-right: 0;
@@ -183,6 +183,36 @@
             font-weight: 500;
             font-size: 18px;
         }
+    }
+
+    .scroll-to-top {
+        border-radius: 30px;
+        left: 10px;
+        top: 10px;
+        gap: 10px;
+        padding: 10px;
+        position: absolute;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: flex-end;
+        background-color: rgb(255, 255, 255, .5);
+        backdrop-filter: blur(10px);
+    }
+
+    .scroll-to-bottom {
+        border-radius: 30px;
+        left: 10px;
+        bottom: 10px;
+        gap: 10px;
+        padding: 10px;
+        position: absolute;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: flex-end;
+        background-color: rgb(255, 255, 255, .5);
+        backdrop-filter: blur(10px);
     }
 
     .header-icons-wrapper {

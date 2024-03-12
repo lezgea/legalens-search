@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Image, Button, Switch, Checkbox } from "antd";
 import Link from 'next/link';
-import { GoogleIcon, AuthBgLines, LegalensLogoWhite } from '@/assets/icons';
+import { GoogleIcon, AuthBgLines, LegalensLogoWhite, LegalensLogo } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import Icon from '@ant-design/icons';
 import { FloatInput } from '@/components/small';
@@ -24,10 +24,10 @@ export default function SignUpModule() {
 
     return (
         <div className='sign-in-container'>
-            <Icon component={AuthBgLines} className='bg-lines' />
+            {/* <Icon component={AuthBgLines} className='bg-lines' /> */}
             <div className='sign-in-wrapper'>
                 <Link href='/' className='white-logo-wrapper'>
-                    <Icon component={LegalensLogoWhite} className='white-logo' />
+                    <Icon component={LegalensLogo} className='white-logo' />
                 </Link>
                 <Form
                     className='sign-in-card'
