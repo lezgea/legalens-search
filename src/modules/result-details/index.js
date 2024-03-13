@@ -198,6 +198,36 @@ export default function ResultDetailsModule() {
                                     let percent = (item[2] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
 
+                                    // if (index == (data.bolme_info.length - 1)) {
+                                    //     return (
+                                    //         <div
+                                    //             key={index}
+                                    //             className='item-wrapper'
+                                    //             style={{ top: marginTop }}
+                                    //             onClick={() => setState({ article: { type: 'section', index: item[0] } })
+                                    //             }
+                                    //         >
+                                    //             <div className='line' />
+                                    //             <div className='label'>Əlavələr</div>
+                                    //         </div>
+                                    //     )
+                                    // }
+
+                                    // if (index == (data.bolme_info.length - 2)) {
+                                    //     return (
+                                    //         <div
+                                    //             key={index}
+                                    //             className='item-wrapper'
+                                    //             style={{ top: marginTop }}
+                                    //             onClick={() => setState({ article: { type: 'section', index: item[0] } })
+                                    //             }
+                                    //         >
+                                    //             <div className='line' />
+                                    //             <div className='label'>Dəyişikliklər</div>
+                                    //         </div>
+                                    //     )
+                                    // }
+
                                     return (
                                         <div
                                             key={index}

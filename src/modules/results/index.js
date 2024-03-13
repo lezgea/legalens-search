@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Modal } from 'antd';
+import { Checkbox, Modal, Spin } from 'antd';
 import { Header } from '@/components/large';
 import { SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
@@ -22,9 +22,7 @@ import Icon from '@ant-design/icons';
 import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
 import { useCrop } from '@/hooks/use-crop';
-import Loader from '@/components/large/loader';
 import { useSearchContext } from '@/context/search-context';
-import { useSearch, useUpadateSearch } from '@/hooks/use-search';
 
 const { Search } = Input;
 
@@ -55,9 +53,6 @@ export default function ResultsModule() {
     const { resultsState, colors, setResultsState, setColors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
-    // let localSearchString = ''
-    // const { data = [], refetch, isFetching } = useUpadateSearch(localSearchString, () => { })
-
 
 
     function handleShowModal() {
@@ -81,21 +76,16 @@ export default function ResultsModule() {
         newSearchArr.map(item => newString = newString + ' ' + item)
         setResultsState({ searchKeys: newSearchArr })
         setSearchState({ searchValue: newString })
-        // setLocalSearchValues(newSearchArr)
-        // 
-        // setLocalSearchString(newString)
-        // refetch()
     }
 
 
-    // React.useEffect(() => {
-    //     setResultsState({ loading: isFetching })
-    //     if (!!data.length) {
-    //         setResultsState({ list: data[0], searchKeys: data[1] })
-    //     } else {
-    //         setResultsState({ list: [], searchKeys: [] })
-    //     }
-    // }, [isFetching])
+    function onScrollText(e) {
+        const { scrollTop, scrollHeight, clientHeight } = e.target
+        if (scrollTop == ((scrollHeight - clientHeight) - 0.5)) {
+            console.log('$$$$', scrollTop)
+            setSearchState({ offset: searchState.offset + 1 })
+        }
+    }
 
 
     return (
@@ -104,7 +94,10 @@ export default function ResultsModule() {
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
-                    <div className='results-list-wrapper'>
+                    <div
+                        className='results-list-wrapper'
+                        onScroll={onScrollText}
+                    >
                         <div className='list-header-wrapper'>
                             <div className='list-header'>
                                 <div className='filter-items-wrapper'>
@@ -152,6 +145,12 @@ export default function ResultsModule() {
                             !resultsState.loading && !resultsState?.list?.length &&
                             <div className='empty-content'>
                                 <Empty description={'Məlumat Tapılmadı'} />
+                            </div>
+                        }
+                        {
+                            resultsState.loading && !resultsState?.list?.length &&
+                            <div className='list-loader'>
+                                <Spin size="large" />
                             </div>
                         }
                     </div>

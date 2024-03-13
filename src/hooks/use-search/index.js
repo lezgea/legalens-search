@@ -2,13 +2,13 @@ import { getSearchData } from "@/api/search";
 import { useQuery } from "react-query";
 
 
-export function useSearch(query, onSuccess) {
+export function useSearch({ query, offset }, onSuccess) {
     const { data, isFetching, error, refetch } = useQuery(
-        ['search-data', query],
-        () => getSearchData({ query_strig: query }),
+        ['search-data', query, offset],
+        () => getSearchData({ query_strig: query, offset: offset }),
         {
             refetchOnWindowFocus: false,
-            enabled: !!query,
+            enabled: !!query || !!offset,
             onSuccess: onSuccess,
         }
     );

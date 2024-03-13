@@ -21,15 +21,19 @@ export const Header = (props) => {
     let { hideSearch } = props
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, setColors } = useResultsContext()
+    const { resultsState, setResultsState, setColors } = useResultsContext()
 
-    const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
 
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
         if (!!data.length) {
-            setResultsState({ list: data[0], searchKeys: data[1] })
+            if (searchState.offset > 1) {
+                setResultsState({ list: resultsState.list.concat(data[0]) })
+            } else {
+                setResultsState({ list: data[0], searchKeys: data[1] })
+            }
             setColors([...Object.values(data[2])])
         } else {
             setResultsState({ list: [], searchKeys: [] })
@@ -39,6 +43,7 @@ export const Header = (props) => {
 
 
     async function getSearchDataAndKeys() {
+        setSearchState({ offset: 1 })
         refetch()
         router.push('/results')
     }

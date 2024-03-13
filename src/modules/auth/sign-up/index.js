@@ -67,7 +67,6 @@ export default function SignUpModule() {
                         onChange={(e) => setState({ password_confirmation: e.target.value })}
                     />
 
-
                     {/* <div className='bottom-line-wrapper'>
                         <div className='remember-me-wrapper'>
                             <Switch
@@ -78,9 +77,18 @@ export default function SignUpModule() {
                                 onChange={() => setRemember(!remember)}
                             />
                             <div className='remember-title'>Remember me</div>
-                        </div>
+                        </div> 
                         <Link className='forgot-link' href='/forgot-password'>Forgot password?</Link>
                     </div> */}
+                    <div className='checkbox-wrapper'>
+                        <Checkbox value="A"></Checkbox>
+                        <div className='checkbox-label'>
+                            <Link href='/terms-conditions' className='link'>Istifadəçi şərtləri və qaydaları</Link>
+                            &
+                            <Link href='/privacy-policy' className='link'>məxfilik siyasəti</Link> ilə razıyam
+                        </div>
+                    </div>
+
                     <Button
                         icon={<GoogleIcon />}
                         className='google-button'

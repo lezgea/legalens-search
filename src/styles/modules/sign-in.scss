@@ -53,9 +53,9 @@
         .sign-in-card {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            // align-items: center;
             justify-content: center;
-            min-width: 28vw;
+            min-width: 500px;
             padding: 30px 35px;
             border-radius: 20px;
             background-color: #ffffffc1;
@@ -161,6 +161,21 @@
                     margin-left: 10px;
                     font-weight: 500;
                     color: #007AFF;
+                }
+            }
+
+            .checkbox-wrapper {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+
+                .checkbox-label {
+                    margin-left: 5px;
+
+                    .link {
+                        font-weight: 500;
+                        margin: 0 5px;
+                    }
                 }
             }
         }
