@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Modal } from 'antd';
+import { Checkbox, Modal, Spin } from 'antd';
 import { Header } from '@/components/large';
 import { SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
@@ -22,7 +22,7 @@ import Icon from '@ant-design/icons';
 import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
 import { useCrop } from '@/hooks/use-crop';
-import Loader from '@/components/large/loader';
+import { useSearchContext } from '@/context/search-context';
 
 const { Search } = Input;
 
@@ -49,7 +49,8 @@ const bottomLeftActions = [
 
 
 export default function ResultsModule() {
-    const { resultsState, colors } = useResultsContext()
+    const { searchState, setSearchState } = useSearchContext()
+    const { resultsState, colors, setResultsState, setColors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
 
@@ -69,19 +70,46 @@ export default function ResultsModule() {
     }
 
 
+    function removeSearchKey(item) {
+        let newString = ''
+        let newSearchArr = resultsState.searchKeys?.filter(key => key !== item)
+        newSearchArr.map(item => newString = newString + ' ' + item)
+        setResultsState({ searchKeys: newSearchArr })
+        setSearchState({ searchValue: newString })
+    }
+
+
+    function onScrollText(e) {
+        const { scrollTop, scrollHeight, clientHeight } = e.target
+        if (scrollTop == ((scrollHeight - clientHeight) - 0.5)) {
+            console.log('$$$$', scrollTop)
+            setSearchState({ offset: searchState.offset + 1 })
+        }
+    }
+
+
     return (
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
-                    <div className='results-list-wrapper'>
+                    <div
+                        className='results-list-wrapper'
+                        onScroll={onScrollText}
+                    >
                         <div className='list-header-wrapper'>
                             <div className='list-header'>
                                 <div className='filter-items-wrapper'>
                                     {
                                         !!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) =>
-                                            <SearchKey key={i} color={colors[i]} label={item} />
+                                            <SearchKey
+                                                key={i}
+                                                color={colors[i]}
+                                                label={item}
+                                                showClose={resultsState.searchKeys?.length > 1}
+                                                onClick={() => removeSearchKey(item)}
+                                            />
                                         )
                                     }
                                 </div>
@@ -105,9 +133,9 @@ export default function ResultsModule() {
                                 <ResultCard
                                     key={i}
                                     index={i}
-                                    {...item[1]}
+                                    {...item[2]}
                                     item={item}
-                                    text={item[1].Crop}
+                                    text={item[2].Crop}
                                     cardIndex={cardIndex}
                                     setCardIndex={setCardIndex}
                                 />
@@ -117,6 +145,12 @@ export default function ResultsModule() {
                             !resultsState.loading && !resultsState?.list?.length &&
                             <div className='empty-content'>
                                 <Empty description={'Məlumat Tapılmadı'} />
+                            </div>
+                        }
+                        {
+                            resultsState.loading && !resultsState?.list?.length &&
+                            <div className='list-loader'>
+                                <Spin size="large" />
                             </div>
                         }
                     </div>
@@ -148,6 +182,7 @@ const ResultCard = (props) => {
         madde_id,
         bolme_id,
         fesil_id,
+        mecelle_id,
         index,
         cardIndex,
         setCardIndex,
@@ -164,8 +199,6 @@ const ResultCard = (props) => {
         }
     )
     const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
-
-    let mecelle_id = Percentages[0][3]?.split('.')[0]
 
 
     function onSetDetails() {
@@ -195,7 +228,6 @@ const ResultCard = (props) => {
     React.useEffect(() => {
         setLinerData({ loading: false })
         if (!!linerData.crop_id) {
-            console.log('@@@@', isFetching)
             setLinerData({
                 text: data?.data,
                 loading: false,
@@ -230,8 +262,8 @@ const ResultCard = (props) => {
                     <div className='linear-filter' onClick={(e) => e?.preventDefault()}>
                         {
                             linerData?.data?.map((item, i) => {
-                                let backgroundColor = colors[item[1]]
-                                let marginLeft = `${(item[2] * 100)}%`
+                                let backgroundColor = item[2]
+                                let marginLeft = `${(item[1] * 100)}%`
 
                                 return (
                                     <div
@@ -240,7 +272,7 @@ const ResultCard = (props) => {
                                         style={{ marginLeft: marginLeft }}
                                         onClick={(e) => {
                                             e?.preventDefault();
-                                            onSelectCrop(item[3]);
+                                            onSelectCrop(item[0]);
                                             setCardIndex(index);
                                         }}
                                     >
@@ -261,7 +293,7 @@ const ResultCard = (props) => {
                 }
                 {
                     (linerData.text || data.data) &&
-                    < div className='text-container'>
+                    <div className='text-container'>
                         <div className={`text${cardIndex == index ? "-full" : ""} truncate`} dangerouslySetInnerHTML={{ __html: linerData.text || data.data }}></div>
                     </div>
                 }

@@ -1,11 +1,11 @@
-import { getDetailsReferences } from "@/api/details";
+import { getDetailsAdds, getDetailsKmq } from "@/api/details";
 import { useQuery } from "react-query";
 
 
-export function useDetailsReference({ mecelle_id }, onSuccess) {
+export function useDetailsAdds({ mecelle_id }, onSuccess) {
     const { data = [], isFetching, error, refetch } = useQuery(
-        ['details-reference-data', mecelle_id],
-        () => getDetailsReferences({ mecelle_id }),
+        ['details-adds-data', mecelle_id],
+        () => getDetailsAdds({ mecelle_id }),
         {
             refetchOnWindowFocus: false,
             enabled: !!mecelle_id,

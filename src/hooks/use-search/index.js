@@ -2,13 +2,28 @@ import { getSearchData } from "@/api/search";
 import { useQuery } from "react-query";
 
 
-export function useSearch(query, onSuccess) {
+export function useSearch({ query, offset }, onSuccess) {
     const { data, isFetching, error, refetch } = useQuery(
-        ['search-data'],
+        ['search-data', query, offset],
+        () => getSearchData({ query_strig: query, offset: offset }),
+        {
+            refetchOnWindowFocus: false,
+            enabled: !!query || !!offset,
+            onSuccess: onSuccess,
+        }
+    );
+
+    return { data, refetch, isFetching };
+}
+
+
+export function useUpadateSearch(query, onSuccess) {
+    const { data, isFetching, error, refetch } = useQuery(
+        ['update-search-data', query],
         () => getSearchData({ query_strig: query }),
         {
             refetchOnWindowFocus: false,
-            enabled: false,
+            enabled: !!query,
             onSuccess: onSuccess,
         }
     );

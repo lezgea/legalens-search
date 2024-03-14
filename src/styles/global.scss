@@ -73,7 +73,7 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1px 7px;
+  padding: 0 7px;
   border-radius: 15px;
   color: #fff;
   background-color: #000;
@@ -225,4 +225,17 @@ img {
 
 .line-through {
   text-decoration: line-through;
+}
+
+
+.list-loader {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.ant-form-item {
+  margin-bottom: 0;
 }

@@ -5,8 +5,8 @@ import Loader from '@/components/large/loader';
 
 
 
-const ResultsModule = dynamic(
-    () => import('@/modules/results'),
+const PrivacyPolicyModule = dynamic(
+    () => import('@/modules/privacy-policy'),
     {
         ssr: false,
         loading: Loader,
@@ -17,12 +17,11 @@ const ResultsModule = dynamic(
 export default function ResultsPage() {
     return (
         <>
-
             <Head>
-                <title>Legalens | Results Page</title>
+                <title>Legalens | Privacy Policy Page</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <ResultsModule />
+            <PrivacyPolicyModule />
         </>
     );
 }

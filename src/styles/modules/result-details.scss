@@ -45,7 +45,7 @@
         // padding: 0 0 70px 0;
         height: 90vh;
         // position: relative;
-        margin-left: 10px;
+        // margin-left: 10px;
         // background-color: #5349D7;
 
         .left-liner-filter {
@@ -73,15 +73,29 @@
                 cursor: pointer;
 
                 .item-marker {
+                    position: relative;
                     // left: 0;
                     height: 7px;
                     // position: absolute;
                     width: 32px;
                     border-radius: 15px;
-                    // border: 1px solid #000000;
+                    border: 1px solid rgba(255, 255, 255, 0.338);
                     // padding: 5px;
                     background-color: #85be24;
                     animation: verticalLinerFilterItemAnimation .5s ease-in-out;
+                }
+
+                .item-selected {
+                    position: absolute;
+                    top: -5px;
+                    left: -5px;
+                    width: 42px;
+                    height: 17px;
+                    background: #efd5f61e;
+                    z-index: 200;
+                    backdrop-filter: blur(3px);
+                    border: 2px solid #a009eb;
+                    border-radius: 10px;
                 }
 
                 &:hover {
@@ -116,7 +130,7 @@
                 .line {
                     height: 1px;
                     min-width: 50px;
-                    margin-left: 20px;
+                    margin-left: 5px;
                     margin-right: 10px;
                     background-color: #CFCFDD;
                     margin-right: 0;
@@ -169,6 +183,36 @@
             font-weight: 500;
             font-size: 18px;
         }
+    }
+
+    .scroll-to-top {
+        border-radius: 30px;
+        left: 10px;
+        top: 10px;
+        gap: 10px;
+        padding: 10px;
+        position: absolute;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: flex-end;
+        background-color: rgb(255, 255, 255, .5);
+        backdrop-filter: blur(10px);
+    }
+
+    .scroll-to-bottom {
+        border-radius: 30px;
+        left: 10px;
+        bottom: 10px;
+        gap: 10px;
+        padding: 10px;
+        position: absolute;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: flex-end;
+        background-color: rgb(255, 255, 255, .5);
+        backdrop-filter: blur(10px);
     }
 
     .header-icons-wrapper {
@@ -237,6 +281,31 @@
             font-style: normal;
             font-weight: 400;
             line-height: 145%;
+        }
+
+        .adds {
+            text-align: center;
+            font-style: normal;
+            white-space: normal;
+            width: 100%;
+            text-wrap: wrap;
+            font-size: 14px;
+            padding: 0 20px;
+            border: 2px solid #fff;
+
+            h4 {
+                font-size: 18px;
+                line-height: 20px;
+                margin-bottom: 0;
+                margin-top: 5px;
+                color: #3996d5;
+            }
+
+            h5 {
+                font-size: 15px;
+                margin-bottom: 0;
+                margin-top: 5px;
+            }
         }
 
         .text {

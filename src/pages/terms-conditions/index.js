@@ -5,8 +5,8 @@ import Loader from '@/components/large/loader';
 
 
 
-const ResultsModule = dynamic(
-    () => import('@/modules/results'),
+const TermsConditionsModule = dynamic(
+    () => import('@/modules/terms-conditions'),
     {
         ssr: false,
         loading: Loader,
@@ -14,15 +14,14 @@ const ResultsModule = dynamic(
 )
 
 
-export default function ResultsPage() {
+export default function TermsConditionsPage() {
     return (
         <>
-
             <Head>
-                <title>Legalens | Results Page</title>
+                <title>Legalens | Terms & Conditions Page</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <ResultsModule />
+            <TermsConditionsModule />
         </>
     );
 }

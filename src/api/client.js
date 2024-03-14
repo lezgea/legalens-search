@@ -4,14 +4,15 @@ import { getAccessToken, removeAuthCookies, setAuthCookies } from '../utils';
 
 const authToken = getAccessToken();
 const BACK_URL = "https://legalens-back.ailab.az";
-const AI_URL = "https://legalens-api.ailab.az";
+// const DEV_AI_URL = "https://legalens-api.ailab.az";
+const PROD_AI_URL = "https://legalens-prod.ailab.az";
 
 
 export const backClient = axios.create({
     baseURL: BACK_URL + '/v1',
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`,
+        // Authorization: `Bearer ${authToken}`,
     },
     paramsSerializer: params => {
         return qs.stringify(params, { indices: false });
@@ -20,7 +21,8 @@ export const backClient = axios.create({
 
 
 export const aiClient = axios.create({
-    baseURL: AI_URL,
+    // baseURL: DEV_AI_URL,
+    baseURL: PROD_AI_URL,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
@@ -47,8 +49,8 @@ clientPermission.interceptors.request.use(
         const accessToken = getAccessToken();
 
         if (!accessToken) {
-            location.href = '/login';
-            return config;
+            // location.href = '/login';
+            // return config;
         }
 
         if (accessToken) {
@@ -91,8 +93,8 @@ backClient.interceptors.request.use(
         const accessToken = getAccessToken();
 
         if (!accessToken) {
-            location.href = '/login';
-            return config;
+            // location.href = '/login';
+            // return config;
         }
 
         if (accessToken) {
@@ -155,7 +157,7 @@ backClient.interceptors.response.use(
             }
         } else if (error?.response && error?.response?.status === 401 && !originalRequest._retry) {
             removeAuthCookies();
-            window.location.href = '/login';
+            // window.location.href = '/login';
         }
         return Promise.reject(error);
     },

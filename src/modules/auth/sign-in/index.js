@@ -20,7 +20,7 @@ export default function SignInModule() {
 
     return (
         <div className='sign-in-container'>
-            <Icon component={AuthBgLines} className='bg-lines' />
+            {/* <Icon component={AuthBgLines} className='bg-lines' /> */}
             <div className='sign-in-wrapper'>
                 <Link href='/' className='white-logo-wrapper'>
                     <Icon component={LegalensLogoWhite} className='white-logo' />
