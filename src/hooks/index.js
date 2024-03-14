@@ -6,4 +6,5 @@ export * from './use-details-kmq'
 export * from './use-details-adds'
 export * from './use-details-reference'
 export * from './use-register-user'
+export * from './use-notification'
 

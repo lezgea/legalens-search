@@ -3,7 +3,7 @@ import { Poppins } from 'next/font/google'
 import { SearchContextProvider } from '../context'
 import { ResultsContextProvider } from '@/context/results-context'
 import { QueryClient, QueryClientProvider } from "react-query";
-import Router from 'next/router';
+import { SnackbarProvider } from 'notistack';
 // import "antd/dist/antd.css";
 
 
@@ -19,11 +19,13 @@ export default function MyApp({ Component, pageProps }) {
     return (
         <QueryClientProvider client={queryClient}>
             <main className={poppins.className}>
-                <SearchContextProvider>
-                    <ResultsContextProvider>
-                        <Component {...pageProps} />
-                    </ResultsContextProvider>
-                </SearchContextProvider>
+                <SnackbarProvider>
+                    <SearchContextProvider>
+                        <ResultsContextProvider>
+                            <Component {...pageProps} />
+                        </ResultsContextProvider>
+                    </SearchContextProvider>
+                </SnackbarProvider>
             </main >
         </QueryClientProvider>
     )

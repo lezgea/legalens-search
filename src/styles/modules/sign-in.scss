@@ -32,7 +32,7 @@
 
         .white-logo-wrapper {
             // position: absolute;
-            top: 3em;
+            // top: 3em;
             // max-height: 13em;
             padding: 0 !important;
             // padding-bottom: 20px;
@@ -41,10 +41,11 @@
             .white-logo {
                 cursor: pointer;
                 // width: 25vw;
-                height: 50px;
-                font-size: 12em;
-                margin-bottom: 0;
-                line-height: 1;
+                // height: 50px;
+                font-size: 10em;
+                // margin-bottom: 0;
+                bottom: 0;
+                // line-height: 1;
                 color: #fff !important;
             }
         }

@@ -71,8 +71,6 @@ export default function ResultDetailsModule() {
         mecelle_id,
     }, () => { })
 
-    console.log('****', addsData)
-
 
     const onClickDownload = useReactToPrint({
         onBeforePrint: () => document.title = `Məcəllə`,
@@ -198,36 +196,6 @@ export default function ResultDetailsModule() {
                                     let percent = (item[2] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
 
-                                    // if (index == (data.bolme_info.length - 1)) {
-                                    //     return (
-                                    //         <div
-                                    //             key={index}
-                                    //             className='item-wrapper'
-                                    //             style={{ top: marginTop }}
-                                    //             onClick={() => setState({ article: { type: 'section', index: item[0] } })
-                                    //             }
-                                    //         >
-                                    //             <div className='line' />
-                                    //             <div className='label'>Əlavələr</div>
-                                    //         </div>
-                                    //     )
-                                    // }
-
-                                    // if (index == (data.bolme_info.length - 2)) {
-                                    //     return (
-                                    //         <div
-                                    //             key={index}
-                                    //             className='item-wrapper'
-                                    //             style={{ top: marginTop }}
-                                    //             onClick={() => setState({ article: { type: 'section', index: item[0] } })
-                                    //             }
-                                    //         >
-                                    //             <div className='line' />
-                                    //             <div className='label'>Dəyişikliklər</div>
-                                    //         </div>
-                                    //     )
-                                    // }
-
                                     return (
                                         <div
                                             key={index}
@@ -253,7 +221,7 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-content'>
-                    <div className='scroll-to-top'>
+                    {/* <div className='scroll-to-top'>
                         <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
                     </div>
                     <div className='scroll-to-bottom'>
@@ -262,7 +230,7 @@ export default function ResultDetailsModule() {
                             onClick={() => window.scrollTo({ bottom: 0, behavior: 'smooth' })}
                             icon={DownloadIcon}
                         />
-                    </div>
+                    </div> */}
                     <div className='header-icons-wrapper'>
                         <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
