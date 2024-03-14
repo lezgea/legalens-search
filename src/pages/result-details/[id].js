@@ -21,7 +21,7 @@ export default function ResultDetailsPage() {
                 <title>Legalens | Result Details Page</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <ResultDetailsModule />
+            {/* <ResultDetailsModule /> */}
         </>
     );
 }
