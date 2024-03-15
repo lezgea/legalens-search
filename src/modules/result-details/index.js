@@ -4,7 +4,7 @@ import { Header } from '@/components/large'
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
-import { Modal, Popover } from 'antd';
+import { Input, Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import { useSearchContext } from '@/context/search-context';
 import { useDetailsKmq } from '@/hooks/use-details-kmq';
@@ -20,6 +20,8 @@ export default function ResultDetailsModule() {
     const { id } = router.query
     const componentRef = React.useRef()
     const arrayRef = React.useRef([]);
+    const [showSearch, setShowSearch] = React.useState(false)
+    const [innerSearchValue, setInnerSearchValue] = React.useState('')
 
     let idItems = id.split('_')
     const bolme_id = idItems[0]
@@ -88,6 +90,11 @@ export default function ResultDetailsModule() {
     const handleClick = (event) => {
         const { clientX, clientY } = event;
         setClickPosition({ x: clientX, y: clientY });
+    }
+
+
+    function getInnerSearchData() {
+
     }
 
 
@@ -193,7 +200,7 @@ export default function ResultDetailsModule() {
                         <div className='item-filters-wrapper'>
                             {
                                 data?.bolme_info?.length && data?.bolme_info?.map((item, index) => {
-                                    let percent = (item[2] * 100).toString()?.split('.')[0]
+                                    let percent = (item[3] * 100).toString()?.split('.')[0]
                                     let marginTop = `${percent}%`
 
                                     return (
@@ -207,10 +214,10 @@ export default function ResultDetailsModule() {
                                             <div className='line' />
                                             <Popover
                                                 placement="right"
-                                                content={<div dangerouslySetInnerHTML={{ __html: item[1] }}></div>}
+                                                content={<div dangerouslySetInnerHTML={{ __html: item[2] }}></div>}
                                                 overlayStyle={{ maxWidth: '600px' }}
                                             >
-                                                <div className='label'>{`Bölmə ${index + 1}`}</div>
+                                                <div className='label' dangerouslySetInnerHTML={{ __html: item[1] }}></div>
                                             </Popover>
                                         </div>
                                     )
@@ -232,7 +239,19 @@ export default function ResultDetailsModule() {
                         />
                     </div> */}
                     <div className='header-icons-wrapper'>
-                        <ActionButton color='blue' onClick={() => { }} icon={SearchIcon} />
+                        {
+                            showSearch
+                                ?
+                                <Input
+                                    value={innerSearchValue}
+                                    className='inner-search-input'
+                                    placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
+                                    onChange={(e) => setInnerSearchValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && getInnerSearchData()}
+                                />
+                                :
+                                <ActionButton color='blue' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
+                        }
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={onClickDownload} icon={DownloadIcon} />
                     </div>

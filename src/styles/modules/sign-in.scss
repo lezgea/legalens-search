@@ -7,12 +7,9 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    // background-color: #000;
-    // animation: authBackgroundAnimation .5s ease-in-out;
 
     .bg-lines {
         font-size: 70em;
-        // margin-left: 10em;
         padding-left: 15%;
         animation: bgLinesAnimation 1.5s ease-out;
     }
@@ -26,26 +23,18 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        // gap: 30px;
-        // background-color: #000;
 
 
-        .white-logo-wrapper {
-            // position: absolute;
-            // top: 3em;
-            // max-height: 13em;
-            padding: 0 !important;
-            // padding-bottom: 20px;
+        .logo-wrapper {
+            margin-bottom: 20px;
             animation: whiteLogoAnimation 1s ease-in-out;
 
-            .white-logo {
+            .logo {
                 cursor: pointer;
-                // width: 25vw;
-                // height: 50px;
-                font-size: 10em;
-                // margin-bottom: 0;
+                width: 200px;
+                height: 50px;
+                font-size: 12em;
                 bottom: 0;
-                // line-height: 1;
                 color: #fff !important;
             }
         }
@@ -54,13 +43,11 @@
         .sign-in-card {
             display: flex;
             flex-direction: column;
-            // align-items: center;
             justify-content: center;
             min-width: 500px;
             padding: 30px 35px;
             border-radius: 20px;
             background-color: #ffffffc1;
-            // backdrop-filter: blur(20px);
             gap: 15px;
             user-select: none;
             animation: forgotWrapperAnimation 1s ease-in-out;
@@ -101,7 +88,6 @@
                 .remember-me-wrapper {
                     display: flex;
                     align-items: center;
-                    // justify-content: space-between;
 
                     .remember-title {
                         margin-left: 10px;

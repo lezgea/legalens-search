@@ -47,10 +47,8 @@ export default function SignUpModule() {
         )
     }
 
-    console.log('$$$$$', isSuccess)
 
     function onFinishForm(values) {
-        // console.log('@@@@@@@@', values)
         registerUser(
             {
                 email: values.email,
@@ -71,8 +69,13 @@ export default function SignUpModule() {
     return (
         <div className='sign-in-container'>
             <div className='sign-in-wrapper'>
-                <Link href='/' className='white-logo-wrapper'>
-                    <Icon component={LegalensLogo} className='white-logo' />
+                <Link href='/' className='logo-wrapper'>
+                    <Image
+                        src='/assets/SVG/legalens-logo.svg'
+                        className='logo'
+                        preview={false}
+                        onClick={() => router.push('/')}
+                    />
                 </Link>
                 <Form
                     className='sign-in-card'

@@ -8,9 +8,7 @@
     padding: 20px;
     padding-bottom: 0;
     padding-top: 75px;
-    // padding-top: 100px;
     border-radius: 6px;
-    // box-shadow: -21px 0px 56px -19px rgba(16, 32, 90, 0.07);
     position: relative;
 }
 
@@ -42,15 +40,10 @@
 
     .left-liner-filter-wrapper {
         display: flex;
-        // padding: 0 0 70px 0;
         height: 90vh;
-        // position: relative;
-        // margin-left: 10px;
-        // background-color: #5349D7;
 
         .left-liner-filter {
             height: 87vh;
-            // height: 100%;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -65,7 +58,6 @@
 
             .item {
                 position: absolute;
-                // height: 100%;
                 width: 32px;
                 height: 7px;
                 border-radius: 10px;
@@ -74,13 +66,10 @@
 
                 .item-marker {
                     position: relative;
-                    // left: 0;
                     height: 7px;
-                    // position: absolute;
                     width: 32px;
                     border-radius: 15px;
                     border: 1px solid rgba(255, 255, 255, 0.338);
-                    // padding: 5px;
                     background-color: #85be24;
                     animation: verticalLinerFilterItemAnimation .5s ease-in-out;
                 }
@@ -167,19 +156,15 @@
     background: #FFF;
     box-shadow: 0px 4px 53px -10px rgba(24, 41, 86, 0.11);
     margin-right: 10px;
-    // max-height: calc(100vh - 90px);
     overflow: hidden;
 
     .article-label-wrapper {
         padding: 5px 10px 2px 20px;
-        // font-weight: 500;
-        // font-size: 18px;
         background-color: rgb(255, 255, 255, .5);
         backdrop-filter: blur(10px);
 
         .article-label {
             text-align: center;
-            // padding: 10xp 10px 0 20px;
             font-weight: 500;
             font-size: 18px;
         }
@@ -216,19 +201,16 @@
     }
 
     .header-icons-wrapper {
-        // width: 100%;
-        border-radius: 30px;
-        right: 10px;
-        top: 10px;
+        border-radius: 20px;
         gap: 10px;
         padding: 10px;
+        width: 100%;
         position: absolute;
         display: flex;
         flex-shrink: 0;
         align-items: center;
         justify-content: flex-end;
-        background-color: rgb(255, 255, 255, .5);
-        backdrop-filter: blur(10px);
+        background-color: #fff;
     }
 
     .text-wrapper {
@@ -406,12 +388,7 @@
     width: 270px;
     flex-shrink: 0;
     border-radius: 20px;
-    // overflow: auto;
     padding-bottom: 150px;
-    // padding: 20px;
-    // gap: 20px;
-    // background: #FFF;
-    // box-shadow: 0px 4px 54px -10px rgba(24, 41, 86, 0.11);
 
     .title {
         color: #212123;
