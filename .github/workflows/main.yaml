@@ -2,7 +2,7 @@ name: Deploy
 on:
   workflow_dispatch:
   push:
-    branches: [deployment,development]
+    branches: [deployment]
 
 jobs:
   Build:
@@ -14,7 +14,7 @@ jobs:
         run: |
           #rm -f .env
           #printf "BASE_URL=https://api.neyron.ai/" > .env
-          docker build -t legalens-web .
-          docker stop legalens-web  || true
-          docker rm legalens-web || true
-          docker run -p 3002:3000 -d --name=legalens-web legalens-web
+          docker build -t legalens-beta-web .
+          docker stop legalens-beta-web  || true
+          docker rm legalens-beta-web || true
+          docker run -p 3004:3000 -d --name=legalens-beta-web legalens-beta-web
