@@ -28,6 +28,7 @@ export default function ResultDetailsModule() {
     const fesil_id = idItems[1]
     const madde_id = idItems[2]
     const mecelle_id = idItems[3]
+    const query = idItems[4]
 
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -55,7 +56,7 @@ export default function ResultDetailsModule() {
         bolme_id,
         fesil_id,
         madde_id,
-        query: searchState?.searchValue,
+        query,
     }, () => { })
 
 
@@ -242,13 +243,16 @@ export default function ResultDetailsModule() {
                         {
                             showSearch
                                 ?
-                                <Input
-                                    value={innerSearchValue}
-                                    className='inner-search-input'
-                                    placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
-                                    onChange={(e) => setInnerSearchValue(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && getInnerSearchData()}
-                                />
+                                <div className='inner-search-wrapper'>
+                                    <Input
+                                        value={innerSearchValue}
+                                        className='inner-search-input'
+                                        placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
+                                        onChange={(e) => setInnerSearchValue(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && getInnerSearchData()}
+                                    />
+                                    <ActionButton color='blue' label='Search' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
+                                </div>
                                 :
                                 <ActionButton color='blue' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
                         }

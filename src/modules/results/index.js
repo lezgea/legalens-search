@@ -136,6 +136,7 @@ export default function ResultsModule() {
                                     {...item[2]}
                                     item={item}
                                     text={item[2].Crop}
+                                    searchValue={searchState?.searchValue}
                                     cardIndex={cardIndex}
                                     setCardIndex={setCardIndex}
                                 />
@@ -178,7 +179,7 @@ const ResultCard = (props) => {
         description,
         Percentages,
         text,
-        date,
+        searchValue,
         madde_id,
         bolme_id,
         fesil_id,
@@ -239,7 +240,7 @@ const ResultCard = (props) => {
 
     return (
         <Link
-            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}
+            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}_${searchValue}`}
             className='result-card-wrapper'
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>

@@ -2,7 +2,7 @@
 export const SEARCH_STATE_INITIAL = {
     searchValue: '',
     activeFilter: 'h',
-    offset: 1,
+    offset: 0,
 }
 
 
