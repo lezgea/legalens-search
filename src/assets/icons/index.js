@@ -38,6 +38,7 @@ import FilledNotificationIcon from './filled-notification.svg'
 import GoogleIcon from './google-icon.svg'
 import LegalensLogoWhite from './legalens-logo-white.svg'
 import AuthBgLines from './auth-bg-lines.svg'
+import CheckFilledIcon from './check-filled.svg'
 
 
 
@@ -80,4 +81,5 @@ export {
     GoogleIcon,
     LegalensLogoWhite,
     AuthBgLines,
+    CheckFilledIcon,
 }
