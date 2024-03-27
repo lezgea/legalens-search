@@ -82,7 +82,6 @@ export default function ResultsModule() {
     function onScrollText(e) {
         const { scrollTop, scrollHeight, clientHeight } = e.target
         if (scrollTop == ((scrollHeight - clientHeight) - 0.5)) {
-            console.log('$$$$', scrollTop)
             setSearchState({ offset: searchState.offset + 1 })
         }
     }
@@ -92,7 +91,7 @@ export default function ResultsModule() {
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
-                <SideFilterBar />
+                {/* <SideFilterBar /> */}
                 <div className='results-content-wrapper'>
                     <div
                         className='results-list-wrapper'

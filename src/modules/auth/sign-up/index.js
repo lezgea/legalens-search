@@ -127,7 +127,7 @@ export default function SignUpModule() {
                     onChange={(e) => setParams({ password: e.target.value })}
                 />
             </Form.Item>
-            {/* <Form.Item
+            <Form.Item
                 name='password_confirmation'
                 rules={[
                     {
@@ -150,7 +150,7 @@ export default function SignUpModule() {
                     value={params.password_confirmation}
                     onChange={(e) => setParams({ password_confirmation: e.target.value })}
                 />
-            </Form.Item> */}
+            </Form.Item>
 
             <div className='checkbox-wrapper'>
                 <Checkbox checked={acceptPrivacy} onChange={() => setAcceptPrivacy(!acceptPrivacy)}></Checkbox>
@@ -233,9 +233,9 @@ export default function SignUpModule() {
                         onClick={() => router.push('/')}
                     />
                 </Link>
-                <SignUpForm />
-                {/* {!state.showActivationForm && <SignUpForm />}
-                {state.showActivationForm && <ActivationForm />} */}
+                {/* <SignUpForm /> */}
+                {!state.showActivationForm && <SignUpForm />}
+                {state.showActivationForm && <ActivationForm />}
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 
 export function useSearch({ query, offset }, onSuccess) {
     const { data, isFetching, error, refetch } = useQuery(
-        ['search-data', query, offset],
+        ['search-data', offset],
         () => getSearchData({ query_strig: query, offset: offset }),
         {
             refetchOnWindowFocus: false,

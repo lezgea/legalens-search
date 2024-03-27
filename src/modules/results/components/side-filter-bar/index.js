@@ -3,12 +3,17 @@ import { SIDEBAR_INITIAL } from '@/constants/initial-states';
 import { Checkbox } from 'antd';
 import { ArrowDownIcon } from '../../../../assets/icons'
 import Icon from '@ant-design/icons';
+import { useSearchFilters } from '@/api/filters';
+import { useSearchContext } from '@/context/search-context';
 
 
 export const SideFilterBar = () => {
     const [sideBar, setSideBar] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         SIDEBAR_INITIAL
     )
+    const { searchState, setSearchState } = useSearchContext()
+
+    const { mutate: getFilters, isSuccess: filtersSuccess, isLoading: filtersLoading } = useSearchFilters()
 
 
     function onOpenItem(index) {
@@ -17,6 +22,28 @@ export const SideFilterBar = () => {
         setSideBar(data)
     }
 
+
+    React.useEffect(() => {
+        if (!!searchState.searchValue) {
+            getFilters({
+                query_string: 'qanun',
+                offset: 1,
+            },
+                {
+                    onSuccess: (res) => {
+                        console.log('SUCCESS')
+                        // showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
+                        // refetchDocs()
+                    },
+                    onError: () => {
+                        console.log('ERROR')
+                    },
+                }
+            )
+        }
+    }, [searchState.searchValue])
+
+    console.log('####', searchState.value)
 
     return (
         <div className='side-filter-bar'>

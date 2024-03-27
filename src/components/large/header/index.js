@@ -30,7 +30,7 @@ export const Header = (props) => {
         setResultsState({ loading: isFetching })
         if (!!data.length) {
             if (searchState.offset > 1) {
-                setResultsState({ list: resultsState.list.concat(data[0]) })
+                setResultsState({ list: !!data.length ? resultsState.list.concat(data[0]) : resultsState.list })
             } else {
                 setResultsState({ list: data[0], searchKeys: data[1] })
             }

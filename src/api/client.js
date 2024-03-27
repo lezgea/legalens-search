@@ -4,8 +4,8 @@ import { getAccessToken, removeAuthCookies, setAuthCookies } from '../utils';
 
 const authToken = getAccessToken();
 const BACK_URL = "https://legalens-back.ailab.az";
-const DEV_AI_URL = "https://legalens-api.ailab.az";
-// const PROD_AI_URL = "https://legalens-prod.ailab.az";
+// const DEV_AI_URL = "https://legalens-api.ailab.az";
+const PROD_AI_URL = "https://legalens-prod.ailab.az";
 
 
 export const backClient = axios.create({
@@ -21,8 +21,8 @@ export const backClient = axios.create({
 
 
 export const aiClient = axios.create({
-    baseURL: DEV_AI_URL,
-    // baseURL: PROD_AI_URL,
+    // baseURL: DEV_AI_URL,
+    baseURL: PROD_AI_URL,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
