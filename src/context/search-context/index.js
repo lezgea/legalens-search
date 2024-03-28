@@ -10,16 +10,10 @@ export function SearchContextProvider({ children }) {
     const [searchState, setSearchState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         SEARCH_STATE_INITIAL
     )
-    // const [searchKeys, setSearchKeys] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
-    //     SEARCH_KEYS_INITIAL
-    // )
-
 
     const value = {
         searchState,
         setSearchState,
-        // searchKeys,
-        // setSearchKeys
     }
 
 

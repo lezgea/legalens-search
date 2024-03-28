@@ -28,6 +28,7 @@ export const RESULTS_STATE_INITIAL = {
         //     checked: false,
         // },
     ],
+    filters: [],
 }
 
 

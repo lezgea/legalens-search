@@ -5,6 +5,7 @@ import { ArrowDownIcon } from '../../../../assets/icons'
 import Icon from '@ant-design/icons';
 import { useSearchFilters } from '@/api/filters';
 import { useSearchContext } from '@/context/search-context';
+import { useResultsContext } from '@/context/results-context';
 
 
 export const SideFilterBar = () => {
@@ -12,63 +13,66 @@ export const SideFilterBar = () => {
         SIDEBAR_INITIAL
     )
     const { searchState, setSearchState } = useSearchContext()
+    const { resultsState, setResultsState, setColors } = useResultsContext()
 
-    const { mutate: getFilters, isSuccess: filtersSuccess, isLoading: filtersLoading } = useSearchFilters()
+    // const { mutate: mutateFilters, isSuccess: filtersSuccess, isLoading: filtersLoading } = useSearchFilters()
 
 
     function onOpenItem(index) {
-        let data = sideBar.data
-        data[index].opened = !data[index].opened
-        setSideBar(data)
+        // let data = sideBar.data
+        // data[index].opened = !data[index].opened
+        // setSideBar(data)
     }
 
 
     React.useEffect(() => {
         if (!!searchState.searchValue) {
-            getFilters({
-                query_string: 'qanun',
-                offset: 1,
-            },
-                {
-                    onSuccess: (res) => {
-                        console.log('SUCCESS')
-                        // showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
-                        // refetchDocs()
-                    },
-                    onError: () => {
-                        console.log('ERROR')
-                    },
-                }
-            )
+            // mutateFilters({
+            //     query_string: 'qanun',
+            //     offset: 1,
+            // },
+            //     {
+            //         onSuccess: (res) => {
+            //             console.log('SUCCESS')
+            //             // showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
+            //             // refetchDocs()
+            //         },
+            //         onError: () => {
+            //             console.log('ERROR')
+            //         },
+            //     }
+            // )
         }
     }, [searchState.searchValue])
 
-    console.log('####', searchState.value)
+    console.log('####', resultsState.filters)
 
     return (
         <div className='side-filter-bar'>
             {
-                sideBar.data?.map((item, i) =>
-                    <FilterItem
-                        key={i}
-                        parentIndex={i}
-                        sideBar={sideBar}
-                        setSideBar={setSideBar}
-                        onOpenItem={() => onOpenItem(i)}
-                        {...item}
-                    />
-                )
+                !!resultsState.filters?.mecelles?.length &&
+                <FilterItem
+                    key={0}
+                    label="Məcəllələr"
+                    parentIndex={0}
+                    sideBar={sideBar}
+                    setSideBar={setSideBar}
+                    data={resultsState.filters?.mecelles}
+                // onOpenItem={() => onOpenItem(i)}
+                />
             }
+
         </div>
     )
 }
 
 
 const FilterItem = (props) => {
-    let { label, opened, count, children, parentIndex, sideBar, setSideBar, onOpenItem } = props
+    let { label, count, data, parentIndex, sideBar, setSideBar } = props
 
+    const [opened, setOpened] = React.useState(false)
     let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
-    let data = sideBar.data
+    // let data = sideBar.data
     let parent = data[parentIndex]
 
 
@@ -80,16 +84,21 @@ const FilterItem = (props) => {
     }
 
 
+    function onOpenItem() {
+        setOpened(!opened)
+    }
+
+
     return (
         <div className='filter-item' onClick={onOpenItem}>
             <div className='header'>
                 <div className='label' style={openedLabelStyles}>{label}</div>
                 <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
                 {
-                    !!count &&
-                    <div className='count-circle'>
-                        <div className='text'>{count}</div>
-                    </div>
+                    // !!count &&
+                    // <div className='count-circle'>
+                    //     <div className='text'>{count}</div>
+                    // </div>
                 }
             </div>
             {

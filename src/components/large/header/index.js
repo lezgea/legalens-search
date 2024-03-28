@@ -7,6 +7,7 @@ import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
 import Link from 'next/link';
+import { useFilters } from '@/hooks/use-filters';
 
 
 const filtersRow = [
@@ -24,26 +25,35 @@ export const Header = (props) => {
     const { resultsState, setResultsState, setColors } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
+    const { data: filtersData = [], filtersRefetch, filtersIsFetching } = useFilters({ query_string: searchState.searchValue }, () => { })
 
 
     React.useEffect(() => {
         setResultsState({ loading: isFetching })
         if (!!data.length) {
-            if (searchState.offset > 1) {
-                setResultsState({ list: !!data.length ? resultsState.list.concat(data[0]) : resultsState.list })
+            if (searchState.offset > 0) {
+                setResultsState({
+                    list: resultsState.list.concat(data[0]),
+                    filters: filtersData,
+                })
             } else {
-                setResultsState({ list: data[0], searchKeys: data[1] })
+                setResultsState({
+                    list: data[0],
+                    searchKeys: data[1],
+                    filters: filtersData,
+                })
             }
             setColors([...Object.values(data[2])])
         } else {
-            setResultsState({ list: [], searchKeys: [] })
+            setResultsState({ list: [], searchKeys: [], filters: [] })
             setColors([])
         }
+        // setResultsState({ loading: false })
     }, [isFetching])
 
 
     async function getSearchDataAndKeys() {
-        setSearchState({ offset: 1 })
+        setSearchState({ offset: 0 })
         refetch()
         router.push('/results')
     }
