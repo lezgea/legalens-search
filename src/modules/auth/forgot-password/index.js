@@ -35,7 +35,8 @@ export default function ForgotPasswordModule() {
                     showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' })
                     // setState({ showActivationForm: true })
                 },
-                onError: () => showNotification({ title: 'Qeydiyyat zamanı xəta baş verdi.', variant: 'error' }),
+                onError: () =>
+                    showNotification({ title: 'Qeydiyyat zamanı xəta baş verdi.', variant: 'error' }),
             }
         )
     }

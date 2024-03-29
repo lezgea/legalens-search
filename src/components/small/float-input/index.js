@@ -4,7 +4,7 @@ import { Input } from "antd";
 
 export const FloatInput = (props) => {
     const [focus, setFocus] = React.useState(false);
-    let { label, value, placeholder, type, required } = props;
+    let { label, value, placeholder, type, required, style } = props;
 
     if (!placeholder) placeholder = label;
 
@@ -26,6 +26,7 @@ export const FloatInput = (props) => {
                     onChange={props.onChange}
                     type={type}
                     className="input"
+                    style={style}
                 />
                 <label className={labelClass}>
                     {isOccupied ? label : placeholder} {requiredMark}

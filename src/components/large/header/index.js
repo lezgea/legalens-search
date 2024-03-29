@@ -10,13 +10,6 @@ import Link from 'next/link';
 import { useFilters } from '@/hooks/use-filters';
 
 
-const filtersRow = [
-    { value: 'h', label: 'Hüquqi araşdırma', icon: SearchIcon, size: 14 },
-    { value: 'm', label: 'Məhkəmə qərarları', icon: HammerIcon, size: 15 },
-    { value: 's', label: 'Spell check', icon: SpellCheckIcon, size: 14 },
-    { value: 'f', label: 'Forum', icon: ForumIcon, size: 14 },
-]
-
 
 export const Header = (props) => {
     let { hideSearch } = props
@@ -25,7 +18,7 @@ export const Header = (props) => {
     const { resultsState, setResultsState, setColors } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
-    const { data: filtersData = [], filtersRefetch, filtersIsFetching } = useFilters({ query_string: searchState.searchValue }, () => { })
+    const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
 
 
     React.useEffect(() => {
@@ -35,20 +28,24 @@ export const Header = (props) => {
                 setResultsState({
                     list: resultsState.list.concat(data[0]),
                     filters: filtersData,
+                    filtersLoading: false,
                 })
             } else {
                 setResultsState({
                     list: data[0],
                     searchKeys: data[1],
                     filters: filtersData,
+                    filtersLoading: false,
                 })
             }
             setColors([...Object.values(data[2])])
         } else {
-            setResultsState({ list: [], searchKeys: [], filters: [] })
+            setResultsState({
+                list: [], searchKeys: [],
+                filters: []
+            })
             setColors([])
         }
-        // setResultsState({ loading: false })
     }, [isFetching])
 
 

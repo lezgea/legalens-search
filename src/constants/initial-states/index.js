@@ -15,6 +15,7 @@ export const SEARCH_KEYS_INITIAL = [
 
 export const RESULTS_STATE_INITIAL = {
     loading: false,
+    filtersLoading: false,
     searchKeys: [
         // { id: 1, label: 'AR Qanunları', color: '#7F6DF0' },
     ],
@@ -29,6 +30,7 @@ export const RESULTS_STATE_INITIAL = {
         // },
     ],
     filters: [],
+    activation_token: '',
 }
 
 
