@@ -14,3 +14,8 @@ export const getForgotUser = async (data) => {
 export const activateUser = async (data) => {
     return await backClient.post(`/users/activate`, data);
 };
+
+
+export const resetPassword = async (data, token) => {
+    return await backClient.post(`/users/reset-password?token=${token}`, data);
+};
