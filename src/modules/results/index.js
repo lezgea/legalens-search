@@ -187,6 +187,8 @@ const ResultCard = (props) => {
         cardIndex,
         setCardIndex,
     } = props
+
+    const { searchState } = useSearchContext()
     const { resultsState, setSelectedResult, colors } = useResultsContext()
     const [api, contextHolder] = notification.useNotification();
 
@@ -198,7 +200,7 @@ const ResultCard = (props) => {
             loading: false,
         }
     )
-    const { data = [], refetch, isFetching, error } = useCrop(linerData.crop_id, () => { })
+    const { data = [], refetch, isFetching, error } = useCrop({ position: linerData.crop_id, keyword: searchState.searchValue }, () => { })
 
 
     function onSetDetails() {

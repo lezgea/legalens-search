@@ -7,7 +7,10 @@ export const FilterBoxSkeleton = () => {
         <div className='filter-item'>
             <div className='header'>
                 <div className='label-skeleton' />
-                <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
+                <div className='label-skeleton' />
+                <div className='label-skeleton' />
+                <div className='label-skeleton' />
+                {/* <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} /> */}
                 {
                     // !!count &&
                     // <div className='count-circle'>

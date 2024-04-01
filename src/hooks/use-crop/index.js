@@ -2,13 +2,13 @@ import { getCropData } from "@/api/crop";
 import { useQuery } from "react-query";
 
 
-export function useCrop(query, onSuccess) {
+export function useCrop({ position, keyword }, onSuccess) {
     const { data = [], isFetching, error, refetch } = useQuery(
-        ['crop-data', query],
-        () => getCropData({ position: query }),
+        ['crop-data', position, keyword],
+        () => getCropData({ position, keyword }),
         {
             refetchOnWindowFocus: false,
-            enabled: !!query,
+            enabled: !!position || !!keyword,
             onSuccess: onSuccess,
         }
     );

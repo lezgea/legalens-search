@@ -29,9 +29,9 @@ export const SideFilterBar = () => {
         <div className='side-filter-bar'>
             {
                 // resultsState.filtersLoading &&
-                // <FilterBoxSkeleton />
+                <FilterBoxSkeleton />
             }
-            {
+            {/* {
                 !!resultsState.filters?.mecelles?.length &&
                 <FilterItem
                     label="Məcəllələr"
@@ -57,7 +57,7 @@ export const SideFilterBar = () => {
                     setSelectedItems={setSelectedItems}
                     data={resultsState.filters?.fesils}
                 />
-            }
+            } */}
         </div>
     )
 }
