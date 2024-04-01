@@ -18,7 +18,7 @@ export default function MainModule() {
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
-    const { data = [], refetch, isFetching } = useSearch(searchState.searchValue, () => { })
+    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
     // const {
     //     data: searchHistory = [],

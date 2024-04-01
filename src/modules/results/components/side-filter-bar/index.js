@@ -29,9 +29,9 @@ export const SideFilterBar = () => {
         <div className='side-filter-bar'>
             {
                 // resultsState.filtersLoading &&
-                <FilterBoxSkeleton />
+                // <FilterBoxSkeleton />
             }
-            {/* {
+            {
                 !!resultsState.filters?.mecelles?.length &&
                 <FilterItem
                     label="Məcəllələr"
@@ -57,7 +57,7 @@ export const SideFilterBar = () => {
                     setSelectedItems={setSelectedItems}
                     data={resultsState.filters?.fesils}
                 />
-            } */}
+            }
         </div>
     )
 }
@@ -98,7 +98,7 @@ const FilterItem = (props) => {
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
                         {
-                            data.map((item, i) =>
+                            data.filter(filter => !!filter.name).map((item, i) =>
                                 <CheckBoxItem
                                     key={item.id}
                                     checked={true}

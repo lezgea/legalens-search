@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Checkbox, Modal, Spin } from 'antd';
 import { Header } from '@/components/large';
 import { SideFilterBar } from './components';
@@ -53,6 +53,7 @@ export default function ResultsModule() {
     const { resultsState, colors, setResultsState, setColors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
+    const [startFetching, setStartFetching] = React.useState(false)
 
 
     function handleShowModal() {
@@ -80,8 +81,10 @@ export default function ResultsModule() {
 
 
     function onScrollText(e) {
-        const bottom = e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight;
-        if (bottom) {
+        // if(is)
+        const bottom = e.target.scrollTop + e.target.clientHeight > e.target.scrollHeight;
+        // console.log('Xanlar', e.target.scrollHeight, e.target.clientHeight + e.target.scrollTop)
+        if (!!bottom) {
             setSearchState({ offset: searchState.offset + 1 })
         }
     }
@@ -256,7 +259,7 @@ const ResultCard = (props) => {
                 >
                     <Icon component={ArrowDownIcon} className='icon' style={{ transform: index === cardIndex ? 'rotate(0.5turn)' : 'rotate(0)' }} />
                 </div>
-                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}`}>
+                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}_${searchValue}`}>
                     <div dangerouslySetInnerHTML={{ __html: label }}></div>
                 </Link>
                 <div className='description' dangerouslySetInnerHTML={{ __html: description }}></div>

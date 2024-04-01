@@ -46,11 +46,12 @@ export const Header = (props) => {
             })
             setColors([])
         }
-    }, [isFetching])
+        // setResultsState({ loading: false })
+    }, [searchState.offset, isFetching])
 
 
     async function getSearchDataAndKeys() {
-        setSearchState({ offset: 0 })
+        setSearchState({ offset: 0, activateSearch: true })
         refetch()
         router.push('/results')
     }
