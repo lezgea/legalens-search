@@ -8,7 +8,7 @@ export function useCrop({ position, keyword }, onSuccess) {
         () => getCropData({ position, keyword }),
         {
             refetchOnWindowFocus: false,
-            enabled: !!position || !!keyword,
+            enabled: !!position,
             onSuccess: onSuccess,
         }
     );
