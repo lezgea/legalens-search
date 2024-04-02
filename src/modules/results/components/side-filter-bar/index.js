@@ -314,20 +314,22 @@ const FesilItem = (props) => {
 
 
     function onCheck(item) {
-        let checked = !!selectedItems.fesils.filter(fes => fes.id == item.id)?.length
+        let checked = !!selectedItems.fesils.filter(fes => (fes.id == item.id) && (fes.parent_id == item.parent_id))?.length
 
         if (!checked) {
             setSelectedItems({
                 fesils: [...selectedItems.fesils, item]
             })
         } else {
-            let filteredFesils = selectedItems.fesils?.filter(fes => fes.id !== item.id)
+            let filteredFesils = selectedItems.fesils?.filter(fes => (fes.id !== item.id) && (fes.parent_id !== item.parent_id))
 
             setSelectedItems({
                 fesils: filteredFesils,
             })
         }
     }
+
+    console.log('$$$$$$', filteredItems.fesils)
 
 
     function onOpenItem() {
@@ -355,7 +357,7 @@ const FesilItem = (props) => {
                             filteredItems.fesils?.filter(fes => !!fes.name).map((item, i) =>
                                 <CheckBoxItem
                                     key={item.id}
-                                    checked={!!selectedItems.fesils.filter(fes => fes.id == item.id)?.length}
+                                    checked={!!selectedItems.fesils.filter(fes => (fes.id == item.id) && (fes.parent_id == item.parent_id))?.length}
                                     label={item.name}
                                     onCheck={() => onCheck(item)}
                                 />
