@@ -30,7 +30,7 @@ export const RESULTS_STATE_INITIAL = {
         //     checked: false,
         // },
     ],
-    filters: [],
+    filters: {},
     activation_token: '',
 }
 

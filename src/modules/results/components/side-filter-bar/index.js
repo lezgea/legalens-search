@@ -16,6 +16,13 @@ export const SideFilterBar = () => {
             fesils: [],
         }
     )
+    const [filteredItems, setFilteredItems] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        {
+            mecelles: [],
+            bolmes: [],
+            fesils: [],
+        }
+    )
 
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, setResultsState, setColors } = useResultsContext()
@@ -27,8 +34,8 @@ export const SideFilterBar = () => {
         filterData(
             {
                 mecelle_ids: !!selectedItems.mecelles?.length ? [...selectedItems.mecelles.map(item => item.id)] : [],
-                bolme_ids: !!selectedItems.bolmes?.length ? [...selectedItems.bolmes.map(item => item.id)] : [],
-                fesil_ids: !!selectedItems.fesils?.length ? [...selectedItems.fesils.map(item => item.desil_id)] : [],
+                bolme_ids: !!selectedItems.bolmes?.length ? [...selectedItems.bolmes.map(item => item.bolme_id)] : [],
+                fesil_ids: !!selectedItems.fesils?.length ? [...selectedItems.fesils.map(item => item.fesil_id)] : [],
             },
             {
                 onSuccess: (res) => {
@@ -60,10 +67,19 @@ export const SideFilterBar = () => {
         )
     }
 
+    React.useEffect(() => {
+        if (!!Object.keys(resultsState.filters)?.length) {
+            setFilteredItems(resultsState.filters)
+        }
+    }, [resultsState.filters])
+
 
     React.useEffect(() => {
         onFilterData()
     }, [selectedItems])
+
+    console.log('$$$$$$', filteredItems)
+
 
 
     return (
@@ -73,30 +89,33 @@ export const SideFilterBar = () => {
                 // <FilterBoxSkeleton />
             }
             {
-                !!resultsState.filters?.mecelles?.length &&
+                !!filteredItems.mecelles?.length &&
                 <MecelleItem
                     label="Məcəllələr"
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
-                    data={resultsState.filters?.mecelles}
+                    filteredItems={filteredItems}
+                    setFilteredItems={setFilteredItems}
                 />
             }
             {
-                !!resultsState.filters?.bolmes?.length &&
+                !!filteredItems.bolmes?.length &&
                 <BolmeItem
                     label="Bölmələr"
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
-                    data={resultsState.filters?.bolmes}
+                    filteredItems={filteredItems}
+                    setFilteredItems={setFilteredItems}
                 />
             }
             {
-                !!resultsState.filters?.fesils?.length &&
+                !!filteredItems.fesils?.length &&
                 <FesilItem
                     label="Fəsillər"
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
-                    data={resultsState.filters?.fesils}
+                    filteredItems={filteredItems}
+                    setFilteredItems={setFilteredItems}
                 />
             }
         </div>
@@ -105,23 +124,53 @@ export const SideFilterBar = () => {
 
 
 const MecelleItem = (props) => {
-    let { label, count, data, onFilterData, sideBar, setSideBar, selectedItems, setSelectedItems } = props
+    let { label, count, filteredItems, setFilteredItems, selectedItems, setSelectedItems } = props
 
     const [opened, setOpened] = React.useState(true)
+    const { resultsState } = useResultsContext()
+
     let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
 
 
     function onCheck(item) {
         let checked = !!selectedItems.mecelles.filter(mec => mec.id == item.id)?.length
+
         if (!checked) {
+            let filteredBolmes = resultsState?.filters?.bolmes?.filter(bol => bol.parrent_id == item.id)
+            let checkIfBolmesExists = filteredItems.bolmes.filter(bol => bol.parrent_id == item.id)?.length
+
+            if (!checkIfBolmesExists) {
+                setFilteredItems({
+                    ...filteredItems,
+                    bolmes: [...filteredItems.bolmes, ...filteredBolmes],
+                })
+            } else {
+                setFilteredItems({
+                    ...filteredItems,
+                    bolmes: filteredBolmes,
+                })
+            }
             setSelectedItems({
                 mecelles: [...selectedItems.mecelles, item]
             })
         } else {
-            let filteredData = selectedItems.mecelles?.filter(mec => mec.id !== item.id)
+            let filteredBolmes = filteredItems?.bolmes?.filter(bol => bol.parrent_id !== item.id)
+            let filteredMecelles = selectedItems.mecelles?.filter(mec => mec.id !== item.id)
+
             setSelectedItems({
-                mecelles: filteredData,
+                mecelles: filteredMecelles,
             })
+            if (!!filteredMecelles?.length) {
+                setFilteredItems({
+                    ...filteredItems,
+                    bolmes: filteredBolmes,
+                })
+            } else {
+                setFilteredItems({
+                    ...filteredItems,
+                    bolmes: [...resultsState?.filters?.bolmes],
+                })
+            }
         }
     }
 
@@ -144,11 +193,11 @@ const MecelleItem = (props) => {
                 }
             </div>
             {
-                opened && !!data.length &&
+                opened && !!filteredItems.mecelles?.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
                         {
-                            data.filter(filter => !!filter.name).map((item, i) =>
+                            filteredItems.mecelles?.filter(mec => !!mec.name).map((item, i) =>
                                 <CheckBoxItem
                                     key={item.id}
                                     checked={!!selectedItems.mecelles.filter(mec => mec.id == item.id)?.length}
@@ -167,23 +216,52 @@ const MecelleItem = (props) => {
 
 
 const BolmeItem = (props) => {
-    let { label, count, data, sideBar, setSideBar, selectedItems, setSelectedItems } = props
+    let { label, count, filteredItems, setFilteredItems, selectedItems, setSelectedItems } = props
 
     const [opened, setOpened] = React.useState(true)
+    const { resultsState } = useResultsContext()
     let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
 
 
     function onCheck(item) {
-        let checked = !!selectedItems.bolmes.filter(mec => mec.id == item.id)?.length
+        let checked = !!selectedItems.bolmes.filter(bol => bol.id == item.id)?.length
+
         if (!checked) {
+            let filteredFesils = resultsState?.filters?.fesils?.filter(fes => fes.parent_id == item.id)
+            let checkIfFesilsExists = filteredItems.fesils.filter(fes => fes.parent_id == item.id)?.length
+
+            if (!checkIfFesilsExists) {
+                setFilteredItems({
+                    ...filteredItems,
+                    fesils: [...filteredItems.fesils, ...filteredFesils],
+                })
+            } else {
+                setFilteredItems({
+                    ...filteredItems,
+                    fesils: filteredFesils,
+                })
+            }
             setSelectedItems({
                 bolmes: [...selectedItems.bolmes, item]
             })
         } else {
-            let filteredData = selectedItems.bolmes?.filter(mec => mec.id !== item.id)
+            let filteredFesils = filteredItems?.fesils?.filter(fes => fes.parent_id !== item.id)
+            let filteredBolmes = selectedItems.bolmes?.filter(bol => bol.id !== item.id)
+
             setSelectedItems({
-                bolmes: filteredData,
+                bolmes: filteredBolmes,
             })
+            if (!!filteredBolmes?.length) {
+                setFilteredItems({
+                    ...filteredItems,
+                    fesils: filteredFesils,
+                })
+            } else {
+                setFilteredItems({
+                    ...filteredItems,
+                    fesils: [...resultsState?.filters?.fesils],
+                })
+            }
         }
     }
 
@@ -206,14 +284,14 @@ const BolmeItem = (props) => {
                 }
             </div>
             {
-                opened && !!data.length &&
+                opened && !!filteredItems.bolmes?.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
                         {
-                            data.filter(filter => !!filter.name).map((item, i) =>
+                            filteredItems.bolmes?.filter(bol => !!bol.name).map((item, i) =>
                                 <CheckBoxItem
                                     key={item.id}
-                                    checked={!!selectedItems.bolmes.filter(mec => mec.id == item.id)?.length}
+                                    checked={!!selectedItems.bolmes.filter(bol => bol.id == item.id)?.length}
                                     label={item.name}
                                     onCheck={() => onCheck(item)}
                                 />
@@ -229,22 +307,24 @@ const BolmeItem = (props) => {
 
 
 const FesilItem = (props) => {
-    let { label, count, data, sideBar, setSideBar, selectedItems, setSelectedItems } = props
+    let { label, count, filteredItems, setFilteredItems, selectedItems, setSelectedItems } = props
 
     const [opened, setOpened] = React.useState(true)
     let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
 
 
     function onCheck(item) {
-        let checked = !!selectedItems.fesils.filter(fes => (fes.fesil_id == item.fesil_id) && (fes.parent_id == item.parent_id))?.length
+        let checked = !!selectedItems.fesils.filter(fes => fes.id == item.id)?.length
+
         if (!checked) {
             setSelectedItems({
                 fesils: [...selectedItems.fesils, item]
             })
         } else {
-            let filteredData = selectedItems.fesils?.filter(fes => (fes.fesil_id !== item.fesil_id) && (fes.parent_id !== item.parent_id))
+            let filteredFesils = selectedItems.fesils?.filter(fes => fes.id !== item.id)
+
             setSelectedItems({
-                fesils: filteredData,
+                fesils: filteredFesils,
             })
         }
     }
@@ -268,14 +348,14 @@ const FesilItem = (props) => {
                 }
             </div>
             {
-                opened && !!data.length &&
+                opened && !!filteredItems.fesils?.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
                         {
-                            data.filter(filter => !!filter.name).map((item, i) =>
+                            filteredItems.fesils?.filter(fes => !!fes.name).map((item, i) =>
                                 <CheckBoxItem
                                     key={item.id}
-                                    checked={!!selectedItems.fesils.filter(fes => (fes.fesil_id == item.fesil_id) && (fes.parent_id == item.parent_id))?.length}
+                                    checked={!!selectedItems.fesils.filter(fes => fes.id == item.id)?.length}
                                     label={item.name}
                                     onCheck={() => onCheck(item)}
                                 />

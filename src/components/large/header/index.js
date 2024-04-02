@@ -42,7 +42,7 @@ export const Header = (props) => {
         } else {
             setResultsState({
                 list: [], searchKeys: [],
-                filters: []
+                filters: {}
             })
             setColors([])
         }
