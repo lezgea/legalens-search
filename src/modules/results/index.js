@@ -85,7 +85,7 @@ export default function ResultsModule() {
         const bottom = e.target.scrollTop + e.target.clientHeight > e.target.scrollHeight;
         // console.log('Xanlar', e.target.scrollHeight, e.target.clientHeight + e.target.scrollTop)
         if (!!bottom) {
-            setSearchState({ offset: searchState.offset + 1 })
+            // setSearchState({ offset: searchState.offset + 1 })
         }
     }
 

@@ -315,10 +315,20 @@ export default function ResultDetailsModule() {
                             <div className='title'>Konstitusiya Məhkəməsinin Qərarları</div>
                             {
                                 kmqData?.kmqs?.filter(item => item[0] !== null)?.map((item, i) =>
-                                    <Popover placement="left" content={item[0]} overlayStyle={{ maxWidth: '900px' }} >
+                                    <Popover
+                                        placement="left"
+                                        content={
+                                            <>
+                                                <div dangerouslySetInnerHTML={{ __html: item[0] }} style={{ marginBottom: 10 }}></div>
+                                                <a href={item[2]}>{item[2]}</a>
+                                            </>
+                                        }
+                                        overlayStyle={{ maxWidth: '900px' }}
+                                    >
                                         <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[3] } })}>
                                             <div className='order-label'>{item[1]}</div>
-                                            <div className='order-count'>{item[3] ? `${item[3]} / ${data?.data?.length}` : item[2]}</div>
+                                            {console.log('######', item)}
+                                            {/* <div className='order-count'>{item[3] ? `${item[3]} / ${data?.data?.length}` : item[2]}</div> */}
                                         </div>
                                     </Popover>
                                 )
@@ -336,9 +346,9 @@ export default function ResultDetailsModule() {
                         }
                         {
                             refData?.map((item, i) =>
-                                <Popover placement="left" content={item[1]} overlayStyle={{ maxWidth: '600px' }} >
+                                <Popover placement="left" content={<div dangerouslySetInnerHTML={{ __html: item[1] }}></div>} overlayStyle={{ maxWidth: '600px' }} >
                                     <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[4] } })}>
-                                        <div className='order-link-label truncate-2'>{item[1]}</div>
+                                        <div className='order-link-label truncate-2' dangerouslySetInnerHTML={{ __html: item[1] }}></div>
                                         <div className='order-count'> </div>
                                     </div>
                                 </Popover>

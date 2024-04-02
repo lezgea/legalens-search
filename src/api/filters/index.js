@@ -3,12 +3,17 @@ import { aiClient } from "../client";
 
 
 
-export const useSearchFilters = async () => {
+export const useSearchFilters = (query_string) => {
     return useMutation(data => {
-        return aiClient.post(`/filter`, data);
+        return aiClient.post(`/filter?query_string=${query_string}&offset=0`, data);
     })
 }
 
+// export const useAddFile = () => {
+//     return useMutation(data => {
+//         return axiosInstance.post(v1 + documents, data);
+//     });
+// };
 
 export const getFiltersData = async ({ query_string }) => {
     const { data } = await aiClient.get(`/statistics?query_string=${query_string}`)

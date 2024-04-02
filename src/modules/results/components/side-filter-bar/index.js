@@ -20,9 +20,50 @@ export const SideFilterBar = () => {
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, setResultsState, setColors } = useResultsContext()
 
-    // const { mutate: mutateFilters, isSuccess: filtersSuccess, isLoading: filtersLoading } = useSearchFilters()
+    const { mutate: filterData, isSuccess: filtersSuccess, isLoading: filteredDataLoading } = useSearchFilters(searchState.searchValue)
 
-    console.log('=====', resultsState.filtersLoading)
+
+    function onFilterData() {
+        filterData(
+            {
+                mecelle_ids: !!selectedItems.mecelles?.length ? [...selectedItems.mecelles.map(item => item.id)] : [],
+                bolme_ids: !!selectedItems.bolmes?.length ? [...selectedItems.bolmes.map(item => item.id)] : [],
+                fesil_ids: !!selectedItems.fesils?.length ? [...selectedItems.fesils.map(item => item.desil_id)] : [],
+            },
+            {
+                onSuccess: (res) => {
+                    // showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
+                    // refetchDocs()
+                    // console.log('REEEEEEEES', res)
+
+                    setResultsState({ loading: filteredDataLoading })
+                    if (!!res.data.length) {
+                        setResultsState({
+                            list: res.data[0],
+                            searchKeys: res.data[1],
+                            // filters: filtersData,
+                        })
+                        setColors([...Object.values(res.data[2])])
+                    } else {
+                        setResultsState({
+                            list: [], searchKeys: [],
+                            // filters: []
+                        })
+                        setColors([])
+                    }
+                },
+                onError: (res) => {
+                    console.log('ERROOOOOOOOR', res)
+                    // showNotification({ title: 'Fayl yüklənən zaman xəta baş verdi.', variant: 'error' });
+                },
+            }
+        )
+    }
+
+
+    React.useEffect(() => {
+        onFilterData()
+    }, [selectedItems])
 
 
     return (
@@ -33,7 +74,7 @@ export const SideFilterBar = () => {
             }
             {
                 !!resultsState.filters?.mecelles?.length &&
-                <FilterItem
+                <MecelleItem
                     label="Məcəllələr"
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
@@ -42,7 +83,7 @@ export const SideFilterBar = () => {
             }
             {
                 !!resultsState.filters?.bolmes?.length &&
-                <FilterItem
+                <BolmeItem
                     label="Bölmələr"
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
@@ -51,7 +92,7 @@ export const SideFilterBar = () => {
             }
             {
                 !!resultsState.filters?.fesils?.length &&
-                <FilterItem
+                <FesilItem
                     label="Fəsillər"
                     selectedItems={selectedItems}
                     setSelectedItems={setSelectedItems}
@@ -63,16 +104,25 @@ export const SideFilterBar = () => {
 }
 
 
-const FilterItem = (props) => {
-    let { label, count, data, sideBar, setSideBar } = props
+const MecelleItem = (props) => {
+    let { label, count, data, onFilterData, sideBar, setSideBar, selectedItems, setSelectedItems } = props
 
     const [opened, setOpened] = React.useState(true)
     let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
-    // let parent = data[parentIndex]
 
 
-    function onCheck(id, val) {
-
+    function onCheck(item) {
+        let checked = !!selectedItems.mecelles.filter(mec => mec.id == item.id)?.length
+        if (!checked) {
+            setSelectedItems({
+                mecelles: [...selectedItems.mecelles, item]
+            })
+        } else {
+            let filteredData = selectedItems.mecelles?.filter(mec => mec.id !== item.id)
+            setSelectedItems({
+                mecelles: filteredData,
+            })
+        }
     }
 
 
@@ -87,10 +137,10 @@ const FilterItem = (props) => {
                 <div className='label' style={openedLabelStyles}>{label}</div>
                 <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
                 {
-                    // !!count &&
-                    // <div className='count-circle'>
-                    //     <div className='text'>{count}</div>
-                    // </div>
+                    !!selectedItems.mecelles.length &&
+                    <div className='count-circle'>
+                        <div className='text'>{selectedItems.mecelles?.length}</div>
+                    </div>
                 }
             </div>
             {
@@ -101,9 +151,133 @@ const FilterItem = (props) => {
                             data.filter(filter => !!filter.name).map((item, i) =>
                                 <CheckBoxItem
                                     key={item.id}
-                                    checked={true}
+                                    checked={!!selectedItems.mecelles.filter(mec => mec.id == item.id)?.length}
                                     label={item.name}
-                                    onCheck={onCheck}
+                                    onCheck={() => onCheck(item)}
+                                />
+                            )
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    )
+}
+
+
+
+const BolmeItem = (props) => {
+    let { label, count, data, sideBar, setSideBar, selectedItems, setSelectedItems } = props
+
+    const [opened, setOpened] = React.useState(true)
+    let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
+
+
+    function onCheck(item) {
+        let checked = !!selectedItems.bolmes.filter(mec => mec.id == item.id)?.length
+        if (!checked) {
+            setSelectedItems({
+                bolmes: [...selectedItems.bolmes, item]
+            })
+        } else {
+            let filteredData = selectedItems.bolmes?.filter(mec => mec.id !== item.id)
+            setSelectedItems({
+                bolmes: filteredData,
+            })
+        }
+    }
+
+
+    function onOpenItem() {
+        setOpened(!opened)
+    }
+
+
+    return (
+        <div className='filter-item' onClick={onOpenItem}>
+            <div className='header'>
+                <div className='label' style={openedLabelStyles}>{label}</div>
+                <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
+                {
+                    !!selectedItems.bolmes.length &&
+                    <div className='count-circle'>
+                        <div className='text'>{selectedItems.bolmes?.length}</div>
+                    </div>
+                }
+            </div>
+            {
+                opened && !!data.length &&
+                <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
+                    <div className='children'>
+                        {
+                            data.filter(filter => !!filter.name).map((item, i) =>
+                                <CheckBoxItem
+                                    key={item.id}
+                                    checked={!!selectedItems.bolmes.filter(mec => mec.id == item.id)?.length}
+                                    label={item.name}
+                                    onCheck={() => onCheck(item)}
+                                />
+                            )
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    )
+}
+
+
+
+const FesilItem = (props) => {
+    let { label, count, data, sideBar, setSideBar, selectedItems, setSelectedItems } = props
+
+    const [opened, setOpened] = React.useState(true)
+    let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
+
+
+    function onCheck(item) {
+        let checked = !!selectedItems.fesils.filter(fes => (fes.fesil_id == item.fesil_id) && (fes.parent_id == item.parent_id))?.length
+        if (!checked) {
+            setSelectedItems({
+                fesils: [...selectedItems.fesils, item]
+            })
+        } else {
+            let filteredData = selectedItems.fesils?.filter(fes => (fes.fesil_id !== item.fesil_id) && (fes.parent_id !== item.parent_id))
+            setSelectedItems({
+                fesils: filteredData,
+            })
+        }
+    }
+
+
+    function onOpenItem() {
+        setOpened(!opened)
+    }
+
+
+    return (
+        <div className='filter-item' onClick={onOpenItem}>
+            <div className='header'>
+                <div className='label' style={openedLabelStyles}>{label}</div>
+                <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
+                {
+                    !!selectedItems.fesils.length &&
+                    <div className='count-circle'>
+                        <div className='text'>{selectedItems.fesils?.length}</div>
+                    </div>
+                }
+            </div>
+            {
+                opened && !!data.length &&
+                <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
+                    <div className='children'>
+                        {
+                            data.filter(filter => !!filter.name).map((item, i) =>
+                                <CheckBoxItem
+                                    key={item.id}
+                                    checked={!!selectedItems.fesils.filter(fes => (fes.fesil_id == item.fesil_id) && (fes.parent_id == item.parent_id))?.length}
+                                    label={item.name}
+                                    onCheck={() => onCheck(item)}
                                 />
                             )
                         }

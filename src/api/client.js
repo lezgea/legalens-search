@@ -25,7 +25,7 @@ export const aiClient = axios.create({
     baseURL: PROD_AI_URL,
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`,
+        // Authorization: `Bearer ${authToken}`,
     },
     paramsSerializer: params => {
         return qs.stringify(params, { indices: false });
