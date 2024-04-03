@@ -31,7 +31,6 @@ export default function ActivationModule() {
     let legalSourceID = localStorage.getItem('legalSourceID')
     let legalCompanyID = localStorage.getItem('legalCompanyID')
 
-    console.log('#####', router.query?.token)
 
     function onFinishActivation(values) {
         activateUser(

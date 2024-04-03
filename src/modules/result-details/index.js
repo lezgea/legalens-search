@@ -116,8 +116,9 @@ export default function ResultDetailsModule() {
     React.useEffect(() => {
         if (!!state.hashString) {
             let selectedReference = refData?.find(item =>
-                item[2] === state.hashString.split('#')[1]
+                item[3] === state.hashString.split('#')[1]
             )
+            console.log('@@@@@@', refData)
             setState({
                 referenceText: selectedReference[1],
                 showRefModal: true,
@@ -320,14 +321,19 @@ export default function ResultDetailsModule() {
                                         content={
                                             <>
                                                 <div dangerouslySetInnerHTML={{ __html: item[0] }} style={{ marginBottom: 10 }}></div>
-                                                <a href={item[2]}>{item[2]}</a>
+                                                {/* <a href={item[2]}>{item[2]}</a> */}
+                                                {console.log('----------', item)}
+                                                {
+                                                    item[2]?.map((link, i) =>
+                                                        <a key={i} href={link}>{link}</a>
+                                                    )
+                                                }
                                             </>
                                         }
                                         overlayStyle={{ maxWidth: '900px' }}
                                     >
                                         <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[3] } })}>
                                             <div className='order-label'>{item[1]}</div>
-                                            {console.log('######', item)}
                                             {/* <div className='order-count'>{item[3] ? `${item[3]} / ${data?.data?.length}` : item[2]}</div> */}
                                         </div>
                                     </Popover>
@@ -347,13 +353,14 @@ export default function ResultDetailsModule() {
                         {
                             refData?.map((item, i) =>
                                 <Popover placement="left" content={<div dangerouslySetInnerHTML={{ __html: item[1] }}></div>} overlayStyle={{ maxWidth: '600px' }} >
-                                    <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[4] } })}>
+                                    <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[2] } })}>
                                         <div className='order-link-label truncate-2' dangerouslySetInnerHTML={{ __html: item[1] }}></div>
                                         <div className='order-count'> </div>
                                     </div>
                                 </Popover>
                             )
                         }
+                        {console.log('!!!!!!!', refData)}
                     </div>
                 </div>
 

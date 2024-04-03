@@ -78,8 +78,6 @@ export const SideFilterBar = () => {
         onFilterData()
     }, [selectedItems])
 
-    console.log('$$$$$$', filteredItems)
-
 
 
     return (
@@ -328,8 +326,6 @@ const FesilItem = (props) => {
             })
         }
     }
-
-    console.log('$$$$$$', filteredItems.fesils)
 
 
     function onOpenItem() {

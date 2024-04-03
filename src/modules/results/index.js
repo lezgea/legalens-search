@@ -94,7 +94,10 @@ export default function ResultsModule() {
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
-                <SideFilterBar />
+                {
+                    !!Object.keys(resultsState.filters)?.length &&
+                    <SideFilterBar />
+                }
                 <div className='results-content-wrapper'>
                     <div
                         className='results-list-wrapper'

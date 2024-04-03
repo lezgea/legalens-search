@@ -25,7 +25,6 @@ export default function ForgotPasswordModule() {
 
 
     function onFinishForm(values) {
-        console.log('@@@@@', values.email)
         forgotUser(
             {
                 email: values.email,

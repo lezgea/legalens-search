@@ -91,8 +91,8 @@ export default function MainModule() {
             <Header hideSearch />
             <div className='content-wrapper'>
                 <div className='title-wrapper'>
-                    <div className='label'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
-                    <div className='description'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
+                    <div className='label'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
+                    <div className='description'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
                 </div>
                 <div className='search-wrapper'>
                     {/* <Dropdown
