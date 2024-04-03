@@ -142,14 +142,6 @@ export default function MainModule() {
                 </div>
             </div>
             <div className='main-footer'>
-                <Image
-                    src='/assets/SVG/legalens-logo.svg'
-                    className='footer-legalens-logo'
-                    preview={false}
-                    onClick={() => router.push('/')}
-                />
-                <div className='footer-description'>Platformanın demo versiyasında qanunvericilik bazasında məcəllələrə dair axtarış imkanı təqdim edilir. Tam təminatlı versiya istifadəyə verildikdə, istifadəçilər həmçinin Normativ Hüquqi Aktlar, Beynəlxalq Müqavilələr, Məhkəmə Qərarları, Sərəncamlar, Fərmanlar və Bəyənatlar kimi geniş hüquqi resurslara asanlıqla çıxış əldə edə biləcəklər</div>
-                <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
                 <div className='footer-bottom'>
                     <div className='footer-icons-wrapper'>
                         {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
@@ -178,6 +170,14 @@ export default function MainModule() {
                         />
                     </div>
                 </div>
+                <Image
+                    src='/assets/SVG/legalens-logo.svg'
+                    className='footer-legalens-logo'
+                    preview={false}
+                    onClick={() => router.push('/')}
+                />
+                <div className='footer-description'>Platformanın demo versiyasında qanunvericilik bazasında məcəllələrə dair axtarış imkanı təqdim edilir. Tam təminatlı versiya istifadəyə verildikdə, istifadəçilər həmçinin Normativ Hüquqi Aktlar, Beynəlxalq Müqavilələr, Məhkəmə Qərarları, Sərəncamlar, Fərmanlar və Bəyənatlar kimi geniş hüquqi resurslara asanlıqla çıxış əldə edə biləcəklər</div>
+                <div className='footer-rights'>2024 | Legalens.ai | All rights reserved</div>
             </div>
         </div>
     )
