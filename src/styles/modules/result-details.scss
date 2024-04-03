@@ -118,7 +118,7 @@
 
                 .line {
                     height: 1px;
-                    min-width: 30px;
+                    min-width: 50px;
                     margin-left: 5px;
                     margin-right: 10px;
                     background-color: #CFCFDD;
@@ -210,7 +210,7 @@
         flex-shrink: 0;
         align-items: center;
         justify-content: flex-end;
-        background-color: #fff;
+        // background-color: #fff;
     }
 
     .text-wrapper {

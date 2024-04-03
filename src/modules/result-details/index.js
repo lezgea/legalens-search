@@ -118,9 +118,10 @@ export default function ResultDetailsModule() {
             let selectedReference = refData?.find(item =>
                 item[3] === state.hashString.split('#')[1]
             )
-            console.log('@@@@@@', refData)
+            console.log('@@@@@@', state.hashString)
             setState({
-                referenceText: selectedReference[1],
+                // referenceText: selectedReference[1],
+                referenceText: refData[3][1],
                 showRefModal: true,
                 hashString: '',
             })
@@ -242,20 +243,20 @@ export default function ResultDetailsModule() {
                     </div> */}
                     <div className='header-icons-wrapper'>
                         {
-                            showSearch
-                                ?
-                                <div className='inner-search-wrapper'>
-                                    <Input
-                                        value={innerSearchValue}
-                                        className='inner-search-input'
-                                        placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
-                                        onChange={(e) => setInnerSearchValue(e.target.value)}
-                                        onKeyDown={(e) => e.key === 'Enter' && getInnerSearchData()}
-                                    />
-                                    <ActionButton color='blue' label='Search' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
-                                </div>
-                                :
-                                <ActionButton color='blue' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
+                            // showSearch
+                            //     ?
+                            //     <div className='inner-search-wrapper'>
+                            //         <Input
+                            //             value={innerSearchValue}
+                            //             className='inner-search-input'
+                            //             placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
+                            //             onChange={(e) => setInnerSearchValue(e.target.value)}
+                            //             onKeyDown={(e) => e.key === 'Enter' && getInnerSearchData()}
+                            //         />
+                            //         <ActionButton color='blue' label='Search' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
+                            //     </div>
+                            //     :
+                            //     <ActionButton color='blue' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
                         }
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={onClickDownload} icon={DownloadIcon} />
@@ -321,8 +322,7 @@ export default function ResultDetailsModule() {
                                         content={
                                             <>
                                                 <div dangerouslySetInnerHTML={{ __html: item[0] }} style={{ marginBottom: 10 }}></div>
-                                                {/* <a href={item[2]}>{item[2]}</a> */}
-                                                {console.log('----------', item)}
+
                                                 {
                                                     item[2]?.map((link, i) =>
                                                         <a key={i} href={link}>{link}</a>
@@ -371,7 +371,8 @@ export default function ResultDetailsModule() {
                     onCancel={() => setState({ showRefModal: false })}
                     footer={[]}
                 >
-                    {state.referenceText}
+                    <div dangerouslySetInnerHTML={{ __html: state.referenceText }}></div>
+                    {/* {state.referenceText} */}
                 </Modal>
             </div>
         </div >
