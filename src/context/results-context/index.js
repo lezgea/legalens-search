@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { RESULTS_STATE_INITIAL } from '@/constants/initial-states';
+import { RESULTS_STATE_INITIAL, SELECTED_STATE_INITIAL } from '@/constants/initial-states';
 
 
 
@@ -9,6 +9,9 @@ const ResultsContext = React.createContext(null)
 export function ResultsContextProvider({ children }) {
     const [resultsState, setResultsState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         RESULTS_STATE_INITIAL
+    )
+    const [selectedItems, setSelectedItems] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        SELECTED_STATE_INITIAL
     )
     const [colors, setColors] = React.useState([])
     const [selectedResult, setSelectedResult] = React.useState({})
@@ -26,7 +29,16 @@ export function ResultsContextProvider({ children }) {
     }
 
 
-    const value = { resultsState, setResultsState, colors, setColors, selectedResult, setSelectedResult }
+    const value = {
+        resultsState,
+        setResultsState,
+        colors,
+        setColors,
+        selectedResult,
+        setSelectedResult,
+        selectedItems,
+        setSelectedItems,
+    }
 
 
     React.useEffect(() => {
@@ -46,8 +58,10 @@ export function ResultsContextProvider({ children }) {
  *  @returns {{ 
  *      resultsState: Array, 
  *      colors: Array,
+ *      selectedItems: Object,
  *      setResultsState: (result: Object) => VoidFunction 
  *      setColors: (result: Object) => VoidFunction 
+ *      setSelectedItems: (result: Object) => VoidFunction
  * }}
  */
 export function useResultsContext() {
@@ -55,7 +69,7 @@ export function useResultsContext() {
 
     if (context === undefined) {
         throw new Error(
-            'useResultsContext must be used within a ResultsContextProvider'
+            'useResultsContext must be used within a ResultContextProvider'
         )
     }
     return context

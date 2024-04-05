@@ -251,6 +251,8 @@ const ResultCard = (props) => {
             className='result-card-wrapper'
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
+                <div className='white-opacity-box'>
+                </div>
                 <div
                     className='action-btn'
                     onClick={(e) => {

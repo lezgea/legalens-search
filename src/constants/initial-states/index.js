@@ -7,6 +7,13 @@ export const SEARCH_STATE_INITIAL = {
 }
 
 
+export const SELECTED_STATE_INITIAL = {
+    mecelles: [],
+    bolmes: [],
+    fesils: [],
+}
+
+
 export const SEARCH_KEYS_INITIAL = [
     // { id: 1, label: 'AR Qanunları', color: '#7F6DF0' },
     // { id: 2, label: 'Mülkü məcəllə', color: '#77D4CF' },

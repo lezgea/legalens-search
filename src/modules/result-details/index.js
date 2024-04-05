@@ -334,7 +334,6 @@ export default function ResultDetailsModule() {
                                     >
                                         <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[3] } })}>
                                             <div className='order-label'>{item[1]}</div>
-                                            {/* <div className='order-count'>{item[3] ? `${item[3]} / ${data?.data?.length}` : item[2]}</div> */}
                                         </div>
                                     </Popover>
                                 )
@@ -360,7 +359,6 @@ export default function ResultDetailsModule() {
                                 </Popover>
                             )
                         }
-                        {console.log('!!!!!!!', refData)}
                     </div>
                 </div>
 
@@ -372,7 +370,6 @@ export default function ResultDetailsModule() {
                     footer={[]}
                 >
                     <div dangerouslySetInnerHTML={{ __html: state.referenceText }}></div>
-                    {/* {state.referenceText} */}
                 </Modal>
             </div>
         </div >

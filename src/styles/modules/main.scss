@@ -124,6 +124,54 @@
         }
     }
 
+    .footer-bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        // background-color: #0091ff;
+        // align-items: center;
+        align-content: space-between;
+        justify-content: space-between;
+        padding: 20px 30px;
+
+        .footer-icons-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+
+            a {
+                color: #000;
+
+                &:hover {
+                    color: #0091ff;
+                }
+
+                .footer-icon {
+                    font-size: 18px;
+                }
+            }
+
+        }
+
+        .footer-ai-wrapper {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding-right: 20px;
+
+            .footer-ai-text {
+                font-size: 14px;
+            }
+
+            .footer-ai-logo {
+                margin-left: 10px;
+            }
+        }
+    }
+
+
     .main-footer {
         position: relative;
         display: flex;
@@ -134,7 +182,7 @@
         padding: 20px;
         width: 100%;
         border-radius: 20px 20px 0 0;
-        background-color: #F2F4F8;
+        // background-color: #F2F4F8;
 
         .footer-legalens-logo {
             cursor: pointer;
@@ -153,51 +201,7 @@
             font-size: 14px;
         }
 
-        .footer-bottom {
-            position: absolute;
-            top: 5px;
-            width: 100%;
-            display: flex;
-            // align-items: center;
-            align-content: space-between;
-            justify-content: space-between;
-            padding: 20px 30px;
 
-            .footer-icons-wrapper {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 15px;
-
-                a {
-                    color: #000;
-
-                    &:hover {
-                        color: #0091ff;
-                    }
-
-                    .footer-icon {
-                        font-size: 18px;
-                    }
-                }
-
-            }
-
-            .footer-ai-wrapper {
-                display: flex;
-                align-items: flex-end;
-                justify-content: flex-end;
-                padding-right: 20px;
-
-                .footer-ai-text {
-                    font-size: 14px;
-                }
-
-                .footer-ai-logo {
-                    margin-left: 10px;
-                }
-            }
-        }
     }
 }
 
