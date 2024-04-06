@@ -36,11 +36,12 @@
         .label {
             color: #212123;
             text-align: center;
-            font-size: 35px;
+            font-size: 36px;
             font-style: normal;
             font-weight: 600;
-            line-height: 140%;
-            margin-bottom: 10px;
+            line-height: 120%;
+            margin-bottom: 20px;
+            animation: 1.3s mainPageLabelAnimation ease-in-out;
         }
 
         .description {
@@ -50,6 +51,7 @@
             font-style: normal;
             font-weight: 400;
             line-height: 125%;
+            animation: 1.5s mainPageDescriptionAnimation ease-in-out;
         }
     }
 
@@ -311,5 +313,41 @@
         gap: 15px;
         // transform: skew(0);
         visibility: hidden;
+    }
+}
+
+
+@keyframes mainPageLabelAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(1) translateY(-70vh);
+    }
+
+    50% {
+        opacity: .5;
+        transform: scale(1) translateY(5vh);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+@keyframes mainPageDescriptionAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(1) translateY(-70vh);
+    }
+
+    70% {
+        opacity: .5;
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
     }
 }

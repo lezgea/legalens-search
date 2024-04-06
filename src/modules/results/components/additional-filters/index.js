@@ -1,12 +1,15 @@
 import { useResultsContext } from '@/context/results-context'
 import React from 'react'
+import { Checkbox, Popover, Slider } from 'antd';
 import { ArrowDownIcon } from '../../../../assets/icons'
 import Icon from '@ant-design/icons';
+import { useSearchFilters } from '@/api/filters';
+import { useSearchContext } from '@/context/search-context';
 import { CheckBoxItem } from '@/components/small';
 
 
-export const BolmeFilter = (props) => {
-    let { count, filteredItems, setFilteredItems } = props
+export const AdditionalFilters = (props) => {
+    let { label, count, filteredItems, setFilteredItems } = props
 
     const [opened, setOpened] = React.useState(true)
     const { resultsState, selectedItems, setSelectedItems } = useResultsContext()
@@ -65,7 +68,7 @@ export const BolmeFilter = (props) => {
     return (
         <div className='filter-item' onClick={onOpenItem}>
             <div className='header'>
-                <div className='label' style={openedLabelStyles}>Bölmələr</div>
+                <div className='label' style={openedLabelStyles}>Ətraflı Axtarış</div>
                 <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
                 {
                     !!selectedItems.bolmes.length &&
@@ -78,15 +81,31 @@ export const BolmeFilter = (props) => {
                 opened && !!filteredItems.bolmes?.length &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
+                        <CheckBoxItem
+                            // key={item.id}
+                            checked={true}
+                            label="Söz və ya söz birləşməsi"
+                            onCheck={() => { }}
+                        />
+                        <Slider
+                            min={1}
+                            max={20}
+                            onChange={() => { }}
+                            value={typeof inputValue === 'number' ? inputValue : 0}
+                        />
+                        <div className='checkbox-wrapper'>
+
+                        </div>
+
                         {
-                            filteredItems.bolmes?.filter(bol => !!bol.name).map((item, i) =>
-                                <CheckBoxItem
-                                    key={item.id}
-                                    checked={!!selectedItems.bolmes.filter(bol => bol.id == item.id)?.length}
-                                    label={item.name}
-                                    onCheck={() => onCheck(item)}
-                                />
-                            )
+                            // filteredItems.bolmes?.filter(bol => !!bol.name).map((item, i) =>
+                            //     <CheckBoxItem
+                            //         key={item.id}
+                            //         checked={!!selectedItems.bolmes.filter(bol => bol.id == item.id)?.length}
+                            //         label={item.name}
+                            //         onCheck={() => onCheck(item)}
+                            //     />
+                            // )
                         }
                     </div>
                 </div>

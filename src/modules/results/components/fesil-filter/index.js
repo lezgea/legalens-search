@@ -1,15 +1,12 @@
 import { useResultsContext } from '@/context/results-context'
 import React from 'react'
-import { Checkbox, Popover } from 'antd';
 import { ArrowDownIcon } from '../../../../assets/icons'
 import Icon from '@ant-design/icons';
-import { useSearchFilters } from '@/api/filters';
-import { useSearchContext } from '@/context/search-context';
 import { CheckBoxItem } from '@/components/small';
 
 
 export const FesilFilter = (props) => {
-    let { label, count, filteredItems, setFilteredItems } = props
+    let { count, filteredItems, setFilteredItems } = props
 
     const { selectedItems, setSelectedItems } = useResultsContext()
     const [opened, setOpened] = React.useState(true)
@@ -41,7 +38,7 @@ export const FesilFilter = (props) => {
     return (
         <div className='filter-item' onClick={onOpenItem}>
             <div className='header'>
-                <div className='label' style={openedLabelStyles}>{label}</div>
+                <div className='label' style={openedLabelStyles}>Fəsillər</div>
                 <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
                 {
                     !!selectedItems.fesils.length &&

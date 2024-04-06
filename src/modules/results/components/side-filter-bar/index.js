@@ -8,6 +8,7 @@ import { useResultsContext } from '@/context/results-context';
 import { MecelleFilter } from '../mecelle-filter';
 import { BolmeFilter } from '../bolme-filter';
 import { FesilFilter } from '../fesil-filter';
+import { AdditionalFilters } from '../additional-filters';
 
 
 export const SideFilterBar = () => {
@@ -80,10 +81,13 @@ export const SideFilterBar = () => {
                 // resultsState.filtersLoading &&
                 // <FilterBoxSkeleton />
             }
+            <AdditionalFilters
+                filteredItems={filteredItems}
+                setFilteredItems={setFilteredItems}
+            />
             {
                 !!filteredItems.mecelles?.length &&
                 <MecelleFilter
-                    label="Məcəllələr"
                     filteredItems={filteredItems}
                     setFilteredItems={setFilteredItems}
                 />
@@ -91,7 +95,6 @@ export const SideFilterBar = () => {
             {
                 !!filteredItems.bolmes?.length &&
                 <BolmeFilter
-                    label="Bölmələr"
                     filteredItems={filteredItems}
                     setFilteredItems={setFilteredItems}
                 />
@@ -99,7 +102,6 @@ export const SideFilterBar = () => {
             {
                 !!filteredItems.fesils?.length &&
                 <FesilFilter
-                    label="Fəsillər"
                     filteredItems={filteredItems}
                     setFilteredItems={setFilteredItems}
                 />

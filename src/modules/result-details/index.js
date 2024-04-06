@@ -118,7 +118,6 @@ export default function ResultDetailsModule() {
             let selectedReference = refData?.find(item =>
                 item[3] === state.hashString.split('#')[1]
             )
-            console.log('@@@@@@', state.hashString)
             setState({
                 // referenceText: selectedReference[1],
                 referenceText: refData[3][1],
@@ -151,12 +150,12 @@ export default function ResultDetailsModule() {
 
     React.useLayoutEffect(() => {
         if (state.article.index) {
-            let indexToScrollTo = state.article.index; // Change this to the index you want to scroll to
+            let indexToScrollTo = state.article.index
             if (arrayRef.current[indexToScrollTo]) {
                 if (state.article.type === 'section') {
-                    arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' });
+                    arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' })
                 } else {
-                    arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }
             }
         }
@@ -231,16 +230,6 @@ export default function ResultDetailsModule() {
                 </div>
 
                 <div className='results-details-content'>
-                    {/* <div className='scroll-to-top'>
-                        <ActionButton color='blue' onClick={() => { }} icon={DownloadIcon} />
-                    </div>
-                    <div className='scroll-to-bottom'>
-                        <ActionButton
-                            color='blue'
-                            onClick={() => window.scrollTo({ bottom: 0, behavior: 'smooth' })}
-                            icon={DownloadIcon}
-                        />
-                    </div> */}
                     <div className='header-icons-wrapper'>
                         {
                             // showSearch
@@ -289,23 +278,6 @@ export default function ResultDetailsModule() {
                                         ></div>
                                     )
                                 }
-                                {
-                                    // addsData?.elave?.length && addsData.elave?.map((item, index) =>
-                                    //     <>
-                                    //         {
-                                    //             item[1].map((addItem, j) =>
-                                    //                 <div
-                                    //                     key={index}
-                                    //                     // className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
-                                    //                     className='adds'
-                                    //                     // ref={(element) => arrayRef.current[index] = element}
-                                    //                     dangerouslySetInnerHTML={{ __html: addItem }}
-                                    //                 ></div>
-                                    //             )
-                                    //         }
-                                    //     </>
-                                    // )
-                                }
                             </div>
                     }
                 </div>
@@ -352,7 +324,11 @@ export default function ResultDetailsModule() {
                         {
                             refData?.map((item, i) =>
                                 <Popover placement="left" content={<div dangerouslySetInnerHTML={{ __html: item[1] }}></div>} overlayStyle={{ maxWidth: '600px' }} >
-                                    <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[2] } })}>
+                                    <div
+                                        key={i} className='order-button'
+                                        style={{ cursor: !item[2] && 'auto' }}
+                                        onClick={() => setState({ article: { type: 'item', index: item[2] } })}
+                                    >
                                         <div className='order-link-label truncate-2' dangerouslySetInnerHTML={{ __html: item[1] }}></div>
                                         <div className='order-count'> </div>
                                     </div>

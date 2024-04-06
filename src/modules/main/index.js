@@ -95,21 +95,6 @@ export default function MainModule() {
                     <div className='description'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
                 </div>
                 <div className='search-wrapper'>
-                    {/* <Dropdown
-                        menu={{
-                            items: [
-                                {
-                                    key: '1',
-                                    label: (
-                                        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                                            1st menu item
-                                        </a>
-                                    ),
-                                },
-                            ]
-                        }}
-                        placement="bottom"
-                    > */}
                     <div className='search-box'>
                         <Input
                             value={searchState.searchValue}
