@@ -4,11 +4,11 @@ import { useQuery } from "react-query";
 
 export function useFilters({ query_string }, onSuccess) {
     const { data = [], isFetching, error, refetch } = useQuery(
-        ['filters-data', query_string],
+        ['filters-data'],
         () => getFiltersData({ query_string }),
         {
             refetchOnWindowFocus: false,
-            enabled: !!query_string,
+            // enabled: !!query_string,
             onSuccess: onSuccess,
         }
     );

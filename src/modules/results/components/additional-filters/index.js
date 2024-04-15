@@ -82,7 +82,6 @@ export const AdditionalFilters = (props) => {
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
                         <CheckBoxItem
-                            // key={item.id}
                             checked={true}
                             label="Söz və ya söz birləşməsi"
                             onCheck={() => { }}

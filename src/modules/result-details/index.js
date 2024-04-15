@@ -65,11 +65,6 @@ export default function ResultDetailsModule() {
     }, () => { })
 
 
-    const { data: addsData = [], refetch: refetchAddsData, isFetching: isFetchingAddsData } = useDetailsAdds({
-        mecelle_id,
-    }, () => { })
-
-
     const { data: refData = [], refetch: refetchRefData, isFetching: isFetchingRefData } = useDetailsReference({
         mecelle_id,
     }, () => { })

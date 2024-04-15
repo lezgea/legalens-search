@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .results-wrapper {
     background: #f9f8f8;
     padding: 0 20px;
@@ -359,6 +361,18 @@
                     font-style: normal;
                     font-weight: 400;
                 }
+
+                .text-skeleton {
+                    height: 10px;
+                    width: 100%;
+                    border-radius: 5px;
+                    margin-top: 15px;
+                    background-color: $skeleton_color;
+                    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+                    background-position: -250px 0;
+                    background-repeat: no-repeat;
+                    animation: skeletonAnimation 1.5s ease-in-out infinite;
+                }
             }
 
             .white-opacity-box {
@@ -482,6 +496,18 @@
                     font-style: normal;
                     font-weight: 400;
                 }
+
+                .text-skeleton {
+                    height: 10px;
+                    width: 100%;
+                    border-radius: 5px;
+                    margin-top: 15px;
+                    background-color: $skeleton_color;
+                    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+                    background-position: -250px 0;
+                    background-repeat: no-repeat;
+                    animation: skeletonAnimation 1.5s ease-in-out infinite;
+                }
             }
 
             .action-btn {
@@ -551,6 +577,19 @@
                 border-radius: 15px;
                 background-color: #85be24;
                 animation: linerFilterItemAnimation .5s ease-in-out;
+            }
+
+            .item-selected {
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                width: 17px;
+                height: 42px;
+                background: #efd5f61e;
+                z-index: 200;
+                backdrop-filter: blur(3px);
+                border: 2px solid #a009eb;
+                border-radius: 10px;
             }
 
             &:hover {

@@ -10,6 +10,7 @@ import { useSearch } from '@/hooks/use-search';
 import { Header } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { useFilters } from '@/hooks/use-filters';
 
 
 
@@ -19,6 +20,7 @@ export default function MainModule() {
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
+    const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
     // const {
     //     data: searchHistory = [],
@@ -81,7 +83,6 @@ export default function MainModule() {
             source: legalSourceID,
             campaignId: legalCompanyID,
         })
-        refetch()
         router.push('/results')
     }
 

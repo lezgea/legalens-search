@@ -243,7 +243,7 @@ const ResultCard = (props) => {
         }
     }, [linerData.crop_id])
 
-
+    console.log('@@@@', isFetching)
 
     return (
         <Link
@@ -286,7 +286,12 @@ const ResultCard = (props) => {
                                             setCardIndex(index);
                                         }}
                                     >
-                                        <div className='item-marker' style={{ backgroundColor: backgroundColor }}></div>
+                                        <div className='item-marker' style={{ backgroundColor: backgroundColor }}>
+                                            {
+                                                linerData.crop_id == item[0] &&
+                                                <div className='item-selected'></div>
+                                            }
+                                        </div>
                                     </div>
                                 )
                             })
@@ -294,7 +299,7 @@ const ResultCard = (props) => {
                     </div>
                 </div>
                 {
-                    linerData.loading &&
+                    isFetching &&
                     <div className='text-container'>
                         <div className='text-skeleton' />
                         <div className='text-skeleton' />

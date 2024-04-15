@@ -53,6 +53,7 @@ export const Header = (props) => {
     async function getSearchDataAndKeys() {
         setSearchState({ offset: 0, activateSearch: true })
         refetch()
+        refetchFilters()
         router.push('/results')
     }
 

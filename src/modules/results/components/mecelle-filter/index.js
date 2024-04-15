@@ -1,6 +1,6 @@
 import { useResultsContext } from '@/context/results-context'
 import React from 'react'
-import { ArrowDownIcon } from '../../../../assets/icons'
+import { ArrowDownIcon } from '@/assets/icons'
 import Icon from '@ant-design/icons';
 import { CheckBoxItem } from '@/components/small';
 
