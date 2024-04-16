@@ -20,13 +20,7 @@ export default function MainModule() {
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
-    const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
-    // const {
-    //     data: searchHistory = [],
-    //     refetch: refretchSearchHistory,
-    //     isFetching: isFetchingSearchHistory,
-    // } = useSearchHistoryData()
 
 
     const getDeviceID = () => {
@@ -73,7 +67,7 @@ export default function MainModule() {
             setResultsState({ list: [], searchKeys: [] })
             setColors([])
         }
-    }, [isFetching])
+    }, [])
 
 
     async function getSearchDataAndKeys() {

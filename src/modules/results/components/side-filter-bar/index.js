@@ -37,7 +37,6 @@ export const SideFilterBar = () => {
                 onSuccess: (res) => {
                     // showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
                     // refetchDocs()
-                    // console.log('REEEEEEEES', res)
 
                     setResultsState({ loading: filteredDataLoading })
                     if (!!res.data.length) {
@@ -56,7 +55,6 @@ export const SideFilterBar = () => {
                     }
                 },
                 onError: (res) => {
-                    console.log('ERROOOOOOOOR', res)
                     // showNotification({ title: 'Fayl yüklənən zaman xəta baş verdi.', variant: 'error' });
                 },
             }
@@ -171,7 +169,6 @@ export const SideFilterBar = () => {
 //         setOpened(!opened)
 //     }
 
-//     console.log('@@@', selectedItems)
 
 
 //     return (

@@ -22,7 +22,7 @@ export const Header = (props) => {
 
 
     React.useEffect(() => {
-        setResultsState({ loading: isFetching })
+        setResultsState({ loading: true })
         if (!!data.length) {
             if (searchState.offset > 0) {
                 setResultsState({
@@ -46,8 +46,8 @@ export const Header = (props) => {
             })
             setColors([])
         }
-        // setResultsState({ loading: false })
-    }, [searchState.offset, isFetching])
+        setResultsState({ loading: false })
+    }, [searchState.offset, data])
 
 
     async function getSearchDataAndKeys() {
@@ -56,6 +56,11 @@ export const Header = (props) => {
         refetchFilters()
         router.push('/results')
     }
+
+    React.useEffect(() => {
+        refetch()
+        setResultsState({ loading: false })
+    }, [resultsState.searchKeys.length])
 
 
     return (

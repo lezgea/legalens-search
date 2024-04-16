@@ -75,17 +75,14 @@ export default function ResultsModule() {
         let newString = ''
         let newSearchArr = resultsState.searchKeys?.filter(key => key !== item)
         newSearchArr.map(item => newString = newString + ' ' + item)
-        setResultsState({ searchKeys: newSearchArr })
+        setResultsState({ searchKeys: newSearchArr, loading: true })
         setSearchState({ searchValue: newString })
     }
 
 
     function onScrollText(e) {
-        // if(is)
         const bottom = e.target.scrollTop + e.target.clientHeight > e.target.scrollHeight;
-        // console.log('Xanlar', e.target.scrollHeight, e.target.clientHeight + e.target.scrollTop)
         if (!!bottom) {
-            // setSearchState({ offset: searchState.offset + 1 })
         }
     }
 
@@ -243,7 +240,6 @@ const ResultCard = (props) => {
         }
     }, [linerData.crop_id])
 
-    console.log('@@@@', isFetching)
 
     return (
         <Link
