@@ -39,6 +39,7 @@ export const RESULTS_STATE_INITIAL = {
     ],
     filters: {},
     activation_token: '',
+    triggerSearch: false,
 }
 
 

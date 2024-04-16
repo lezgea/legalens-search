@@ -75,7 +75,7 @@ export default function ResultsModule() {
         let newString = ''
         let newSearchArr = resultsState.searchKeys?.filter(key => key !== item)
         newSearchArr.map(item => newString = newString + ' ' + item)
-        setResultsState({ searchKeys: newSearchArr, loading: true })
+        setResultsState({ searchKeys: newSearchArr, loading: true, triggerSearch: !resultsState.triggerSearch })
         setSearchState({ searchValue: newString })
     }
 

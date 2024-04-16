@@ -8,7 +8,7 @@ export function useSearch({ query, offset }, onSuccess) {
         () => getSearchData({ query_strig: query, offset: offset }),
         {
             refetchOnWindowFocus: false,
-            enabled: !!query,
+            enabled: false,
             onSuccess: onSuccess,
         }
     );

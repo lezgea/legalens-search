@@ -16,13 +16,21 @@ export const Header = (props) => {
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, setResultsState, setColors } = useResultsContext()
+    const [triggerUpdate, setTriggerUpdate] = React.useState(false)
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
 
 
-    React.useEffect(() => {
-        setResultsState({ loading: true })
+    async function getSearchDataAndKeys() {
+        setSearchState({ offset: 0, activateSearch: true })
+        refetch()
+        refetchFilters()
+        // setTriggerUpdate(true)
+        router.push('/results')
+    }
+
+    function updateResultState() {
         if (!!data.length) {
             if (searchState.offset > 0) {
                 setResultsState({
@@ -47,20 +55,19 @@ export const Header = (props) => {
             setColors([])
         }
         setResultsState({ loading: false })
-    }, [searchState.offset, data])
-
-
-    async function getSearchDataAndKeys() {
-        setSearchState({ offset: 0, activateSearch: true })
-        refetch()
-        refetchFilters()
-        router.push('/results')
     }
+
 
     React.useEffect(() => {
         refetch()
         setResultsState({ loading: false })
-    }, [resultsState.searchKeys.length])
+    }, [resultsState.triggerSearch])
+
+
+    React.useEffect(() => {
+        setResultsState({ loading: true })
+        updateResultState()
+    }, [searchState.offset, data[1]])
 
 
     return (

@@ -58,7 +58,7 @@ export default function MainModule() {
     const legalCompanyID = getCompanyID()
 
 
-    React.useEffect(() => {
+    function updateResultsState() {
         setResultsState({ loading: isFetching })
         if (!!data?.length) {
             setResultsState({ list: data[0], searchKeys: data[1] })
@@ -67,8 +67,7 @@ export default function MainModule() {
             setResultsState({ list: [], searchKeys: [] })
             setColors([])
         }
-    }, [])
-
+    }
 
     async function getSearchDataAndKeys() {
         postSearchHistory({
@@ -77,13 +76,19 @@ export default function MainModule() {
             source: legalSourceID,
             campaignId: legalCompanyID,
         })
+        refetch()
         router.push('/results')
     }
 
 
+    React.useEffect(() => {
+        updateResultsState()
+    }, [data[1]])
+
+
     return (
         <div className='main-wrapper'>
-            <Header hideSearch />
+            {/* <Header hideSearch /> */}
             <div className='content-wrapper'>
                 <div className='title-wrapper'>
                     <div className='label'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
