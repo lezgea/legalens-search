@@ -16,7 +16,6 @@ export const Header = (props) => {
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, setResultsState, setColors } = useResultsContext()
-    const [triggerUpdate, setTriggerUpdate] = React.useState(false)
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
@@ -49,7 +48,8 @@ export const Header = (props) => {
             setColors([...Object.values(data[2])])
         } else {
             setResultsState({
-                list: [], searchKeys: [],
+                list: [],
+                searchKeys: [],
                 filters: {}
             })
             setColors([])
@@ -67,8 +67,9 @@ export const Header = (props) => {
     React.useEffect(() => {
         setResultsState({ loading: true })
         updateResultState()
-    }, [searchState.offset, data[1]])
+    }, [searchState.offset, data[1], filtersData?.length])
 
+    console.log('****', filtersData)
 
     return (
         <div className='header-wrapper'>

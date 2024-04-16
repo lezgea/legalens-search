@@ -70,15 +70,9 @@ export const AdditionalFilters = (props) => {
             <div className='header'>
                 <div className='label' style={openedLabelStyles}>Ətraflı Axtarış</div>
                 <Icon component={ArrowDownIcon} className='icon' style={{ transform: opened && 'rotate(0.5turn)' }} />
-                {
-                    !!selectedItems.bolmes.length &&
-                    <div className='count-circle'>
-                        <div className='text'>{selectedItems.bolmes?.length}</div>
-                    </div>
-                }
             </div>
             {
-                opened && !!filteredItems.bolmes?.length &&
+                opened &&
                 <div className='children-wrapper' onClick={(e) => e.stopPropagation()}>
                     <div className='children'>
                         <CheckBoxItem

@@ -76,8 +76,8 @@ export const SideFilterBar = () => {
     return (
         <div className='side-filter-bar'>
             {
-                // resultsState.filtersLoading &&
-                // <FilterBoxSkeleton />
+                resultsState.filtersLoading &&
+                <FilterBoxSkeleton />
             }
             <AdditionalFilters
                 filteredItems={filteredItems}

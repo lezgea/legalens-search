@@ -7,10 +7,9 @@ import { Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
-import { Header } from '@/components/large';
+import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
-import { useFilters } from '@/hooks/use-filters';
 
 
 
@@ -88,7 +87,7 @@ export default function MainModule() {
 
     return (
         <div className='main-wrapper'>
-            {/* <Header hideSearch /> */}
+            <MainHeader />
             <div className='content-wrapper'>
                 <div className='title-wrapper'>
                     <div className='label'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>

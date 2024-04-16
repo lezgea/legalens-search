@@ -86,15 +86,17 @@ export default function ResultsModule() {
         }
     }
 
+    console.log('@@@@@@@', resultsState.filters)
 
     return (
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
                 {
-                    !!Object.keys(resultsState.filters)?.length &&
-                    <SideFilterBar />
+                    // !!Object.keys(resultsState.filters)?.length &&
+
                 }
+                <SideFilterBar />
                 <div className='results-content-wrapper'>
                     <div
                         className='results-list-wrapper'
