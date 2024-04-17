@@ -81,21 +81,18 @@ export default function ResultsModule() {
 
 
     function onScrollText(e) {
-        const bottom = e.target.scrollTop + e.target.clientHeight > e.target.scrollHeight;
+        const bottom = e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight;
         if (!!bottom) {
+            setSearchState({ offset: searchState.offset + 1 })
+            setResultsState({ spinnerLoading: true })
         }
     }
 
-    console.log('@@@@@@@', resultsState.filters)
 
     return (
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
-                {
-                    // !!Object.keys(resultsState.filters)?.length &&
-
-                }
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
                     <div
@@ -153,7 +150,7 @@ export default function ResultsModule() {
                             </div>
                         }
                         {
-                            resultsState.loading && !resultsState?.list?.length &&
+                            resultsState.spinnerLoading &&
                             <div className='list-loader'>
                                 <Spin size="large" />
                             </div>

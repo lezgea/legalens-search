@@ -15,7 +15,7 @@ export const Header = (props) => {
     let { hideSearch } = props
     const router = useRouter()
     const { searchState, setSearchState } = useSearchContext()
-    const { resultsState, setResultsState, setColors } = useResultsContext()
+    const { resultsState, setResultsState, setColors, setSelectedItems } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
@@ -23,6 +23,7 @@ export const Header = (props) => {
 
     async function getSearchDataAndKeys() {
         setSearchState({ offset: 0, activateSearch: true })
+        setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
         refetch()
         refetchFilters()
         // setTriggerUpdate(true)
@@ -60,8 +61,8 @@ export const Header = (props) => {
 
     React.useEffect(() => {
         refetch()
-        setResultsState({ loading: false })
-    }, [resultsState.triggerSearch])
+        setResultsState({ loading: false, spinnerLoading: false })
+    }, [searchState.offset, resultsState.triggerSearch])
 
 
     React.useEffect(() => {
@@ -69,7 +70,6 @@ export const Header = (props) => {
         updateResultState()
     }, [searchState.offset, data[1], filtersData?.length])
 
-    console.log('****', filtersData)
 
     return (
         <div className='header-wrapper'>
