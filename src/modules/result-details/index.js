@@ -1,15 +1,14 @@
 import React from 'react'
-import { DownloadIcon, SearchIcon, SquareIcon } from '@/assets/icons'
+import { DownloadIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
-import { Input, Modal, Popover } from 'antd';
+import { Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import { useSearchContext } from '@/context/search-context';
 import { useDetailsKmq } from '@/hooks/use-details-kmq';
 import { useDetailsReference } from '@/hooks/use-details-reference';
-import { useDetailsAdds } from '@/hooks/use-details-adds';
 
 
 
@@ -89,11 +88,6 @@ export default function ResultDetailsModule() {
     }
 
 
-    function getInnerSearchData() {
-
-    }
-
-
     React.useEffect(() => {
         const handleHashChange = () => {
             const hashString = window.location.hash
@@ -110,11 +104,7 @@ export default function ResultDetailsModule() {
 
     React.useEffect(() => {
         if (!!state.hashString) {
-            let selectedReference = refData?.find(item =>
-                item[3] === state.hashString.split('#')[1]
-            )
             setState({
-                // referenceText: selectedReference[1],
                 referenceText: refData[3][1],
                 showRefModal: true,
                 hashString: '',
@@ -299,7 +289,12 @@ export default function ResultDetailsModule() {
                                         }
                                         overlayStyle={{ maxWidth: '900px' }}
                                     >
-                                        <div key={i} className='order-button' onClick={() => setState({ article: { type: 'item', index: item[3] } })}>
+                                        <div
+                                            key={i}
+                                            className='order-button'
+                                            style={{ cursor: !item[3] && 'auto' }}
+                                            onClick={() => setState({ article: { type: 'item', index: item[3] } })}
+                                        >
                                             <div className='order-label'>{item[1]}</div>
                                         </div>
                                     </Popover>
