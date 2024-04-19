@@ -88,7 +88,7 @@ export default function ResultDetailsModule() {
     }
 
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         const handleHashChange = () => {
             const hashString = window.location.hash
             setState({ hashString: hashString })
@@ -141,6 +141,7 @@ export default function ResultDetailsModule() {
                     arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth' })
                 } else {
                     arrayRef.current[indexToScrollTo].scrollIntoView({ behavior: 'smooth', block: 'center' })
+                    setTimeout(() => setState({ article: { type: 'section' } }), 7000)
                 }
             }
         }
@@ -279,7 +280,6 @@ export default function ResultDetailsModule() {
                                         content={
                                             <>
                                                 <div dangerouslySetInnerHTML={{ __html: item[0] }} style={{ marginBottom: 10 }}></div>
-
                                                 {
                                                     item[2]?.map((link, i) =>
                                                         <a key={i} href={link}>{link}</a>
@@ -293,7 +293,11 @@ export default function ResultDetailsModule() {
                                             key={i}
                                             className='order-button'
                                             style={{ cursor: !item[3] && 'auto' }}
-                                            onClick={() => setState({ article: { type: 'item', index: item[3] } })}
+                                            onClick={async () => {
+                                                setState({ article: { type: 'item', index: null } })
+                                                setState({ article: { type: 'item', index: item[3] } })
+                                                // setTimeout(() => setState({ article: { type: 'item', index: item[3] } }), 1000)
+                                            }}
                                         >
                                             <div className='order-label'>{item[1]}</div>
                                         </div>
