@@ -18,6 +18,7 @@ export const BolmeFilter = (props) => {
         setSelectedItems({ fesils: [] })
 
         if (!checked) {
+            let filteredMecelle = resultsState?.filters?.mecelles?.find(mec => mec.id == item.mecelle_id)
             let filteredFesils = resultsState?.filters?.fesils?.filter(fes => fes.parent_id == item.id)
             let checkIfFesilsExists = filteredItems.fesils.filter(fes => fes.parent_id == item.id)?.length
 
@@ -33,11 +34,12 @@ export const BolmeFilter = (props) => {
                 })
             }
             setSelectedItems({
+                mecelles: [...selectedItems.mecelles, filteredMecelle],
                 bolmes: [...selectedItems.bolmes, item]
             })
         } else {
-            let filteredFesils = filteredItems?.fesils?.filter(fes => fes.parent_id !== item.id)
             let filteredBolmes = selectedItems.bolmes?.filter(bol => bol.id !== item.id)
+            let filteredFesils = filteredItems?.fesils?.filter(fes => fes.parent_id !== item.id)
 
             setSelectedItems({
                 bolmes: filteredBolmes,
