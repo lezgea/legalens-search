@@ -156,6 +156,7 @@ export default function ResultsModule() {
                             </div>
                         }
                     </div>
+                    
                 </div>
 
                 <Modal

@@ -37,6 +37,7 @@
         width: 130px;
     }
 
+
     .filter-button {
         display: flex;
         padding: 14px 20px;
@@ -294,6 +295,28 @@
                     transform: scale(1.1);
                     animation: buttonAnimation .4s ease-in-out;
                 }
+            }
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        padding: 10px 15px;
+
+        .logo {
+            height: 30px;
+            width: 100px;
+        }
+
+        .auth-buttons-wrapper {
+            .login-button {
+                padding: 7px 12px;
+                font-size: 12px;
+            }
+
+            .registration-button {
+                padding: 7px 12px;
+                font-size: 12px;
             }
         }
     }
