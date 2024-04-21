@@ -1,9 +1,8 @@
 import React from 'react'
-import { Form, Input, Image, Button, Switch, Checkbox } from "antd";
+import { Form, Image, Button, Checkbox } from "antd";
 import Link from 'next/link';
-import { GoogleIcon, AuthBgLines, LegalensLogoWhite, LegalensLogo } from '@/assets/icons';
+import { GoogleIcon } from '@/assets/icons';
 import { useRouter } from 'next/router';
-import Icon from '@ant-design/icons';
 import { FloatInput } from '@/components/small';
 import { useRegisterUserMutation } from '@/hooks/use-register-user';
 import useNotification from '@/hooks/use-notification';
@@ -12,10 +11,7 @@ import { useResultsContext } from '@/context/results-context';
 
 export default function SignUpModule() {
     const router = useRouter()
-    const [remember, setRemember] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
     const [acceptPrivacy, setAcceptPrivacy] = React.useState(false)
-    const { setResultsState } = useResultsContext()
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             showActivationForm: false,
@@ -52,9 +48,6 @@ export default function SignUpModule() {
             {
                 onSuccess: (res) => {
                     showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' })
-                    // setState({ showActivationForm: true })
-                    // setParams({ token: res.data?.data })
-                    // setResultsState({ activation_token: res.data?.data })
                     router.push({
                         pathname: '/activation',
                         query: { token: res.data?.data }
@@ -67,23 +60,6 @@ export default function SignUpModule() {
 
 
     function onFinishActivation(values) {
-        // registerUser(
-        //     {
-        //         email: values.email,
-        //         password: values.password,
-        //         name: values.name,
-        //         surname: values.surname,
-        //         compaignId: legalCompanyID,
-        //         source: legalSourceID,
-        //     },
-        //     {
-        //         onSuccess: () => {
-        //             showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' })
-        //             router.push('/sign-up-confirmation')
-        //         },
-        //         onError: () => showNotification({ title: 'Qeydiyyat zamanı xəta baş verdi.', variant: 'error' }),
-        //     }
-        // )
     }
 
 

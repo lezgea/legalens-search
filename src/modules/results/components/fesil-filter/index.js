@@ -8,7 +8,7 @@ import { CheckBoxItem } from '@/components/small';
 export const FesilFilter = (props) => {
     let { count, filteredItems, setFilteredItems } = props
 
-    const { selectedItems, setSelectedItems } = useResultsContext()
+    const { selectedItems, resultsState, setSelectedItems } = useResultsContext()
     const [opened, setOpened] = React.useState(true)
     let openedLabelStyles = opened ? { transform: 'scale(1.05)', fontWeight: '600' } : {}
 
@@ -17,7 +17,11 @@ export const FesilFilter = (props) => {
         let checked = !!selectedItems.fesils.filter(fes => (fes.id == item.id) && (fes.parent_id == item.parent_id))?.length
 
         if (!checked) {
+            let filteredMecelle = resultsState?.filters?.mecelles?.find(mec => mec.id == item.mecelle_id)
+            let filteredBolum = resultsState?.filters?.bolmes?.find(bol => bol.bolme_id == item.bolme_id)
             setSelectedItems({
+                mecelles: [...selectedItems.mecelles, filteredMecelle],
+                bolmes: [...selectedItems.bolmes, filteredBolum],
                 fesils: [...selectedItems.fesils, item]
             })
         } else {
