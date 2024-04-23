@@ -17,7 +17,7 @@ export const Header = (props) => {
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, setResultsState, setColors, setSelectedItems } = useResultsContext()
 
-    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
+    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
 
 
@@ -27,6 +27,7 @@ export const Header = (props) => {
         refetch()
         refetchFilters()
         // setTriggerUpdate(true)
+        setResultsState({ loading: false })
         router.push('/results')
     }
 
@@ -63,6 +64,12 @@ export const Header = (props) => {
         refetch()
         setResultsState({ loading: false, spinnerLoading: false })
     }, [searchState.offset, resultsState.triggerSearch])
+
+
+    React.useEffect(() => {
+        setResultsState({ loading: true })
+        getSearchDataAndKeys()
+    }, [resultsState.search_as_phrase])
 
 
     React.useEffect(() => {

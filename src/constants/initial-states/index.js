@@ -25,6 +25,7 @@ export const RESULTS_STATE_INITIAL = {
     loading: false,
     spinnerLoading: false,
     filtersLoading: false,
+    search_as_phrase: false,
     searchKeys: [
         // { id: 1, label: 'AR Qanunları', color: '#7F6DF0' },
     ],
