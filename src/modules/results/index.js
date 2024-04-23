@@ -54,6 +54,8 @@ export default function ResultsModule() {
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
     const [startFetching, setStartFetching] = React.useState(false)
+    const [scrollToTop, setScrollToTop] = React.useState(false)
+    const listRef = React.createRef()
 
 
     function handleShowModal() {
@@ -89,6 +91,11 @@ export default function ResultsModule() {
     }
 
 
+    React.useLayoutEffect(() => {
+        listRef.current.scrollTo(0, 0)
+    }, [scrollToTop])
+
+
     return (
         <div className='uniq-wrapper'>
             <Header />
@@ -96,6 +103,7 @@ export default function ResultsModule() {
                 <SideFilterBar />
                 <div className='results-content-wrapper'>
                     <div
+                        ref={listRef}
                         className='results-list-wrapper'
                         onScroll={onScrollText}
                     >
@@ -156,7 +164,10 @@ export default function ResultsModule() {
                             </div>
                         }
                     </div>
-                    
+                </div>
+
+                <div className='scroll-to-top-button' onClick={() => setScrollToTop(!scrollToTop)}>
+                    <Icon component={ArrowDownIcon} className='icon' style={{ transform: 'rotate(0.5turn)' }} />
                 </div>
 
                 <Modal
@@ -239,6 +250,7 @@ const ResultCard = (props) => {
             })
         }
     }, [linerData.crop_id])
+
 
 
     return (

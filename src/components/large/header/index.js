@@ -27,8 +27,9 @@ export const Header = (props) => {
         refetch()
         refetchFilters()
         // setTriggerUpdate(true)
-        setResultsState({ loading: false })
-        router.push('/results')
+        setTimeout(() => setResultsState({ loading: false }), 1000)
+
+        // router.push('/results')
     }
 
     function updateResultState() {
