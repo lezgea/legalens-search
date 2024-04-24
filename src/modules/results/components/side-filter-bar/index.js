@@ -79,10 +79,13 @@ export const SideFilterBar = () => {
                 resultsState.filtersLoading &&
                 <FilterBoxSkeleton />
             }
-            <AdditionalFilters
-                filteredItems={filteredItems}
-                setFilteredItems={setFilteredItems}
-            />
+            {
+                !!resultsState.list?.length &&
+                <AdditionalFilters
+                    filteredItems={filteredItems}
+                    setFilteredItems={setFilteredItems}
+                />
+            }
             {
                 !!filteredItems.mecelles?.length &&
                 <MecelleFilter

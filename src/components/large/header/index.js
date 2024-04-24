@@ -21,6 +21,18 @@ export const Header = (props) => {
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
 
 
+    async function getSearchDataAndKeysWithNavigating() {
+        setSearchState({ offset: 0, activateSearch: true })
+        setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
+        refetch()
+        refetchFilters()
+        // setTriggerUpdate(true)
+        setTimeout(() => setResultsState({ loading: false }), 1000)
+
+        router.push('/results')
+    }
+
+
     async function getSearchDataAndKeys() {
         setSearchState({ offset: 0, activateSearch: true })
         setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
@@ -104,7 +116,7 @@ export const Header = (props) => {
                         <Input
                             value={searchState.searchValue}
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeysWithNavigating()}
                         />
                         <div className='button' onClick={getSearchDataAndKeys}>
                             <Icon component={SearchIcon} className='icon' />
