@@ -15,8 +15,8 @@ export default function SignInModule() {
     const [remember, setRemember] = React.useState(false)
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
-            email: 'muslim.ragimov@yahoo.com',
-            password: 'Mu$l!m13',
+            email: '',
+            password: '',
         }
     )
     const { mutate: loginUser, isSuccess, isLoading: loginUserLoading } = useLoginUserMutation()
