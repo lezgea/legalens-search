@@ -12,7 +12,7 @@ export const backClient = axios.create({
     baseURL: BACK_URL + '/v1',
     headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${authToken}`,
     },
     paramsSerializer: params => {
         return qs.stringify(params, { indices: false });
@@ -37,7 +37,7 @@ export const clientPermission = axios.create({
     baseURL: BACK_URL + '/auth',
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`,
+        // Authorization: `Bearer ${authToken}`,
     },
     paramsSerializer: params => {
         return qs.stringify(params, { indices: false });
@@ -48,10 +48,10 @@ clientPermission.interceptors.request.use(
     config => {
         const accessToken = getAccessToken();
 
-        if (!accessToken) {
-            // location.href = '/login';
-            // return config;
-        }
+        // if (!accessToken) {
+        //     // location.href = '/login';
+        //     // return config;
+        // }
 
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;

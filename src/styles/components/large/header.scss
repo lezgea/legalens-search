@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 7px 20px;
+    padding: 10px 20px 6px 20px;
     animation: .2s ease-in-out;
     background-color: #fff !important;
 
@@ -243,6 +243,18 @@
     .profile-wrapper {
         display: flex;
         align-items: center;
+        cursor: pointer;
+
+        .profile-avatar {
+            cursor: pointer;
+            border: 2px solid #D96B6B;
+            padding: 5px;
+        }
+
+        .user-profile-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
 
         .notification-wrapper {
             cursor: pointer;
@@ -297,8 +309,17 @@
                 }
             }
         }
-    }
 
+        &:hover {
+            .user-profile-name {
+                color: #00abee;
+            }
+
+            .profile-avatar {
+                font-size: 30px;
+            }
+        }
+    }
 
     @media (max-width: 768px) {
         padding: 10px 15px;

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { RESULTS_STATE_INITIAL, SELECTED_STATE_INITIAL } from '@/constants/initial-states';
+import { RESULTS_STATE_INITIAL, SELECTED_STATE_INITIAL, USER_STATE_INITIAL } from '@/constants/initial-states';
 
 
 
@@ -12,6 +12,9 @@ export function ResultsContextProvider({ children }) {
     )
     const [selectedItems, setSelectedItems] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         SELECTED_STATE_INITIAL
+    )
+    const [userState, setUserState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        USER_STATE_INITIAL
     )
     const [colors, setColors] = React.useState([])
     const [selectedResult, setSelectedResult] = React.useState({})
@@ -38,6 +41,8 @@ export function ResultsContextProvider({ children }) {
         setSelectedResult,
         selectedItems,
         setSelectedItems,
+        userState,
+        setUserState,
     }
 
 
@@ -59,9 +64,11 @@ export function ResultsContextProvider({ children }) {
  *      resultsState: Array, 
  *      colors: Array,
  *      selectedItems: Object,
+ *      userState: Object,
  *      setResultsState: (result: Object) => VoidFunction 
  *      setColors: (result: Object) => VoidFunction 
  *      setSelectedItems: (result: Object) => VoidFunction
+ *      setUserState: (result: Object) => VoidFunction 
  * }}
  */
 export function useResultsContext() {

@@ -30,7 +30,7 @@ export default function MainModule() {
         }
         return deviceID
     }
-
+    
 
     const getSourceID = () => {
         let legalSourceID = localStorage.getItem('legalSourceID')

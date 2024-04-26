@@ -1,22 +1,45 @@
 import React from 'react'
-import { Form, Input, Image, Button, Switch, Checkbox } from "antd";
+import { Form, Button, Switch } from "antd";
 import Link from 'next/link';
-import { GoogleIcon, AuthBgLines, LegalensLogoWhite } from '@/assets/icons';
+import { GoogleIcon, LegalensLogoWhite } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import Icon from '@ant-design/icons';
 import { FloatInput } from '@/components/small';
+import { useLoginUserMutation } from '@/hooks/use-login-user';
+import useNotification from '@/hooks/use-notification';
+import { setAuthCookies } from '@/utils/cookies';
 
 
 export default function SignInModule() {
     const router = useRouter()
     const [remember, setRemember] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
-            email: '',
-            password: '',
+            email: 'muslim.ragimov@yahoo.com',
+            password: 'Mu$l!m13',
         }
     )
+    const { mutate: loginUser, isSuccess, isLoading: loginUserLoading } = useLoginUserMutation()
+    const { showNotification } = useNotification()
+
+
+    function onFinishForm(values) {
+        loginUser(
+            {
+                email: state.email,
+                password: state.password,
+            },
+            {
+                onSuccess: (res) => {
+                    showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' })
+                    setAuthCookies(res.data?.data?.token)
+                    router.push({ pathname: '/' })
+                },
+                onError: () => showNotification({ title: 'Giriş zamanı xəta baş verdi.', variant: 'error' }),
+            }
+        )
+    }
+
 
     return (
         <div className='sign-in-container'>
@@ -30,7 +53,7 @@ export default function SignInModule() {
                     initialValues={{
                         remember: true
                     }}
-                    onFinish={() => { }}
+                    onFinish={onFinishForm}
                     onFinishFailed={() => { }}
                 >
                     <div className='welcome-label'>Xoş gəlmişsiniz !</div>
@@ -60,9 +83,9 @@ export default function SignInModule() {
                         <Link className='forgot-link' href='/forgot-password'>Forgot password?</Link>
                     </div>
                     <Button
-                        loading={loading}
+                        loading={loginUserLoading}
                         className='sign-in-button'
-                        onClick={() => setLoading(true)}
+                        onClick={onFinishForm}
                     >
                         Sign In
                     </Button>

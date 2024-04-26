@@ -21,6 +21,15 @@ export const SEARCH_KEYS_INITIAL = [
 ]
 
 
+export const USER_STATE_INITIAL = {
+    email: "",
+    id: null,
+    name: "",
+    surname: "",
+    role: "",
+    status: "",
+}
+
 export const RESULTS_STATE_INITIAL = {
     loading: false,
     spinnerLoading: false,

@@ -1,12 +1,47 @@
 import React from 'react'
-import { Image } from 'antd'
+import { Avatar, Dropdown, Image, Popover } from 'antd'
 import { useRouter } from 'next/router';
+import Icon from '@ant-design/icons';
+import { NotificationIcon } from '@/assets/icons';
+import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 import Link from 'next/link';
+import { getUserProfileInfo } from '@/api/auth';
+import { useResultsContext } from '@/context/results-context';
+
 
 
 export const MainHeader = (props) => {
     let { } = props
+    const { userState, setUserState } = useResultsContext()
     const router = useRouter()
+    const isLogged = !!getAccessToken()
+
+    function onLogout() {
+        removeAuthCookies()
+        router.push('/sign-in')
+    }
+
+
+    async function getUserInfo() {
+        let response = await getUserProfileInfo()
+        if (response.data?.key === "success") {
+            setUserState({ ...response.data?.data })
+        }
+    }
+
+
+    const DropdownContent = () => (
+        <div className='profile-dropdown-wrapper'>
+            <div className='profile-name'>{userState.name} {userState.surname}</div>
+            <div className='signout-button' onClick={onLogout}>Sign Out</div>
+        </div>
+    )
+
+
+    React.useEffect(() => {
+        if (isLogged) getUserInfo()
+    }, [isLogged])
+
 
     return (
         <div className='header-wrapper'>
@@ -16,20 +51,33 @@ export const MainHeader = (props) => {
                 preview={false}
                 onClick={() => router.push('/')}
             />
+            {
+                isLogged
+                    ?
+                    <Popover content={DropdownContent} trigger="click" placement='bottomRight'>
+                        <div className='profile-wrapper'>
+                            {/* <div className='notification-wrapper'>
+                            <Icon component={NotificationIcon} className='icon' />
+                            <div className='count-circle'>
+                                <div className='text'>3</div>
+                            </div>
+                        </div> */}
+                            <div className='user-profile-info-wrapper'>
+                                <div className='user-profile-name'>{userState.name}</div>
+                                <div className='user-profile-role'>{userState.role}</div>
+                            </div>
+                            <Avatar size={45} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
+                                {userState.name.substring(0, 1)}
+                            </Avatar>
 
-            <div className='auth-buttons-wrapper'>
-                <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>
-                <Link className='login-button' href="/sign-in">Giriş et</Link>
-            </div>
-            {/* <div className='profile-wrapper'>
-                <div className='notification-wrapper'>
-                    <Icon component={NotificationIcon} className='icon' />
-                    <div className='count-circle'>
-                        <div className='text'>3</div>
+                        </div>
+                    </Popover>
+                    :
+                    <div className='auth-buttons-wrapper'>
+                        <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>
+                        <Link className='login-button' href="/sign-in">Giriş et</Link>
                     </div>
-                </div>
-                <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
-            </div> */}
-        </div >
+            }
+        </div>
     )
 }
