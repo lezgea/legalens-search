@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Image, Input } from 'antd'
+import { Avatar, Image, Input, Popover } from 'antd'
 import Icon from '@ant-design/icons';
 import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '../../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
@@ -8,17 +8,25 @@ import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
 import Link from 'next/link';
 import { useFilters } from '@/hooks/use-filters';
+import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 
 
 
 export const Header = (props) => {
     let { hideSearch } = props
     const router = useRouter()
+    const isLogged = !!getAccessToken()
     const { searchState, setSearchState } = useSearchContext()
-    const { resultsState, setResultsState, setColors, setSelectedItems } = useResultsContext()
+    const { resultsState, setResultsState, setColors, setSelectedItems, userState, setUserState } = useResultsContext()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
+
+
+    function onLogout() {
+        router.push('/sign-in')
+        removeAuthCookies()
+    }
 
 
     async function getSearchDataAndKeysWithNavigating() {
@@ -72,6 +80,27 @@ export const Header = (props) => {
         setResultsState({ loading: false })
     }
 
+    // async function getUserInfo() {
+    //     let response = await getUserProfileInfo()
+    //     if (response.data?.key === "success") {
+    //         setUserState({ ...response.data?.data })
+    //     }
+    // }
+
+
+    const DropdownContent = () => (
+        <div className='profile-dropdown-wrapper'>
+            <div className='profile-name'>{userState?.name} {userState?.surname}</div>
+            <div className='signout-button' onClick={onLogout}>Sign Out</div>
+        </div>
+    )
+
+
+    // React.useEffect(() => {
+    //     if (isLogged) getUserInfo()
+    // }, [isLogged])
+
+    console.log('@@@@@@@', userState)
 
     React.useEffect(() => {
         refetch()
@@ -125,20 +154,33 @@ export const Header = (props) => {
                     </div>
                 </div>
             }
+            {
+                isLogged
+                    ?
+                    <Popover content={DropdownContent} trigger="click" placement='bottomRight'>
+                        <div className='profile-wrapper'>
+                            {/* <div className='notification-wrapper'>
+                            <Icon component={NotificationIcon} className='icon' />
+                            <div className='count-circle'>
+                                <div className='text'>3</div>
+                            </div>
+                        </div> */}
+                            <div className='user-profile-info-wrapper'>
+                                <div className='user-profile-name'>{userState?.name}</div>
+                                <div className='user-profile-role'>{userState?.role}</div>
+                            </div>
+                            <Avatar size={45} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
+                                {userState?.name.substring(0, 1)}
+                            </Avatar>
 
-            <div className='auth-buttons-wrapper'>
-                <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>
-                <Link className='login-button' href="/sign-in">Giriş et</Link>
-            </div>
-            {/* <div className='profile-wrapper'>
-                <div className='notification-wrapper'>
-                    <Icon component={NotificationIcon} className='icon' />
-                    <div className='count-circle'>
-                        <div className='text'>3</div>
+                        </div>
+                    </Popover>
+                    :
+                    <div className='auth-buttons-wrapper'>
+                        <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>
+                        <Link className='login-button' href="/sign-in">Giriş et</Link>
                     </div>
-                </div>
-                <Avatar src={'/assets/PNG/wow-cat.png'} size={45} />
-            </div> */}
+            }
         </div >
     )
 }

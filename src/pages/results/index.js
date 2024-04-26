@@ -17,7 +17,6 @@ const ResultsModule = dynamic(
 export default function ResultsPage() {
     return (
         <>
-
             <Head>
                 <title>Legalens | Results Page</title>
                 <link rel="icon" href="/favicon.ico" />
