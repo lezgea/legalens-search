@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { GoogleIcon, LegalensLogoWhite } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import Icon from '@ant-design/icons';
-import { FloatInput } from '@/components/small';
+import { FloatInput, PasswordInput } from '@/components/small';
 import { useLoginUserMutation } from '@/hooks/use-login-user';
 import useNotification from '@/hooks/use-notification';
 import { setAuthCookies } from '@/utils/cookies';
@@ -13,6 +13,7 @@ import { setAuthCookies } from '@/utils/cookies';
 export default function SignInModule() {
     const router = useRouter()
     const [remember, setRemember] = React.useState(false)
+    const [passwordVisible, setPasswordVisible] = React.useState(false)
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             email: '',
@@ -63,10 +64,12 @@ export default function SignInModule() {
                         value={state.email}
                         onChange={(e) => setState({ email: e.target.value })}
                     />
-                    <FloatInput
+                    <PasswordInput
                         label='Şifrə'
                         placeholder='Şifrə'
                         value={state.password}
+                        passwordVisible={passwordVisible}
+                        setPasswordVisible={() => setPasswordVisible(!passwordVisible)}
                         onChange={(e) => setState({ password: e.target.value })}
                     />
                     <div className='bottom-line-wrapper'>
@@ -84,7 +87,8 @@ export default function SignInModule() {
                     </div>
                     <Button
                         loading={loginUserLoading}
-                        className='sign-in-button'
+                        disabled={!state.email || !state.password}
+                        className={(!state.email || !state.password) ? 'sign-in-button-disabled' : 'sign-in-button'}
                         onClick={onFinishForm}
                     >
                         Sign In
