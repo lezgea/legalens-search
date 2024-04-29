@@ -3,4 +3,5 @@ export * from './forgot-password'
 export * from './sign-up'
 export * from './activation'
 export * from './reset-password'
+export * from './sign-up-confirmation'
 

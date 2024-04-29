@@ -60,7 +60,7 @@ export default function SignInModule() {
                     <div className='welcome-label'>Xoş gəlmişsiniz !</div>
                     <FloatInput
                         label='E-mail'
-                        placeholder='mail@example.com'
+                        placeholder='E-mail@nümunə.com'
                         value={state.email}
                         onChange={(e) => setState({ email: e.target.value })}
                     />
@@ -83,7 +83,7 @@ export default function SignInModule() {
                             />
                             <div className='remember-title'>Remember me</div>
                         </div>
-                        <Link className='forgot-link' href='/forgot-password'>Forgot password?</Link>
+                        <Link className='forgot-link' href='/forgot-password'>Şifrəni Unutduz?</Link>
                     </div>
                     <Button
                         loading={loginUserLoading}
@@ -91,7 +91,7 @@ export default function SignInModule() {
                         className={(!state.email || !state.password) ? 'sign-in-button-disabled' : 'sign-in-button'}
                         onClick={onFinishForm}
                     >
-                        Sign In
+                        Daxil Ol
                     </Button>
                     <Button
                         icon={<GoogleIcon />}
@@ -101,8 +101,8 @@ export default function SignInModule() {
                         Or sign in with Google
                     </Button>
                     <div className='card-bottom-line'>
-                        <div>Dont have an account?</div>
-                        <Link href='/sign-up' className='sign-up-link'>Sign up now</Link>
+                        <div>Hesabınız Yoxdur ?</div>
+                        <Link href='/sign-up' className='sign-up-link'>Qeydiyyatdan Keçin</Link>
                     </div>
                 </Form>
             </div>
