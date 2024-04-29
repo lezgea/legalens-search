@@ -80,7 +80,7 @@ export const SideFilterBar = () => {
                 <FilterBoxSkeleton />
             }
             {
-                !!resultsState.list?.length &&
+                !!filteredItems.mecelles?.length &&
                 <AdditionalFilters
                     filteredItems={filteredItems}
                     setFilteredItems={setFilteredItems}

@@ -214,7 +214,7 @@ const ResultCard = (props) => {
             loading: false,
         }
     )
-    const { data = [], refetch, isFetching, error } = useCrop({ position: linerData.crop_id, keyword: searchState.searchValue }, () => { })
+    const { data = [], refetch, isFetching, error } = useCrop({ position: linerData.crop_id, keyword: searchState.searchValue, search_as_phrase: resultsState.search_as_phrase }, () => { })
 
 
     function onSetDetails() {
