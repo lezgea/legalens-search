@@ -3,18 +3,22 @@ import { Form, Image, Button, Checkbox } from "antd";
 import Link from 'next/link';
 import { GoogleIcon } from '@/assets/icons';
 import { useRouter } from 'next/router';
-import { FloatInput } from '@/components/small';
+import { FloatInput, PasswordInput } from '@/components/small';
 import { useRegisterUserMutation } from '@/hooks/use-register-user';
 import useNotification from '@/hooks/use-notification';
 import { useResultsContext } from '@/context/results-context';
+import { PrivacyPolicyModal, TermsAndConditionsModal } from './components';
 
 
 export default function SignUpModule() {
     const router = useRouter()
+    const [passwordVisible, setPasswordVisible] = React.useState(false)
     const [acceptPrivacy, setAcceptPrivacy] = React.useState(false)
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             showActivationForm: false,
+            showTermsConditionsModal: false,
+            showPrivacyPolicyModal: false,
         }
     )
     const [params, setParams] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
@@ -111,7 +115,7 @@ export default function SignUpModule() {
                         >
                             <FloatInput
                                 label='E-mail'
-                                placeholder='mail@example.com'
+                                placeholder='E-mail@nümunə.com'
                                 value={params.mail}
                                 onChange={(e) => setParams({ email: e.target.value })}
                             />
@@ -120,10 +124,13 @@ export default function SignUpModule() {
                             name='password'
                             rules={[{ required: true, message: 'Please input valid password!' }]}
                         >
-                            <FloatInput
+                            <PasswordInput
                                 label='Şifrə'
-                                value={params.password}
-                                onChange={(e) => setParams({ password: e.target.value })}
+                                placeholder='Şifrə'
+                                value={state.password}
+                                passwordVisible={passwordVisible}
+                                setPasswordVisible={() => setPasswordVisible(!passwordVisible)}
+                                onChange={(e) => setState({ password: e.target.value })}
                             />
                         </Form.Item>
                         <Form.Item
@@ -143,10 +150,12 @@ export default function SignUpModule() {
                                 }),
                             ]}
                         >
-                            <FloatInput
+                            <PasswordInput
                                 label='Şifrəni təkrarla'
                                 placeholder='Şifrənin təkrarı'
                                 value={params.password_confirmation}
+                                passwordVisible={passwordVisible}
+                                setPasswordVisible={() => setPasswordVisible(!passwordVisible)}
                                 onChange={(e) => setParams({ password_confirmation: e.target.value })}
                             />
                         </Form.Item>
@@ -154,9 +163,9 @@ export default function SignUpModule() {
                         <div className='checkbox-wrapper'>
                             <Checkbox checked={acceptPrivacy} onChange={() => setAcceptPrivacy(!acceptPrivacy)}></Checkbox>
                             <div className='checkbox-label'>
-                                <Link href='/terms-conditions' className='link'>Istifadəçi şərtləri və qaydaları</Link>
+                                <b className='link' onClick={() => setState({ showTermsConditionsModal: true })}>Istifadəçi şərtləri və qaydaları</b>
                                 &
-                                <Link href='/privacy-policy' className='link'>məxfilik siyasəti</Link> ilə razıyam
+                                <b className='link' onClick={() => setState({ showPrivacyPolicyModal: true })}>məxfilik siyasəti</b> ilə razıyam
                             </div>
                         </div>
 
@@ -219,6 +228,30 @@ export default function SignUpModule() {
                         </div>
                     </Form>
                 }
+
+                <TermsAndConditionsModal
+                    showModal={state.showTermsConditionsModal}
+                    handleOk={() => {
+                        setState({ showTermsConditionsModal: false });
+                        setAcceptPrivacy(true)
+                    }}
+                    handleCancel={() => {
+                        setState({ showTermsConditionsModal: false });
+                        // setAcceptPrivacy(false)
+                    }}
+                />
+
+                <PrivacyPolicyModal
+                    showModal={state.showPrivacyPolicyModal}
+                    handleOk={() => {
+                        setState({ showPrivacyPolicyModal: false });
+                        setAcceptPrivacy(true)
+                    }}
+                    handleCancel={() => {
+                        setState({ showPrivacyPolicyModal: false });
+                        // setAcceptPrivacy(false)
+                    }}
+                />
             </div>
         </div>
     )

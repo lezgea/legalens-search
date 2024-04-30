@@ -1,5 +1,5 @@
 .privacy-page {
-    width: 100vw;
+    // width: 100vw;
     height: 100vh;
     // @include flexBox(space-between, center);
     flex-direction: column;
@@ -23,9 +23,9 @@
         height: 100vh;
         overflow: auto;
         padding-top: 20px;
-        padding-bottom: 200px;
-        padding-left: 25vw;
-        padding-right: 25vw;
+        padding-bottom: 400px;
+        padding-left: 2vw;
+        padding-right: 2vw;
 
         .label {
             font-weight: 700;

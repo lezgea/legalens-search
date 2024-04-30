@@ -201,8 +201,14 @@
                     margin-left: 5px;
 
                     .link {
+                        cursor: pointer;
+                        color: #007bff;
                         font-weight: 500;
                         margin: 0 5px;
+
+                        &:hover {
+                            color: #0099ff;
+                        }
                     }
                 }
             }
