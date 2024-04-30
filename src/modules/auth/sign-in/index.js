@@ -12,7 +12,7 @@ import { setAuthCookies } from '@/utils/cookies';
 
 export default function SignInModule() {
     const router = useRouter()
-    const [remember, setRemember] = React.useState(false)
+    const [remember, setRemember] = React.useState(true)
     const [passwordVisible, setPasswordVisible] = React.useState(false)
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
