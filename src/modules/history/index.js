@@ -3,13 +3,14 @@ import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { Input } from 'antd';
+import { Input, Table } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { useSearchHistoryData, useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { getAccessToken } from '@/utils/cookies';
 
 
 
@@ -20,9 +21,36 @@ export default function HistoryModule() {
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { data: historyData, refetch: refetchHistory, isFetching: historyIsFetching } = useSearchHistoryData()
+
+
+    console.log('$$$$$', historyData)
+
+    const columns = [
+        {
+            dataIndex: 'search',
+            render: (value) => {
+                return (
+                    <div
+                        className='table-link'
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            getSearchDataAndKeys(value)
+                        }}
+                    >
+                        {value}
+                    </div>
+                );
+            }
+        },
+    ];
 
 
     const getDeviceID = () => {
+        let token = getAccessToken()
+        if (!!token) {
+            return token;
+        }
         let deviceID = localStorage.getItem('deviceID')
         if (!deviceID) {
             deviceID = uuidv4()
@@ -68,56 +96,74 @@ export default function HistoryModule() {
         }
     }
 
-    async function getSearchDataAndKeys() {
-        postSearchHistory({
-            search: searchState.searchValue,
-            uniqueId: deviceID,
-            source: legalSourceID,
-            campaignId: legalCompanyID,
-        })
+    async function getSearchDataAndKeys(value) {
+        if (!!value) {
+            setSearchState({ searchValue: value })
+            postSearchHistory({
+                search: value,
+                uniqueId: deviceID,
+                source: legalSourceID,
+                campaignId: legalCompanyID,
+            })
+        } else {
+            postSearchHistory({
+                search: searchState.searchValue,
+                uniqueId: deviceID,
+                source: legalSourceID,
+                campaignId: legalCompanyID,
+            })
+        }
         refetch()
         router.push('/results')
     }
+
+    // React.useEffect(() => {
+    //     setSearchState({ searchValue: '' })
+    // }, [])
+
+
+    // React.useEffect(() => {
+    //     if (!!searchState.searchValue) {
+    //         getSearchDataAndKeys()
+    //     }
+    // }, [searchState.searchValue])
 
 
     React.useEffect(() => {
         updateResultsState()
     }, [data[1]])
 
+    const [selectedRowKeys, setSelectedRowKeys] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const start = () => {
+        setLoading(true);
+        // ajax request after empty completing
+        setTimeout(() => {
+            setSelectedRowKeys([]);
+            setLoading(false);
+        }, 1000);
+    };
+    const onSelectChange = (newSelectedRowKeys) => {
+        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+
 
     return (
-        <div className='main-wrapper'>
+        <div className='history-wrapper'>
             <MainHeader />
             <div className='content-wrapper'>
-                HISTORY
-            </div>
-            <div className='footer-bottom'>
-                <div className='footer-icons-wrapper'>
-                    {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
-                    {/* <Icon component={TiktokIcon} className='footer-icon' /> */}
-                    {/* </a> */}
-                    <a href='https://www.linkedin.com/company/legalens/' target='_blank'>
-                        <Icon component={LinkedinIcon} className='footer-icon' />
-                    </a>
-                    <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'>
-                        <Icon component={FacebookIcon} className='footer-icon' />
-                    </a>
-                    <a href='https://www.instagram.com/legalens.ai/' target='_blank'>
-                        <Icon component={InstagramIcon} className='footer-icon' />
-                    </a>
-                    {/* <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'> */}
-                    {/* <Icon component={YoutubeIcon} className='footer-icon' /> */}
-                    {/* </a> */}
-                </div>
-                <div className='footer-ai-wrapper'>
-                    <div className='footer-ai-text'>Product of</div>
-                    <Image
-                        src='/assets/SVG/ai-logo.svg'
-                        className='footer-ai-logo'
-                        preview={false}
-                        onClick={() => router.push('/')}
-                    />
-                </div>
+                <Table
+                    showHeader={false}
+                    rowSelection={rowSelection}
+                    columns={columns}
+                    dataSource={historyData.data}
+                />
             </div>
         </div>
     )

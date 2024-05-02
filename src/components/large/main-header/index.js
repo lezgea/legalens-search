@@ -28,8 +28,6 @@ export const MainHeader = (props) => {
         router.push('/sign-in')
     }
 
-    console.log('#####', router)
-
     async function getUserInfo() {
         let response = await getUserProfileInfo()
         if (response.data?.key === "success") {
@@ -59,16 +57,19 @@ export const MainHeader = (props) => {
                 preview={false}
                 onClick={() => router.push('/')}
             />
-            <div className='action-buttons-wrapper'>
-                {
-                    ACTION_TABS.map(item =>
-                        <ActionButton
-                            key={item.id}
-                            color={router.pathname === item.route ? 'colored' : 'white'}
-                            onClick={() => router.push(item.route)} {...item}
-                        />)
-                }
-            </div>
+            {
+                isLogged &&
+                <div className='action-buttons-wrapper'>
+                    {
+                        ACTION_TABS.map(item =>
+                            <ActionButton
+                                key={item.id}
+                                color={router.pathname === item.route ? 'colored' : 'white'}
+                                onClick={() => router.push(item.route)} {...item}
+                            />)
+                    }
+                </div>
+            }
             {
                 isLogged
                     ?

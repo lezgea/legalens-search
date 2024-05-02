@@ -311,3 +311,15 @@ img {
     box-shadow: none;
   }
 }
+
+
+.table-link {
+  cursor: pointer;
+  color: #262626;
+  font-weight: 500;
+  margin: 0 5px;
+
+  &:hover {
+    color: #0099ff;
+  }
+}
