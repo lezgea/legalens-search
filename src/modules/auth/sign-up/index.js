@@ -180,7 +180,7 @@ export default function SignUpModule() {
                             disabled={!acceptPrivacy}
                             loading={registerUserLoading}
                             className={acceptPrivacy ? 'sign-in-button' : 'disabled-button'}
-                            onClick={onFinishForm}
+                            // onClick={onFinishForm}
                             htmlType='submit'
                         >
                             Qeydiyyatdan keç
