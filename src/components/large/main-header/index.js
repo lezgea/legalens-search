@@ -2,12 +2,19 @@ import React from 'react'
 import { Avatar, Dropdown, Image, Popover } from 'antd'
 import { useRouter } from 'next/router';
 import Icon from '@ant-design/icons';
-import { NotificationIcon } from '@/assets/icons';
+import { EditIcon, FolderIcon, HistoryIcon, NotificationIcon, StarIcon } from '@/assets/icons';
 import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 import Link from 'next/link';
 import { getUserProfileInfo } from '@/api/auth';
 import { useResultsContext } from '@/context/results-context';
+import { ActionButton } from '@/components/small';
 
+
+const ACTION_TABS = [
+    { id: 1, label: 'Qovluqlarım', icon: FolderIcon, size: 18, route: '/folders' },
+    { id: 2, label: 'Tarixçə', icon: HistoryIcon, size: 17, route: '/history' },
+    { id: 3, label: 'Seçilmişlər', icon: StarIcon, size: 18, route: '/selected' },
+]
 
 
 export const MainHeader = (props) => {
@@ -21,6 +28,7 @@ export const MainHeader = (props) => {
         router.push('/sign-in')
     }
 
+    console.log('#####', router)
 
     async function getUserInfo() {
         let response = await getUserProfileInfo()
@@ -51,6 +59,16 @@ export const MainHeader = (props) => {
                 preview={false}
                 onClick={() => router.push('/')}
             />
+            <div className='action-buttons-wrapper'>
+                {
+                    ACTION_TABS.map(item =>
+                        <ActionButton
+                            key={item.id}
+                            color={router.pathname === item.route ? 'colored' : 'white'}
+                            onClick={() => router.push(item.route)} {...item}
+                        />)
+                }
+            </div>
             {
                 isLogged
                     ?

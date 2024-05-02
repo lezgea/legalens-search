@@ -13,7 +13,7 @@ import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
-export default function MainModule() {
+export default function SelectedModule() {
     const { searchState, setSearchState } = useSearchContext()
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
@@ -89,41 +89,7 @@ export default function MainModule() {
         <div className='main-wrapper'>
             <MainHeader />
             <div className='content-wrapper'>
-                <div className='title-wrapper'>
-                    <div className='label'>Azərbaycanın vahid qanunvericilik bazası əsasında axtarış platforması</div>
-                    <div className='description'>Effektiv Axtarış, Sürətli təhlil, Dəqiq Nəticə</div>
-                </div>
-                <div className='search-wrapper'>
-                    <div className='search-box'>
-                        <Input
-                            value={searchState.searchValue}
-                            className='input'
-                            placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
-                            onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
-                        />
-                        <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
-                    </div>
-                    {/* </Dropdown> */}
 
-                    {/* <div className='search-filters-wrapper'>
-                        {
-                            MAIN_PAGE_FILTER_BUTTONS.map((item, i) =>
-                                <Dropdown
-                                    key={i}
-                                    trigger='click'
-                                    menu={{ items: item.children }}
-                                    placement="bottomLeft"
-                                    overlayStyle={{ padding: '5px 0' }}
-                                >
-                                    <Button className='outlined-button-white' style={{ borderRadius: 15 }}>
-                                        <div className='label' style={{ fontSize: 14 }}>{item.label}</div>
-                                    </Button>
-                                </Dropdown>
-                            )
-                        }
-                    </div> */}
-                </div>
             </div>
             <div className='footer-bottom'>
                 <div className='footer-icons-wrapper'>

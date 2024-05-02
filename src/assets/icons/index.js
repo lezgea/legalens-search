@@ -31,6 +31,8 @@ import LinkIcon from './link.svg'
 import LayoutIcon from './layout.svg'
 import DownloadBoldIcon from './download-bold.svg'
 import CloseIcon from './close.svg'
+import StarIcon from './star.svg'
+import HistoryIcon from './history.svg'
 
 
 // FILLED ICON IMPORTS
@@ -75,6 +77,8 @@ export {
     LayoutIcon,
     DownloadBoldIcon,
     CloseIcon,
+    StarIcon,
+    HistoryIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,
