@@ -82,7 +82,7 @@ export default function MainModule() {
 
     React.useEffect(() => {
         updateResultsState()
-    }, [data[1]])
+    }, [searchState.searchValue])
 
 
     return (

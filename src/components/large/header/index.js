@@ -53,7 +53,8 @@ export const Header = (props) => {
     }
 
     function updateResultState() {
-        if (!!data.length) {
+        if (!!data.length && router.pathname === '/results') {
+            console.log('******', router)
             if (searchState.offset > 0) {
                 setResultsState({
                     list: resultsState.list.concat(data[0]),
@@ -100,7 +101,6 @@ export const Header = (props) => {
     //     if (isLogged) getUserInfo()
     // }, [isLogged])
 
-    console.log('@@@@@@@', userState)
 
     React.useEffect(() => {
         refetch()
@@ -115,8 +115,10 @@ export const Header = (props) => {
 
 
     React.useEffect(() => {
-        setResultsState({ loading: true })
-        updateResultState()
+        if (searchState.searchValue) {
+            setResultsState({ loading: true })
+            updateResultState()
+        }
     }, [searchState.offset, data[1], filtersData?.length])
 
 

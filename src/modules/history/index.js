@@ -86,17 +86,20 @@ export default function HistoryModule() {
 
 
     function updateResultsState() {
+        console.log('#')
         setResultsState({ loading: isFetching })
         if (!!data?.length) {
-            setResultsState({ list: data[0], searchKeys: data[1] })
-            setColors([...Object.values(data[2])])
+            // setResultsState({ list: data[0], searchKeys: data[1] })
+            // setColors([...Object.values(data[2])])
         } else {
             setResultsState({ list: [], searchKeys: [] })
             setColors([])
         }
     }
 
+
     async function getSearchDataAndKeys(value) {
+        await refetch()
         if (!!value) {
             setSearchState({ searchValue: value })
             postSearchHistory({
@@ -113,25 +116,9 @@ export default function HistoryModule() {
                 campaignId: legalCompanyID,
             })
         }
-        refetch()
         router.push('/results')
     }
 
-    // React.useEffect(() => {
-    //     setSearchState({ searchValue: '' })
-    // }, [])
-
-
-    // React.useEffect(() => {
-    //     if (!!searchState.searchValue) {
-    //         getSearchDataAndKeys()
-    //     }
-    // }, [searchState.searchValue])
-
-
-    React.useEffect(() => {
-        updateResultsState()
-    }, [data[1]])
 
     const [selectedRowKeys, setSelectedRowKeys] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
@@ -152,6 +139,12 @@ export default function HistoryModule() {
         onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+
+
+    React.useEffect(() => {
+        if (!!searchState.searchValue)
+            updateResultsState()
+    }, [searchState.searchValue])
 
 
     return (
