@@ -21,7 +21,6 @@
     "qs": "^6.11.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-google-login": "^5.2.2",
     "react-query": "^3.39.3",
     "react-to-print": "^2.15.1",
     "react-use-flexsearch": "^0.1.1",
