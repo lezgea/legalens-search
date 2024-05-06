@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
 import { useFilters } from '@/hooks/use-filters';
 import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
+import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
@@ -21,6 +22,42 @@ export const Header = (props) => {
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
+    const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+
+
+    const getDeviceID = () => {
+        let deviceID = localStorage.getItem('deviceID')
+        if (!deviceID) {
+            deviceID = uuidv4()
+            localStorage.setItem('deviceID', deviceID)
+        }
+        return deviceID
+    }
+
+
+    const getSourceID = () => {
+        let legalSourceID = localStorage.getItem('legalSourceID')
+        if (!legalSourceID) {
+            legalSourceID = router?.query?.s
+            localStorage.setItem('legalSourceID', legalSourceID)
+        }
+        return legalSourceID
+    }
+
+
+    const getCompanyID = () => {
+        let legalCompanyID = localStorage.getItem('legalCompanyID')
+        if (!legalCompanyID) {
+            legalCompanyID = router?.query?.c
+            localStorage.setItem('legalCompanyID', legalCompanyID)
+        }
+        return legalCompanyID
+    }
+
+
+    const deviceID = getDeviceID()
+    const legalSourceID = getSourceID()
+    const legalCompanyID = getCompanyID()
 
 
     function onLogout() {
@@ -32,6 +69,12 @@ export const Header = (props) => {
     async function getSearchDataAndKeysWithNavigating() {
         setSearchState({ offset: 0, activateSearch: true })
         setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
+        postSearchHistory({
+            search: searchState.searchValue,
+            uniqueId: deviceID,
+            source: legalSourceID,
+            campaignId: legalCompanyID,
+        })
         refetch()
         refetchFilters()
         setTimeout(() => setResultsState({ loading: false }), 1000)
@@ -46,6 +89,7 @@ export const Header = (props) => {
         refetchFilters()
         setTimeout(() => setResultsState({ loading: false }), 1000)
     }
+
 
     function updateResultState() {
         if (!!data.length) {
