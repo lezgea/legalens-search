@@ -10,15 +10,16 @@ import { useSearch } from '@/hooks/use-search';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { CheckBoxItem } from '@/components/small';
 
 
 
 export default function MainModule() {
     const { searchState, setSearchState } = useSearchContext()
-    const { setResultsState, setColors } = useResultsContext()
+    const { resultsState, setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
-    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
+    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
 
 
@@ -104,6 +105,12 @@ export default function MainModule() {
                         />
                         <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
                     </div>
+                    <CheckBoxItem
+                        style={{ marginLeft: 20 }}
+                        checked={resultsState.search_as_phrase}
+                        label="Söz birləşməsi kimi axtar"
+                        onCheck={() => setResultsState({ search_as_phrase: !resultsState.search_as_phrase })}
+                    />
                     {/* </Dropdown> */}
 
                     {/* <div className='search-filters-wrapper'>

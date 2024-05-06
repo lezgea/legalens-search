@@ -44,7 +44,7 @@ export const Header = (props) => {
         setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
         refetch()
         refetchFilters()
-        // setTimeout(() => setResultsState({ loading: false }), 1000)
+        setTimeout(() => setResultsState({ loading: false }), 1000)
     }
 
     function updateResultState() {

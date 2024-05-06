@@ -3,11 +3,11 @@ import { Checkbox, Popover } from 'antd';
 
 
 export const CheckBoxItem = (props) => {
-    let { id, label, checked, onCheck } = props
+    let { id, label, checked, style, onCheck } = props
 
 
     return (
-        <div className='checkbox-wrapper' onClick={() => onCheck(id, !checked)}>
+        <div className='checkbox-wrapper' style={style} onClick={() => onCheck(id, !checked)}>
             <Checkbox checked={checked} onChange={() => onCheck(id, !checked)} />
             <Popover
                 placement="right"
