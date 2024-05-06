@@ -24,7 +24,8 @@ export default function SignInModule() {
     const { mutate: loginUser, isSuccess, isLoading: loginUserLoading } = useLoginUserMutation()
     const { showNotification } = useNotification()
 
-    const clientId = '459932672774-11ois47tutfg7879pjd2fglk97it0712.apps.googleusercontent.com';
+    // const clientId = '459932672774-11ois47tutfg7879pjd2fglk97it0712.apps.googleusercontent.com';
+    const clientId = 'YOUR_GOOGLE_CLIENT_ID'
 
 
     function onFinishForm(values) {
@@ -107,7 +108,14 @@ export default function SignInModule() {
                         Daxil Ol
                     </Button>
 
-                    <GoogleLogin
+                    <Button
+                        icon={<GoogleIcon />}
+                        className='google-button'
+                        onClick={() => { }}
+                    >
+                        Or sign in with Google
+                    </Button>
+                    {/* <GoogleLogin
                         clientId={clientId}
                         render={renderProps => (
                             <Button
@@ -124,7 +132,7 @@ export default function SignInModule() {
                         onSuccess={onGoogleSuccess}
                         onFailure={onGoogleFailure}
                         cookiePolicy={'single_host_origin'}
-                    />
+                    /> */}
                     <div className='card-bottom-line'>
                         <div>Hesabınız Yoxdur ?</div>
                         <Link href='/sign-up' className='sign-up-link'>Qeydiyyatdan Keçin</Link>

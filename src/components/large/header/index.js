@@ -98,7 +98,7 @@ export const Header = (props) => {
                     list: resultsState.list.concat(data[0]),
                     filters: filtersData,
                     filtersLoading: false,
-                    loading: isFetching,
+                    loading: false,
                 })
             } else {
                 setResultsState({
@@ -106,7 +106,7 @@ export const Header = (props) => {
                     searchKeys: data[1],
                     filters: filtersData,
                     filtersLoading: false,
-                    loading: isFetching,
+                    loading: false,
                 })
             }
             setColors([...Object.values(data[2])])
@@ -119,7 +119,6 @@ export const Header = (props) => {
             })
             setColors([])
         }
-        // setResultsState({ loading: isFetching })
     }
 
 
@@ -144,14 +143,12 @@ export const Header = (props) => {
 
 
     React.useEffect(() => {
-        console.log('@@')
         setResultsState({
             loading: true,
             list: [],
             searchKeys: [],
-            filters: {},
+            // filters: {},
         })
-        // if (JSON.stringify(data[1]) !== JSON.stringify(resultsState.searchKeys))
         updateResultState()
     }, [searchState.offset, data[1], filtersData?.length])
 
