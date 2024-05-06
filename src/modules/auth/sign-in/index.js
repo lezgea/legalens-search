@@ -8,6 +8,7 @@ import { FloatInput, PasswordInput } from '@/components/small';
 import { useLoginUserMutation } from '@/hooks/use-login-user';
 import useNotification from '@/hooks/use-notification';
 import { setAuthCookies } from '@/utils/cookies';
+import { GoogleLogin } from 'react-google-login';
 
 
 export default function SignInModule() {
@@ -22,6 +23,8 @@ export default function SignInModule() {
     )
     const { mutate: loginUser, isSuccess, isLoading: loginUserLoading } = useLoginUserMutation()
     const { showNotification } = useNotification()
+
+    const clientId = '459932672774-11ois47tutfg7879pjd2fglk97it0712.apps.googleusercontent.com';
 
 
     function onFinishForm(values) {
@@ -39,6 +42,16 @@ export default function SignInModule() {
                 onError: () => showNotification({ title: 'Giriş zamanı xəta baş verdi.', variant: 'error' }),
             }
         )
+    }
+
+
+    function onGoogleSuccess(response) {
+        console.log('Login Success:', response);
+    }
+
+
+    function onGoogleFailure(error) {
+        console.error('Login Failure:', error);
     }
 
 
@@ -93,13 +106,25 @@ export default function SignInModule() {
                     >
                         Daxil Ol
                     </Button>
-                    <Button
-                        icon={<GoogleIcon />}
-                        className='google-button'
-                        onClick={() => { }}
-                    >
-                        Or sign in with Google
-                    </Button>
+
+                    <GoogleLogin
+                        clientId={clientId}
+                        render={renderProps => (
+                            <Button
+                                icon={<GoogleIcon />}
+                                className='google-button'
+                                onClick={renderProps.onClick}
+                            // disabled={renderProps.disabled}
+                            >
+                                Or sign in with Google
+                            </Button>
+                            // <button  >This is my custom Google button</button>
+                        )}
+                        buttonText="Login with Google"
+                        onSuccess={onGoogleSuccess}
+                        onFailure={onGoogleFailure}
+                        cookiePolicy={'single_host_origin'}
+                    />
                     <div className='card-bottom-line'>
                         <div>Hesabınız Yoxdur ?</div>
                         <Link href='/sign-up' className='sign-up-link'>Qeydiyyatdan Keçin</Link>
