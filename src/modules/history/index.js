@@ -1,11 +1,8 @@
 import React from 'react'
-import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { Input, Table } from 'antd';
+import { Table } from 'antd';
 import { useResultsContext } from '@/context/results-context';
-import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,8 +20,6 @@ export default function HistoryModule() {
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
     const { data: historyData, refetch: refetchHistory, isFetching: historyIsFetching } = useSearchHistoryData()
 
-
-    console.log('$$$$$', historyData)
 
     const columns = [
         {
@@ -86,20 +81,25 @@ export default function HistoryModule() {
 
 
     function updateResultsState() {
-        console.log('#')
-        setResultsState({ loading: isFetching })
-        if (!!data?.length) {
-            // setResultsState({ list: data[0], searchKeys: data[1] })
-            // setColors([...Object.values(data[2])])
-        } else {
-            setResultsState({ list: [], searchKeys: [] })
-            setColors([])
-        }
+        console.log('oooooo')
+        setResultsState({
+            loading: true,
+            list: [],
+            searchKeys: [],
+            filters: {},
+        })
+        // if (!!data?.length) {
+        //     // setResultsState({ list: data[0], searchKeys: data[1] })
+        //     // setColors([...Object.values(data[2])])
+        // } else {
+        //     setResultsState({ list: [], searchKeys: [] })
+        //     setColors([])
+        // }
     }
 
 
     async function getSearchDataAndKeys(value) {
-        await refetch()
+        // await refetch()
         if (!!value) {
             setSearchState({ searchValue: value })
             postSearchHistory({

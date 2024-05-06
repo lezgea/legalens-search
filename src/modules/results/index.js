@@ -111,7 +111,7 @@ export default function ResultsModule() {
                             <div className='list-header'>
                                 <div className='filter-items-wrapper'>
                                     {
-                                        !!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) =>
+                                        !resultsState.loading && !!resultsState.searchKeys?.length && resultsState.searchKeys?.map((item, i) =>
                                             <SearchKey
                                                 key={i}
                                                 color={colors[i]}

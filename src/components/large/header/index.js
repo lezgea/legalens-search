@@ -1,12 +1,12 @@
 import React from 'react'
 import { Avatar, Image, Input, Popover } from 'antd'
 import Icon from '@ant-design/icons';
-import { ForumIcon, HammerIcon, NotificationIcon, SearchIcon, SpellCheckIcon } from '../../../assets/icons';
+import Link from 'next/link';
+import { SearchIcon } from '../../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
 import { useSearch } from '@/hooks/use-search';
-import Link from 'next/link';
 import { useFilters } from '@/hooks/use-filters';
 import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 
@@ -34,9 +34,7 @@ export const Header = (props) => {
         setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
         refetch()
         refetchFilters()
-        // setTriggerUpdate(true)
         setTimeout(() => setResultsState({ loading: false }), 1000)
-
         router.push('/results')
     }
 
@@ -46,20 +44,17 @@ export const Header = (props) => {
         setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
         refetch()
         refetchFilters()
-        // setTriggerUpdate(true)
-        setTimeout(() => setResultsState({ loading: false }), 1000)
-
-        // router.push('/results')
+        // setTimeout(() => setResultsState({ loading: false }), 1000)
     }
 
     function updateResultState() {
-        if (!!data.length && router.pathname === '/results') {
-            console.log('******', router)
+        if (!!data.length) {
             if (searchState.offset > 0) {
                 setResultsState({
                     list: resultsState.list.concat(data[0]),
                     filters: filtersData,
                     filtersLoading: false,
+                    loading: isFetching,
                 })
             } else {
                 setResultsState({
@@ -67,6 +62,7 @@ export const Header = (props) => {
                     searchKeys: data[1],
                     filters: filtersData,
                     filtersLoading: false,
+                    loading: isFetching,
                 })
             }
             setColors([...Object.values(data[2])])
@@ -74,19 +70,13 @@ export const Header = (props) => {
             setResultsState({
                 list: [],
                 searchKeys: [],
-                filters: {}
+                filters: {},
+                loading: isFetching,
             })
             setColors([])
         }
-        setResultsState({ loading: false })
+        // setResultsState({ loading: isFetching })
     }
-
-    // async function getUserInfo() {
-    //     let response = await getUserProfileInfo()
-    //     if (response.data?.key === "success") {
-    //         setUserState({ ...response.data?.data })
-    //     }
-    // }
 
 
     const DropdownContent = () => (
@@ -95,11 +85,6 @@ export const Header = (props) => {
             <div className='signout-button' onClick={onLogout}>Sign Out</div>
         </div>
     )
-
-
-    // React.useEffect(() => {
-    //     if (isLogged) getUserInfo()
-    // }, [isLogged])
 
 
     React.useEffect(() => {
@@ -115,10 +100,15 @@ export const Header = (props) => {
 
 
     React.useEffect(() => {
-        if (searchState.searchValue) {
-            setResultsState({ loading: true })
-            updateResultState()
-        }
+        console.log('@@')
+        setResultsState({
+            loading: true,
+            list: [],
+            searchKeys: [],
+            filters: {},
+        })
+        // if (JSON.stringify(data[1]) !== JSON.stringify(resultsState.searchKeys))
+        updateResultState()
     }, [searchState.offset, data[1], filtersData?.length])
 
 
@@ -133,16 +123,6 @@ export const Header = (props) => {
             {
                 !hideSearch &&
                 <div className='search-wrapper'>
-                    {
-                        // filtersRow.map(item =>
-                        //     <FilterButton
-                        //         key={item.value}
-                        //         selected={searchState.activeFilter}
-                        //         setSelected={(v) => setSearchState({ activeFilter: v })}
-                        //         {...item}
-                        //     />
-                        // )
-                    }
                     <div className='searcher'>
                         <Input
                             value={searchState.searchValue}
@@ -161,12 +141,6 @@ export const Header = (props) => {
                     ?
                     <Popover content={DropdownContent} trigger="click" placement='bottomRight'>
                         <div className='profile-wrapper'>
-                            {/* <div className='notification-wrapper'>
-                            <Icon component={NotificationIcon} className='icon' />
-                            <div className='count-circle'>
-                                <div className='text'>3</div>
-                            </div>
-                        </div> */}
                             <div className='user-profile-info-wrapper'>
                                 <div className='user-profile-name'>{userState?.name}</div>
                                 <div className='user-profile-role'>{userState?.role}</div>
@@ -184,19 +158,5 @@ export const Header = (props) => {
                     </div>
             }
         </div >
-    )
-}
-
-
-
-const FilterButton = (props) => {
-    let { label, value, icon, size, selected, setSelected } = props
-    let isSelected = selected === value
-
-    return (
-        <div className={`filter-button${isSelected ? '-selected' : ''}`} onClick={() => setSelected(value)}>
-            <Icon component={icon} className='icon' style={{ fontSize: size }} />
-            <div className='label'>{label}</div>
-        </div>
     )
 }
