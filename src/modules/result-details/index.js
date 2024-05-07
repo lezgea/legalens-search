@@ -1,10 +1,10 @@
 import React from 'react'
-import { DownloadIcon, SquareIcon } from '@/assets/icons'
+import { DownloadIcon, SearchIcon, SquareIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
 import { useRouter } from 'next/router'
-import { Modal, Popover } from 'antd';
+import { Input, Modal, Popover } from 'antd';
 import { useReactToPrint } from "react-to-print";
 import { useSearchContext } from '@/context/search-context';
 import { useDetailsKmq } from '@/hooks/use-details-kmq';
@@ -18,9 +18,11 @@ export default function ResultDetailsModule() {
     const router = useRouter()
     const { id } = router.query
     const componentRef = React.useRef()
+    const searchRef = React.useRef()
     const arrayRef = React.useRef([]);
     const [showSearch, setShowSearch] = React.useState(false)
-    const [innerSearchValue, setInnerSearchValue] = React.useState('')
+    const [searchText, setSearchText] = React.useState('');
+    const [searchResultCount, setSearchResultCount] = React.useState(0);
 
     let idItems = id.split('_')
     const bolme_id = idItems[0]
@@ -87,6 +89,49 @@ export default function ResultDetailsModule() {
         setClickPosition({ x: clientX, y: clientY });
     }
 
+    const handleInnerSearch = () => {
+        clearSearchHighlighting()
+
+        const count = highlightAllOccurrences(searchText)
+        setSearchResultCount(count)
+
+        if (count > 0)
+            setShowSearch(true)
+    }
+
+
+    const handleChange = (e) => {
+        setSearchText(e.target.value);
+        // handleInnerSearch()
+    }
+
+    const wrapFoundTextWithClass = (className) => {
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('div');
+        span.className = className;
+        span.appendChild(range.extractContents());
+        range.insertNode(span);
+    };
+
+
+    const clearSearchHighlighting = () => {
+        const markedElements = searchRef.current.querySelectorAll('.inner-marked');
+        markedElements.forEach(element => {
+            element.outerHTML = element.innerHTML;
+        });
+    };
+
+    const highlightAllOccurrences = (text) => {
+        const contentElement = searchRef.current;
+        const content = contentElement.innerHTML;
+        const regex = new RegExp(`(${text})`, 'gi');
+        const updatedContent = content.replace(regex, '<span class="inner-marked">$1</span>');
+        contentElement.innerHTML = updatedContent;
+
+        return (updatedContent.match(/<span class="marked">/g) || []).length;
+    };
+
 
     React.useLayoutEffect(() => {
         const handleHashChange = () => {
@@ -127,13 +172,13 @@ export default function ResultDetailsModule() {
     }, [data.percentages])
 
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         if (!!data?.index)
             setState({ article: { type: 'item', index: data.index } })
     }, [data?.index, data])
 
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         if (state.article.index) {
             let indexToScrollTo = state.article.index
             if (arrayRef.current[indexToScrollTo]) {
@@ -218,20 +263,20 @@ export default function ResultDetailsModule() {
                 <div className='results-details-content'>
                     <div className='header-icons-wrapper'>
                         {
-                            // showSearch
-                            //     ?
-                            //     <div className='inner-search-wrapper'>
-                            //         <Input
-                            //             value={innerSearchValue}
-                            //             className='inner-search-input'
-                            //             placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
-                            //             onChange={(e) => setInnerSearchValue(e.target.value)}
-                            //             onKeyDown={(e) => e.key === 'Enter' && getInnerSearchData()}
-                            //         />
-                            //         <ActionButton color='blue' label='Search' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
-                            //     </div>
-                            //     :
-                            //     <ActionButton color='blue' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
+                            showSearch
+                                ?
+                                <div className='inner-search-wrapper'>
+                                    <Input
+                                        value={searchText}
+                                        className='inner-search-input'
+                                        placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
+                                        onChange={handleChange}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleInnerSearch()}
+                                    />
+                                    <ActionButton color='blue' label='Search' onClick={handleInnerSearch} icon={SearchIcon} />
+                                </div>
+                                :
+                                <ActionButton color='blue' onClick={() => setShowSearch(!showSearch)} icon={SearchIcon} />
                         }
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={onClickDownload} icon={DownloadIcon} />
@@ -253,17 +298,19 @@ export default function ResultDetailsModule() {
                                 </div>
                             </div>
                             :
-                            <div className='text-wrapper' ref={componentRef} onScroll={handleScroll}>
-                                {
-                                    data?.data?.length && data.data.map((item, index) =>
-                                        <div
-                                            key={index}
-                                            className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
-                                            ref={(element) => arrayRef.current[index] = element}
-                                            dangerouslySetInnerHTML={{ __html: item }}
-                                        ></div>
-                                    )
-                                }
+                            <div ref={componentRef} className='text-wrapper' >
+                                <div ref={searchRef} onScroll={handleScroll}>
+                                    {
+                                        data?.data?.length && data.data.map((item, index) =>
+                                            <div
+                                                key={index}
+                                                className={(state.article.index === index && state.article.type == 'item') ? 'text-animated' : 'text'}
+                                                ref={(element) => arrayRef.current[index] = element}
+                                                dangerouslySetInnerHTML={{ __html: item }}
+                                            ></div>
+                                        )
+                                    }
+                                </div>
                             </div>
                     }
                 </div>
