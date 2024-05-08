@@ -163,9 +163,9 @@ export default function SignUpModule() {
                         <div className='checkbox-wrapper'>
                             <Checkbox checked={acceptPrivacy} onChange={() => setAcceptPrivacy(!acceptPrivacy)}></Checkbox>
                             <div className='checkbox-label'>
-                                <b className='link' onClick={() => setState({ showTermsConditionsModal: true })}>Istifadəçi şərtləri və qaydaları</b>
+                                <span className='link' onClick={() => setState({ showTermsConditionsModal: true })}>Istifadəçi şərtləri və qaydaları</span>
                                 &
-                                <b className='link' onClick={() => setState({ showPrivacyPolicyModal: true })}>məxfilik siyasəti</b> ilə razıyam
+                                <span className='link' onClick={() => setState({ showPrivacyPolicyModal: true })}>məxfilik siyasəti</span> ilə razıyam
                             </div>
                         </div>
 

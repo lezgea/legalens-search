@@ -7,7 +7,7 @@ export const CheckBoxItem = (props) => {
 
 
     return (
-        <div className='checkbox-wrapper' style={style} onClick={() => onCheck(id, !checked)}>
+        <div className='main-checkbox-wrapper' style={style} onClick={() => onCheck(id, !checked)}>
             <Checkbox checked={checked} onChange={() => onCheck(id, !checked)} />
             <Popover
                 placement="right"
