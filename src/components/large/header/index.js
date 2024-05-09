@@ -10,6 +10,7 @@ import { useSearch } from '@/hooks/use-search';
 import { useFilters } from '@/hooks/use-filters';
 import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { getUserProfileInfo } from '@/api/auth';
 
 
 
@@ -24,6 +25,13 @@ export const Header = (props) => {
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
 
+
+    async function getUserInfo() {
+        let response = await getUserProfileInfo()
+        if (response.data?.key === "success") {
+            setUserState({ ...response.data?.data })
+        }
+    }
 
     const getDeviceID = () => {
         let deviceID = localStorage.getItem('deviceID')
@@ -128,6 +136,10 @@ export const Header = (props) => {
             <div className='signout-button' onClick={onLogout}>Sign Out</div>
         </div>
     )
+
+    React.useEffect(() => {
+        if (isLogged) getUserInfo()
+    }, [isLogged])
 
 
     React.useEffect(() => {
