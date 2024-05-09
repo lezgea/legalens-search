@@ -13,7 +13,7 @@ import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
-export default function SelectedModule() {
+export default function FavoritesModule() {
     const { searchState, setSearchState } = useSearchContext()
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()

@@ -13,7 +13,7 @@ import { ActionButton } from '@/components/small';
 const ACTION_TABS = [
     { id: 1, label: 'Qovluqlarım', icon: FolderIcon, size: 18, route: '/folders' },
     { id: 2, label: 'Tarixçə', icon: HistoryIcon, size: 17, route: '/history' },
-    { id: 3, label: 'Seçilmişlər', icon: StarIcon, size: 18, route: '/selected' },
+    { id: 3, label: 'Seçilmişlər', icon: StarIcon, size: 18, route: '/favorites' },
 ]
 
 
@@ -38,7 +38,13 @@ export const MainHeader = (props) => {
 
     const DropdownContent = () => (
         <div className='profile-dropdown-wrapper'>
-            <div className='profile-name'>{userState.name} {userState.surname}</div>
+            <div className='profile-name'>{userState?.name} {userState?.surname}</div>
+            <div className='action-button-gray' style={{ width: '100%', marginTop: 10, borderRadius: 7 }} onClick={() => router.push('/history')}>
+                <div className='label' style={{ fontSize: 15 }}>Tarixçə</div>
+            </div>
+            <div className='action-button-gray' style={{ width: '100%', marginTop: 7, borderRadius: 7 }} onClick={() => router.push('/favorites')}>
+                <div className='label' style={{ fontSize: 15 }}>Seçilmişlər</div>
+            </div>
             <div className='signout-button' onClick={onLogout}>Sign Out</div>
         </div>
     )

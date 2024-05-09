@@ -133,9 +133,16 @@ export const Header = (props) => {
     const DropdownContent = () => (
         <div className='profile-dropdown-wrapper'>
             <div className='profile-name'>{userState?.name} {userState?.surname}</div>
+            <div className='action-button-gray' style={{ width: '100%', marginTop: 10, borderRadius: 7 }} onClick={() => router.push('/history')}>
+                <div className='label' style={{ fontSize: 15 }}>Tarixçə</div>
+            </div>
+            <div className='action-button-gray' style={{ width: '100%', marginTop: 7, borderRadius: 7 }} onClick={() => router.push('/favorites')}>
+                <div className='label' style={{ fontSize: 15 }}>Seçilmişlər</div>
+            </div>
             <div className='signout-button' onClick={onLogout}>Sign Out</div>
         </div>
     )
+    
 
     React.useEffect(() => {
         if (isLogged) getUserInfo()
