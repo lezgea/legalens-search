@@ -184,9 +184,9 @@ export const Header = (props) => {
                         <div className='profile-wrapper'>
                             <div className='user-profile-info-wrapper'>
                                 <div className='user-profile-name'>{userState?.name}</div>
-                                <div className='user-profile-role'>{userState?.role}</div>
+                                {/* <div className='user-profile-role'>{userState?.role}</div> */}
                             </div>
-                            <Avatar size={45} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
+                            <Avatar size={40} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
                                 {userState?.name.substring(0, 1)}
                             </Avatar>
 
