@@ -108,13 +108,6 @@ export default function SignInModule() {
                         Daxil Ol
                     </Button>
 
-                    <Button
-                        icon={<GoogleIcon />}
-                        className='google-button'
-                        onClick={() => { }}
-                    >
-                        Or sign in with Google
-                    </Button>
                     {/* <GoogleLogin
                         clientId={clientId}
                         render={renderProps => (
