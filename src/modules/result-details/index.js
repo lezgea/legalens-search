@@ -1,5 +1,5 @@
 import React from 'react'
-import { DownloadIcon, SearchIcon, SquareIcon } from '@/assets/icons'
+import { DownloadIcon, SearchIcon, SquareIcon, StarIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
@@ -90,13 +90,13 @@ export default function ResultDetailsModule() {
     }
 
     const handleInnerSearch = () => {
-        clearSearchHighlighting()
-
-        const count = highlightAllOccurrences(searchText)
-        setSearchResultCount(count)
-
-        if (count > 0)
-            setShowSearch(true)
+        if (!!searchText) {
+            clearSearchHighlighting()
+            const count = highlightAllOccurrences(searchText)
+            setSearchResultCount(count)
+            if (count > 0)
+                setShowSearch(true)
+        }
     }
 
 
@@ -131,6 +131,11 @@ export default function ResultDetailsModule() {
 
         return (updatedContent.match(/<span class="marked">/g) || []).length;
     };
+
+
+    function onAddToFavorites() {
+
+    }
 
 
     React.useLayoutEffect(() => {
@@ -280,6 +285,7 @@ export default function ResultDetailsModule() {
                         }
                         <ActionButton color='blue' onClick={() => setState({ showRefModal: true })} icon={SquareIcon} />
                         <ActionButton color='blue' onClick={onClickDownload} icon={DownloadIcon} />
+                        {/* <ActionButton color='blue' onClick={onAddToFavorites} icon={StarIcon} label='Seçilmişlərə Əlavə Et' /> */}
                     </div>
                     {
                         isFetching

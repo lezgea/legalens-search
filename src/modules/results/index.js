@@ -229,6 +229,11 @@ const ResultCard = (props) => {
     }
 
 
+    function onAddToFavorites() {
+
+    }
+
+
     if (error)
         api.error({ message: error })
 
@@ -259,6 +264,8 @@ const ResultCard = (props) => {
             className='result-card-wrapper'
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
+
+                <ActionButton color='blue' onClick={onAddToFavorites} icon={StarIcon} label='Seçilmişlərə Əlavə Et' />
                 <div className='white-opacity-box'>
                 </div>
                 <div
