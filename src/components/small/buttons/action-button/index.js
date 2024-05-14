@@ -9,7 +9,7 @@ export const ActionButton = (props) => {
     return (
         <div className={`action-button-${color}`} style={style} onClick={onClick}>
             {!!icon && <Icon component={icon} className='icon' style={{ fontSize: size }} />}
-            {!!label && <div className='label'>{label}</div>}
+            {!!label && <div className='action-button-label'>{label}</div>}
         </div>
     )
 

@@ -230,8 +230,8 @@ const ResultCard = (props) => {
     }
 
 
-    function onAddToFavorites() {
-
+    function onAddToFavorites(e) {
+        e.preventDefault()
     }
 
 
@@ -265,8 +265,15 @@ const ResultCard = (props) => {
             className='result-card-wrapper'
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
-
-                <ActionButton color='blue' onClick={onAddToFavorites} icon={StarIcon} label='Seçilmişlərə Əlavə Et' />
+                <div className='action-button-wrapper'>
+                    <ActionButton
+                        color='colored'
+                        onClick={onAddToFavorites}
+                        icon={StarIcon}
+                        label='Seçilmişlərə Əlavə Et'
+                        style={{ width: 200, position: 'absolute', right: 15, top: 15 }}
+                    />
+                </div>
                 <div className='white-opacity-box'>
                 </div>
                 <div
