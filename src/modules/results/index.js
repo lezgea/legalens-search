@@ -14,6 +14,7 @@ import {
     HalfListIcon,
     ListIcon,
     NotificationIcon,
+    StarIcon,
     StatisticsIcon
 } from '../../assets/icons';
 import { Empty, notification } from 'antd';
@@ -265,7 +266,7 @@ const ResultCard = (props) => {
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
 
-                {/* <ActionButton color='blue' onClick={onAddToFavorites} icon={StarIcon} label='Seçilmişlərə Əlavə Et' /> */}
+                <ActionButton color='blue' onClick={onAddToFavorites} icon={StarIcon} label='Seçilmişlərə Əlavə Et' />
                 <div className='white-opacity-box'>
                 </div>
                 <div
