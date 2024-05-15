@@ -122,3 +122,51 @@ export default function FoldersModule() {
         </div>
     )
 }
+
+
+
+const FolderAddModal = (props) => {
+    let { visible, setVisible, setState, mutationOptions, onClose } = props
+
+    const [folderParams, setFolderParams] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        {
+            color: "blue",
+            folderAccess: {
+                departmentId: 0,
+                groupId: 0,
+                userId: 0
+            },
+            name: '',
+            public: true
+        },
+    )
+
+    // const { mutate: createFolder, isLoading: createFolderLoading } = useFolderMutation()
+
+
+    function onAddNewFolder() {
+        // createFolder(folderParams, mutationOptions)
+        // setFolderParams({ name: '' })
+        // onClose()
+        // reloadDocs()
+    }
+
+
+    return (
+        <Modal visible={visible} setVisible={setVisible} width="500px" view={true}>
+            {/* {createFolderLoading && <Loader />} */}
+            {/* <FormGroup className="form-input form-group input-component"> */}
+            <label>Qovluq adı</label>
+            {/* <input
+                    className='label'
+                    value={folderParams.name}
+                    onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
+                    onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
+                /> */}
+            {/* </FormGroup> */}
+            <div className="button-group">
+                <button type="submit" onClick={onAddNewFolder}>Əlavə et</button>
+            </div>
+        </Modal>
+    )
+}

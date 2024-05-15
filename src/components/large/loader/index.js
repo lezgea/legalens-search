@@ -1,6 +1,6 @@
 import React from "react";
 import Icon from '@ant-design/icons';
-import { LegalensIcon, LegalensLogo } from '../../../assets/icons'
+import { LegalensLogo } from '../../../assets/icons'
 
 
 const Loader = () => {

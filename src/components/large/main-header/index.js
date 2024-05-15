@@ -1,8 +1,7 @@
 import React from 'react'
-import { Avatar, Dropdown, Image, Popover } from 'antd'
+import { Avatar, Image, Popover } from 'antd'
 import { useRouter } from 'next/router';
-import Icon from '@ant-design/icons';
-import { EditIcon, FolderIcon, HistoryIcon, NotificationIcon, StarIcon } from '@/assets/icons';
+import { FolderIcon, HistoryIcon, StarIcon } from '@/assets/icons';
 import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 import Link from 'next/link';
 import { getUserProfileInfo } from '@/api/auth';
@@ -81,20 +80,12 @@ export const MainHeader = (props) => {
                     ?
                     <Popover content={DropdownContent} trigger="click" placement='bottomRight'>
                         <div className='profile-wrapper'>
-                            {/* <div className='notification-wrapper'>
-                            <Icon component={NotificationIcon} className='icon' />
-                            <div className='count-circle'>
-                                <div className='text'>3</div>
-                            </div>
-                        </div> */}
                             <div className='user-profile-info-wrapper'>
                                 <div className='user-profile-name'>{userState.name}</div>
-                                {/* <div className='user-profile-role'>{userState.role}</div> */}
                             </div>
                             <Avatar size={40} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
                                 {userState.name.substring(0, 1)}
                             </Avatar>
-
                         </div>
                     </Popover>
                     :

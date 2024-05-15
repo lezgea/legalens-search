@@ -1,11 +1,10 @@
 import React from 'react'
-import Icon from '@ant-design/icons';
 import { CloseOutlined } from '@ant-design/icons'
 
 
 
 export const SearchKey = (props) => {
-    let { id, label, color, active, showClose, onClick } = props
+    let { id, label, color, showClose, onClick } = props
 
 
     function onClickKey() {
@@ -23,7 +22,6 @@ export const SearchKey = (props) => {
                 showClose &&
                 <div onClick={onClickKey} className='icon-wrapper'>
                     <CloseOutlined className='icon' />
-                    {/* <Icon component={CloseIcon} className='icon' /> */}
                 </div>
             }
         </div>

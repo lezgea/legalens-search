@@ -142,7 +142,7 @@ export const Header = (props) => {
             <div className='signout-button' onClick={onLogout}>Sign Out</div>
         </div>
     )
-    
+
 
     React.useEffect(() => {
         if (isLogged) getUserInfo()
@@ -162,14 +162,19 @@ export const Header = (props) => {
 
 
     React.useEffect(() => {
-        setResultsState({
-            loading: true,
-            list: [],
-            searchKeys: [],
-            // filters: {},
-        })
+        if (searchState.offset == 0)
+            setResultsState({
+                loading: true,
+                list: [],
+                searchKeys: [],
+            })
         updateResultState()
-    }, [searchState.offset, data[1], filtersData?.length])
+    }, [data[1], filtersData?.length])
+
+
+    React.useEffect(() => {
+        updateResultState()
+    }, [data[0]])
 
 
     return (
@@ -203,7 +208,6 @@ export const Header = (props) => {
                         <div className='profile-wrapper'>
                             <div className='user-profile-info-wrapper'>
                                 <div className='user-profile-name'>{userState?.name}</div>
-                                {/* <div className='user-profile-role'>{userState?.role}</div> */}
                             </div>
                             <Avatar size={40} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
                                 {userState?.name.substring(0, 1)}

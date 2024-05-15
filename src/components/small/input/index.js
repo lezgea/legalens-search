@@ -3,7 +3,7 @@ import { Input } from 'antd'
 
 
 export const CustomInput = (props) => {
-    let { size, placeholder, prefix } = props
+    let { size, prefix } = props
 
     return (
         <Input

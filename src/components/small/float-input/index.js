@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "antd";
 
 
@@ -9,10 +9,9 @@ export const FloatInput = (props) => {
     if (!placeholder) placeholder = label;
 
     const isOccupied = focus || (value && value.length !== 0);
-
     const labelClass = isOccupied ? "input-label as-label" : "input-label as-placeholder";
-
     const requiredMark = required ? <span className="text-danger">*</span> : null;
+
 
     return (
         <div className='input-wrapper'>
