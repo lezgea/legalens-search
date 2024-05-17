@@ -33,6 +33,7 @@ import DownloadBoldIcon from './download-bold.svg'
 import CloseIcon from './close.svg'
 import StarIcon from './star.svg'
 import HistoryIcon from './history.svg'
+import PlusBoldIcon from './plus-bold-icon.svg'
 
 
 // FILLED ICON IMPORTS
@@ -41,6 +42,8 @@ import GoogleIcon from './google-icon.svg'
 import LegalensLogoWhite from './legalens-logo-white.svg'
 import AuthBgLines from './auth-bg-lines.svg'
 import CheckFilledIcon from './check-filled.svg'
+import FolderLargeIcon from './folder-large-icon.svg'
+import FolderLargeAddIcon from './folder-large-add-icon.svg'
 
 
 
@@ -79,6 +82,7 @@ export {
     CloseIcon,
     StarIcon,
     HistoryIcon,
+    PlusBoldIcon,
 
     // FILLED ICON EXPORTS
     FilledNotificationIcon,
@@ -86,4 +90,6 @@ export {
     LegalensLogoWhite,
     AuthBgLines,
     CheckFilledIcon,
+    FolderLargeIcon,
+    FolderLargeAddIcon,
 }
