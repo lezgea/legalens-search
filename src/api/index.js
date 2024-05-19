@@ -6,4 +6,5 @@ export * from './history'
 export * from './auth'
 export * from './filters'
 export * from './favorites'
+export * from './folders'
 

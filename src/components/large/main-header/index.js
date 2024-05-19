@@ -50,7 +50,7 @@ export const MainHeader = (props) => {
 
 
     React.useEffect(() => {
-        if (isLogged) getUserInfo()
+        if (!!isLogged) getUserInfo()
     }, [isLogged])
 
 

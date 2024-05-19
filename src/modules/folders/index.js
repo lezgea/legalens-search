@@ -11,6 +11,7 @@ import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 import Loader from '@/components/large/loader';
+import { useFoldersMutation } from '@/hooks/use-folders';
 
 const folders = [
 
@@ -273,23 +274,16 @@ const FolderAddModal = (props) => {
 
     const [folderParams, setFolderParams] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
-            color: "blue",
-            folderAccess: {
-                departmentId: 0,
-                groupId: 0,
-                userId: 0
-            },
             name: '',
-            public: true
         },
     )
 
-    // const { mutate: createFolder, isLoading: createFolderLoading } = useFolderMutation()
+    const { mutate: createFolder, isLoading: createFolderLoading } = useFoldersMutation()
 
 
     function onAddNewFolder() {
-        // createFolder(folderParams, mutationOptions)
-        // setFolderParams({ name: '' })
+        createFolder(folderParams, mutationOptions)
+        setFolderParams({ name: '' })
         // onClose()
         // reloadDocs()
     }
@@ -303,20 +297,21 @@ const FolderAddModal = (props) => {
             view={true}
             onCancel={onClose}
             onClose={onClose}
+            onOk={onAddNewFolder}
         >
             {/* {createFolderLoading && <Loader />} */}
             {/* <FormGroup className="form-input form-group input-component"> */}
             <label>Qovluq adı</label>
-            {/* <input
-                    className='label'
-                    value={folderParams.name}
-                    onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
-                    onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
-                /> */}
+            <input
+                className='label'
+                value={folderParams.name}
+                onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
+                onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
+            />
             {/* </FormGroup> */}
-            <div className="button-group">
+            {/* <div className="button-group">
                 <button type="submit" onClick={onAddNewFolder}>Əlavə et</button>
-            </div>
+            </div> */}
         </Modal>
     )
 }
