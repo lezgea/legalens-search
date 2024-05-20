@@ -24,6 +24,8 @@ import { Input } from 'antd';
 import { ResultsListSkeleton } from '@/components/medium';
 import { useCrop } from '@/hooks/use-crop';
 import { useSearchContext } from '@/context/search-context';
+import { useFavoritesMutation } from '@/hooks/use-favorites';
+import useNotification from 'antd/es/notification/useNotification';
 
 const { Search } = Input;
 
@@ -146,6 +148,7 @@ export default function ResultsModule() {
                                     index={i}
                                     {...item[2]}
                                     item={item}
+                                    id={item[0] || null}
                                     text={item[2].Crop}
                                     searchValue={searchState?.searchValue}
                                     cardIndex={cardIndex}
@@ -192,6 +195,7 @@ export default function ResultsModule() {
 
 const ResultCard = (props) => {
     let {
+        id,
         Headline: label,
         description,
         Percentages,
@@ -208,6 +212,7 @@ const ResultCard = (props) => {
         setButtonsShowIndex,
     } = props
 
+    const { showNotification } = useNotification()
     const { searchState } = useSearchContext()
     const { resultsState, setSelectedResult, colors } = useResultsContext()
     const [api, contextHolder] = notification.useNotification();
@@ -221,6 +226,7 @@ const ResultCard = (props) => {
         }
     )
     const { data = [], refetch, isFetching, error } = useCrop({ position: linerData.crop_id, keyword: searchState.searchValue, search_as_phrase: resultsState.search_as_phrase }, () => { })
+    const { mutate: postFavorite, isSuccess, isLoading: postFavoriteLoading } = useFavoritesMutation()
 
 
     function onSetDetails() {
@@ -237,7 +243,20 @@ const ResultCard = (props) => {
 
     function onAddToFavorites(e) {
         e.preventDefault()
+        postFavorite({ articleId: Number(madde_id) }, favoriteMutationOptions)
     }
+
+
+    const favoriteMutationOptions = {
+        onSuccess: () => {
+            showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
+            // refetchFolders();
+        },
+        onError: (res) => {
+            showNotification({ title: res?.response?.data?.message || 'Uğursuz əməliyyat!', variant: 'error' });
+        },
+    }
+
 
 
     if (error)

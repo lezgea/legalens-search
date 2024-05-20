@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getAccessToken } from '@/utils/cookies';
 import moment from 'moment/moment';
 import Loader from '@/components/large/loader';
-import { useFavoritesData, useFavoritesMutation } from '@/hooks/use-favorites';
+import { useFavoritesData } from '@/hooks/use-favorites';
 
 
 
@@ -17,7 +17,6 @@ export default function FavoritesModule() {
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
-    const { mutate: postFavorite, isSuccess, isLoading: postFavoriteLoading } = useFavoritesMutation()
     const { data: favoritesData, refetch: refetchFavorites, isFetching: favoritesIsFetching } = useFavoritesData()
 
 
