@@ -114,10 +114,15 @@
                 position: absolute;
                 display: flex;
                 flex-direction: column;
-                align-items: flex-start;
+                align-content: flex-start;
                 justify-content: space-between;
-                max-width: 170px;
-                padding: 0 10px 10px 10px;
+                top: 0;
+                height: 100%;
+                // max-height: 150px;
+                width: 100%;
+                // background-color: #FF7798;
+                max-width: 160px;
+                padding: 40px 5px 25px 15px;
 
 
                 .icons-wrapper {
@@ -126,11 +131,43 @@
                     gap: 5px;
                 }
 
+                .folder-bottom {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .folder-articles-count {
+                        color: #3D476C;
+                        font-size: 9px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                        text-transform: capitalize;
+
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .folder-creation-date {
+                        color: #3D476C;
+                        font-size: 9px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                        text-transform: capitalize;
+
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
                 .label-wrapper {
                     max-width: 150px;
 
                     .label {
-                        color: #3D476C;
+                        color: #0d1636;
                         font-size: 13px;
                         font-style: normal;
                         font-weight: 500;
@@ -150,7 +187,7 @@
             cursor: pointer;
             position: relative;
             display: flex;
-            align-items: flex-end;
+            // align-items: flex-end;
             justify-content: flex-start;
             flex-wrap: wrap;
             transform: translateY(-7px);
@@ -286,9 +323,9 @@
                 .label {
                     margin-left: 8px;
                     color: #3D476C;
-                    font-size: 14px;
+                    font-size: 13px;
                     font-style: normal;
-                    font-weight: 700;
+                    font-weight: 600;
                     line-height: normal;
                     text-transform: capitalize;
                 }

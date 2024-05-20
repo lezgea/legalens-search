@@ -13,10 +13,10 @@ import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 import Loader from '@/components/large/loader';
 import { useFoldersData, useFoldersMutation } from '@/hooks/use-folders';
 import { FloatInput } from '@/components/small';
+import useNotification from 'antd/es/notification/useNotification';
+import moment from 'moment/moment';
 
-const folders = [
 
-]
 
 export default function FoldersModule() {
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
@@ -36,6 +36,7 @@ export default function FoldersModule() {
         }
     )
 
+    const { showNotification } = useNotification()
     const { searchState, setSearchState } = useSearchContext()
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
@@ -53,8 +54,6 @@ export default function FoldersModule() {
         }
         return deviceID
     }
-
-    console.log('@@@@@@', foldersData)
 
 
     const getSourceID = () => {
@@ -185,6 +184,12 @@ export default function FoldersModule() {
                                     <div className='label-wrapper'>
                                         <div className='label'>{item.name}</div>
                                     </div>
+                                    <div className='folder-bottom'>
+                                        <div className='folder-articles-count'>
+                                            {!!item.count ? `${item.count} Fayl` : null}
+                                        </div>
+                                        <div className='folder-creation-date'>{moment(item.createdAt).format('LL')}</div>
+                                    </div>
                                 </div>
                             </div>
                         )
@@ -219,7 +224,7 @@ export default function FoldersModule() {
                 }
 
                 <FolderAddModal
-                    // reloadDocs={refetchDocs}
+                    reloadFolders={refetchFolders}
                     visible={state.showAddFolderModal}
                     mutationOptions={mutationOptions}
                     setState={setState}
@@ -258,7 +263,7 @@ export default function FoldersModule() {
 
 
 const FolderAddModal = (props) => {
-    let { visible, setVisible, setState, mutationOptions, onClose } = props
+    let { visible, setVisible, setState, reloadFolders, mutationOptions, onClose } = props
 
     const [folderParams, setFolderParams] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
@@ -269,11 +274,15 @@ const FolderAddModal = (props) => {
     const { mutate: createFolder, isLoading: createFolderLoading } = useFoldersMutation()
 
 
-    function onAddNewFolder() {
+    async function onAddNewFolder() {
         createFolder(folderParams, mutationOptions)
+        await reloadFolders()
+        onCloseFolder()
+    }
+
+    function onCloseFolder() {
         setFolderParams({ name: '' })
         onClose()
-        // reloadDocs()
     }
 
 
@@ -284,8 +293,8 @@ const FolderAddModal = (props) => {
             width="500px"
             view={true}
             title='Yeni Qovluq'
-            onCancel={onClose}
-            onClose={onClose}
+            onCancel={onCloseFolder}
+            onClose={onCloseFolder}
             onOk={onAddNewFolder}
         >
             <div className='sign-in-wrapper'>
