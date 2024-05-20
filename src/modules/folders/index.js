@@ -1,9 +1,9 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { CloseIcon, FacebookIcon, FolderLargeAddIcon, FolderLargeIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon } from '../../assets/icons';
+import { CloseIcon, FacebookIcon, FolderLargeAddIcon, FolderLargeIcon, InstagramIcon, LinkedinIcon, PlusBoldIcon, ThinSearchIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { Divider, Input, Modal } from 'antd';
+import { Button, Divider, Form, Modal } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
@@ -11,7 +11,8 @@ import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 import Loader from '@/components/large/loader';
-import { useFoldersMutation } from '@/hooks/use-folders';
+import { useFoldersData, useFoldersMutation } from '@/hooks/use-folders';
+import { FloatInput } from '@/components/small';
 
 const folders = [
 
@@ -41,6 +42,7 @@ export default function FoldersModule() {
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { data: foldersData = [], refetch: refetchFolders, isFetching: isFetchingFolders } = useFoldersData()
 
 
     const getDeviceID = () => {
@@ -51,6 +53,8 @@ export default function FoldersModule() {
         }
         return deviceID
     }
+
+    console.log('@@@@@@', foldersData)
 
 
     const getSourceID = () => {
@@ -128,7 +132,7 @@ export default function FoldersModule() {
     const mutationOptions = {
         onSuccess: () => {
             showNotification({ title: 'Uğurlu əməliyyat!', variant: 'success' });
-            refetch();
+            refetchFolders();
         },
         onError: (res) => {
             showNotification({ title: res?.response?.data?.message || 'Uğursuz əməliyyat!', variant: 'error' });
@@ -147,41 +151,25 @@ export default function FoldersModule() {
             <div className='content-wrapper'>
                 <div className='folders-wrapper'>
                     {
-                        // state.loading && <Loader />
+                        isFetchingFolders && <Loader />
                     }
+                    <div className='folder-add-button' onClick={onClickAddFolder}>
+                        <FolderLargeAddIcon style={{ width: 170 }} />
+                        <div className='label-wrapper'>
+                            <PlusBoldIcon />
+                            <div className='label'>Qovluq yarat</div>
+                        </div>
+                    </div>
                     {
-                        state.showAddFolderForm && !createFolderLoading
-                            ?
-                            <div className='folder-add-button'>
-                                <FolderLargeAddIcon />
-                                <div className='label-wrapper'>
-                                    <input
-                                        className='label'
-                                        value={folderParams.name}
-                                        onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
-                                        onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
-                                    />
-                                </div>
-                            </div>
-                            :
-                            <div className='folder-add-button' onClick={onClickAddFolder}>
-                                <FolderLargeAddIcon />
-                                <div className='label-wrapper'>
-                                    {/* <PlusBoldIcon /> */}
-                                    <div className='label'>Qovluq yarat</div>
-                                </div>
-                            </div>
-                    }
-                    {
-                        folders?.map((item, i) =>
+                        foldersData?.data?.map((item, i) =>
                             <div
                                 key={i}
                                 className={`folder-wrapper${(state.folderId === item.id) ? '-selected' : ''}`}
                                 onClick={() => onOpenFolder(item.id)}
                             >
-                                <FolderLargeIcon index={i} />
+                                <FolderLargeIcon index={i} style={{ width: 170 }} />
                                 <div className='folder-content-wrapper'>
-                                    <div className='icons-wrapper'>
+                                    {/* <div className='icons-wrapper'>
                                         {
                                             item.editable &&
                                             <>
@@ -193,7 +181,7 @@ export default function FoldersModule() {
                                                 </div>
                                             </>
                                         }
-                                    </div>
+                                    </div> */}
                                     <div className='label-wrapper'>
                                         <div className='label'>{item.name}</div>
                                     </div>
@@ -284,7 +272,7 @@ const FolderAddModal = (props) => {
     function onAddNewFolder() {
         createFolder(folderParams, mutationOptions)
         setFolderParams({ name: '' })
-        // onClose()
+        onClose()
         // reloadDocs()
     }
 
@@ -295,23 +283,39 @@ const FolderAddModal = (props) => {
             setVisible={setVisible}
             width="500px"
             view={true}
+            title='Yeni Qovluq'
             onCancel={onClose}
             onClose={onClose}
             onOk={onAddNewFolder}
         >
-            {/* {createFolderLoading && <Loader />} */}
-            {/* <FormGroup className="form-input form-group input-component"> */}
-            <label>Qovluq adı</label>
-            <input
-                className='label'
-                value={folderParams.name}
-                onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
-                onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
-            />
-            {/* </FormGroup> */}
-            {/* <div className="button-group">
-                <button type="submit" onClick={onAddNewFolder}>Əlavə et</button>
-            </div> */}
+            <div className='sign-in-wrapper'>
+                <Form
+                    className='sign-in-card'
+                    style={{ marginTop: 30 }}
+                    name="basic"
+                    initialValues={{
+                        remember: true
+                    }}
+                    onFinish={onAddNewFolder}
+                    onFinishFailed={() => { }}
+                >
+                    {createFolderLoading && <Loader />}
+                    <FloatInput
+                        label='Qovluq adı'
+                        value={folderParams.name}
+                        onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
+                        onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
+                    />
+                    {/* <Button
+                        loading={createFolderLoading}
+                        disabled={!folderParams.name}
+                        className={!folderParams.name ? 'sign-in-button-disabled' : 'sign-in-button'}
+                        onClick={onAddNewFolder}
+                    >
+                        Əlavə et
+                    </Button> */}
+                </Form>
+            </div>
         </Modal>
     )
 }

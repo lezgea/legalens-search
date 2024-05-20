@@ -33,7 +33,7 @@
             display: flex;
             align-items: center;
             padding: 20px;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             overflow: auto;
             // max-width:
@@ -116,7 +116,8 @@
                 flex-direction: column;
                 align-items: flex-start;
                 justify-content: space-between;
-                padding: 0 12px 15px 15px;
+                max-width: 170px;
+                padding: 0 10px 10px 10px;
 
 
                 .icons-wrapper {
@@ -126,13 +127,13 @@
                 }
 
                 .label-wrapper {
-                    max-width: 180px;
+                    max-width: 150px;
 
                     .label {
                         color: #3D476C;
-                        font-size: 14px;
+                        font-size: 13px;
                         font-style: normal;
-                        font-weight: 700;
+                        font-weight: 500;
                         line-height: normal;
                         text-transform: capitalize;
 
