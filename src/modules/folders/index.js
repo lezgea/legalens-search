@@ -147,11 +147,11 @@ export default function FoldersModule() {
     return (
         <div className='folders-page-wrapper'>
             <MainHeader />
+            {
+                isFetchingFolders && <Loader />
+            }
             <div className='content-wrapper'>
                 <div className='folders-wrapper'>
-                    {
-                        isFetchingFolders && <Loader />
-                    }
                     <div className='folder-add-button' onClick={onClickAddFolder}>
                         <FolderLargeAddIcon style={{ width: 170 }} />
                         <div className='label-wrapper'>

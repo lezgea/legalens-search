@@ -3,12 +3,12 @@ import { useRouter } from 'next/router'
 import { useSearchContext } from '@/context/search-context';
 import { Table } from 'antd';
 import { useResultsContext } from '@/context/results-context';
-import { useSearch } from '@/hooks/use-search';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryData, useSearchHistoryMutation } from '@/hooks/use-search-history';
 import { getAccessToken } from '@/utils/cookies';
 import moment from 'moment/moment';
+import Loader from '@/components/large/loader';
 
 
 
@@ -17,11 +17,9 @@ export default function HistoryModule() {
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
-    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
     const { data: historyData, refetch: refetchHistory, isFetching: historyIsFetching } = useSearchHistoryData()
 
-    console.log('######', historyData)
 
     const columns = [
         {
@@ -107,18 +105,10 @@ export default function HistoryModule() {
             searchKeys: [],
             filters: {},
         })
-        // if (!!data?.length) {
-        //     // setResultsState({ list: data[0], searchKeys: data[1] })
-        //     // setColors([...Object.values(data[2])])
-        // } else {
-        //     setResultsState({ list: [], searchKeys: [] })
-        //     setColors([])
-        // }
     }
 
 
     async function getSearchDataAndKeys(value) {
-        // await refetch()
         if (!!value) {
             setSearchState({ searchValue: value })
             postSearchHistory({
@@ -169,6 +159,9 @@ export default function HistoryModule() {
     return (
         <div className='history-wrapper'>
             <MainHeader />
+
+            {(historyIsFetching || postSearchHistoryLoading) && <Loader />}
+
             <div className='content-wrapper'>
                 <Table
                     showHeader={false}

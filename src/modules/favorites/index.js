@@ -1,14 +1,14 @@
 import React from 'react'
-import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
+import { Table } from 'antd';
 import { useResultsContext } from '@/context/results-context';
-import { Image } from 'antd'
-import { useSearch } from '@/hooks/use-search';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchHistoryMutation } from '@/hooks/use-search-history';
+import { getAccessToken } from '@/utils/cookies';
+import moment from 'moment/moment';
+import Loader from '@/components/large/loader';
+import { useFavoritesData, useFavoritesMutation } from '@/hooks/use-favorites';
 
 
 
@@ -17,11 +17,53 @@ export default function FavoritesModule() {
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
-    const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
-    const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { mutate: postFavorite, isSuccess, isLoading: postFavoriteLoading } = useFavoritesMutation()
+    const { data: favoritesData, refetch: refetchFavorites, isFetching: favoritesIsFetching } = useFavoritesData()
+
+
+    const columns = [
+        {
+            dataIndex: 'createdAt',
+            width: '200px',
+            render: (value) => {
+                return (
+                    <div
+                        // style={{ width: 100 }}
+                        className='history-date'
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            getSearchDataAndKeys(value)
+                        }}
+                    >
+                        <b>{moment(value).format('LL')}</b> | {moment(value).format('hh:mm a')}
+                    </div>
+                );
+            }
+        },
+        {
+            dataIndex: 'search',
+            render: (value) => {
+                return (
+                    <div
+                        className='table-link'
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            getSearchDataAndKeys(value)
+                        }}
+                    >
+                        {value}
+                    </div>
+                );
+            }
+        },
+    ];
 
 
     const getDeviceID = () => {
+        let token = getAccessToken()
+        if (!!token) {
+            return token;
+        }
         let deviceID = localStorage.getItem('deviceID')
         if (!deviceID) {
             deviceID = uuidv4()
@@ -57,60 +99,76 @@ export default function FavoritesModule() {
 
 
     function updateResultsState() {
-        setResultsState({ loading: isFetching })
-        if (!!data?.length) {
-            setResultsState({ list: data[0], searchKeys: data[1] })
-            setColors([...Object.values(data[2])])
-        } else {
-            setResultsState({ list: [], searchKeys: [] })
-            setColors([])
-        }
+        setResultsState({
+            loading: true,
+            list: [],
+            searchKeys: [],
+            filters: {},
+        })
     }
 
-    async function getSearchDataAndKeys() {
-        postSearchHistory({
-            search: searchState.searchValue,
-            uniqueId: deviceID,
-            source: legalSourceID,
-            campaignId: legalCompanyID,
-        })
-        refetch()
+
+    async function getSearchDataAndKeys(value) {
+        if (!!value) {
+            setSearchState({ searchValue: value })
+            postSearchHistory({
+                search: value,
+                uniqueId: deviceID,
+                source: legalSourceID,
+                campaignId: legalCompanyID,
+            })
+        } else {
+            postSearchHistory({
+                search: searchState.searchValue,
+                uniqueId: deviceID,
+                source: legalSourceID,
+                campaignId: legalCompanyID,
+            })
+        }
         router.push('/results')
     }
 
 
+    const [selectedRowKeys, setSelectedRowKeys] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const start = () => {
+        setLoading(true);
+        // ajax request after empty completing
+        setTimeout(() => {
+            setSelectedRowKeys([]);
+            setLoading(false);
+        }, 1000);
+    };
+    const onSelectChange = (newSelectedRowKeys) => {
+        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+
+
     React.useEffect(() => {
-        updateResultsState()
-    }, [data[1]])
+        if (!!searchState.searchValue)
+            updateResultsState()
+    }, [searchState.searchValue])
 
 
     return (
-        <div className='main-wrapper'>
+        <div className='history-wrapper'>
             <MainHeader />
-            <div className='content-wrapper'>
 
-            </div>
-            <div className='footer-bottom'>
-                <div className='footer-icons-wrapper'>
-                    <a href='https://www.linkedin.com/company/legalens/' target='_blank'>
-                        <Icon component={LinkedinIcon} className='footer-icon' />
-                    </a>
-                    <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'>
-                        <Icon component={FacebookIcon} className='footer-icon' />
-                    </a>
-                    <a href='https://www.instagram.com/legalens.ai/' target='_blank'>
-                        <Icon component={InstagramIcon} className='footer-icon' />
-                    </a>
-                </div>
-                <div className='footer-ai-wrapper'>
-                    <div className='footer-ai-text'>Product of</div>
-                    <Image
-                        src='/assets/SVG/ai-logo.svg'
-                        className='footer-ai-logo'
-                        preview={false}
-                        onClick={() => router.push('/')}
-                    />
-                </div>
+            {favoritesIsFetching && <Loader />}
+
+            <div className='content-wrapper'>
+                <Table
+                    showHeader={false}
+                    rowSelection={rowSelection}
+                    columns={columns}
+                    dataSource={favoritesData.data}
+                />
             </div>
         </div>
     )
