@@ -71,7 +71,8 @@ export const MainHeader = (props) => {
                                 key={item.id}
                                 color={router.pathname === item.route ? 'colored' : 'white'}
                                 onClick={() => router.push(item.route)} {...item}
-                            />)
+                            />
+                        )
                     }
                 </div>
             }

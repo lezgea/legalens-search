@@ -1,9 +1,8 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { FacebookIcon, InstagramIcon, LinkedinIcon, ThinSearchIcon } from '../../assets/icons';
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from '../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
-import { Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { Image } from 'antd'
 import { useSearch } from '@/hooks/use-search';
@@ -93,9 +92,6 @@ export default function FavoritesModule() {
             </div>
             <div className='footer-bottom'>
                 <div className='footer-icons-wrapper'>
-                    {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
-                    {/* <Icon component={TiktokIcon} className='footer-icon' /> */}
-                    {/* </a> */}
                     <a href='https://www.linkedin.com/company/legalens/' target='_blank'>
                         <Icon component={LinkedinIcon} className='footer-icon' />
                     </a>
@@ -105,9 +101,6 @@ export default function FavoritesModule() {
                     <a href='https://www.instagram.com/legalens.ai/' target='_blank'>
                         <Icon component={InstagramIcon} className='footer-icon' />
                     </a>
-                    {/* <a href='https://www.facebook.com/profile.php?id=61555927896263&is_tour_dismissed=true' target='_blank'> */}
-                    {/* <Icon component={YoutubeIcon} className='footer-icon' /> */}
-                    {/* </a> */}
                 </div>
                 <div className='footer-ai-wrapper'>
                     <div className='footer-ai-text'>Product of</div>

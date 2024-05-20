@@ -54,6 +54,7 @@ export default function ResultsModule() {
     const { resultsState, colors, setResultsState, setColors } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
+    const [buttonsShowIndex, setButtonsShowIndex] = React.useState(null)
     const [startFetching, setStartFetching] = React.useState(false)
     const [scrollToTop, setScrollToTop] = React.useState(false)
     const listRef = React.createRef()
@@ -149,6 +150,8 @@ export default function ResultsModule() {
                                     searchValue={searchState?.searchValue}
                                     cardIndex={cardIndex}
                                     setCardIndex={setCardIndex}
+                                    buttonsShowIndex={buttonsShowIndex}
+                                    setButtonsShowIndex={setButtonsShowIndex}
                                 />
                             )
                         }
@@ -201,6 +204,8 @@ const ResultCard = (props) => {
         index,
         cardIndex,
         setCardIndex,
+        buttonsShowIndex,
+        setButtonsShowIndex,
     } = props
 
     const { searchState } = useSearchContext()
@@ -263,17 +268,21 @@ const ResultCard = (props) => {
         <Link
             href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}_${searchValue}`}
             className='result-card-wrapper'
+            onMouseOver={() => setButtonsShowIndex(index)}
         >
             <div className={`result-card${cardIndex == index ? "-animated" : ""}`}>
-                <div className='action-button-wrapper'>
-                    <ActionButton
-                        color='colored'
-                        onClick={onAddToFavorites}
-                        icon={StarIcon}
-                        label='Seçilmişlərə Əlavə Et'
-                        style={{ width: 200, position: 'absolute', right: 15, top: 15 }}
-                    />
-                </div>
+                {
+                    buttonsShowIndex == index &&
+                    <div className='action-button-wrapper'>
+                        <ActionButton
+                            color='gray'
+                            onClick={onAddToFavorites}
+                            icon={StarIcon}
+                            label='Seçilmişlərə Əlavə Et'
+                            style={{ width: 200, position: 'absolute', right: 15, top: 15 }}
+                        />
+                    </div>
+                }
                 <div className='white-opacity-box'>
                 </div>
                 <div

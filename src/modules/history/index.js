@@ -8,6 +8,7 @@ import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryData, useSearchHistoryMutation } from '@/hooks/use-search-history';
 import { getAccessToken } from '@/utils/cookies';
+import moment from 'moment/moment';
 
 
 
@@ -20,8 +21,27 @@ export default function HistoryModule() {
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
     const { data: historyData, refetch: refetchHistory, isFetching: historyIsFetching } = useSearchHistoryData()
 
+    console.log('######', historyData)
 
     const columns = [
+        {
+            dataIndex: 'createdAt',
+            width: '200px',
+            render: (value) => {
+                return (
+                    <div
+                        // style={{ width: 100 }}
+                        className='history-date'
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            getSearchDataAndKeys(value)
+                        }}
+                    >
+                        <b>{moment(value).format('LL')}</b> | {moment(value).format('hh:mm a')}
+                    </div>
+                );
+            }
+        },
         {
             dataIndex: 'search',
             render: (value) => {
@@ -81,7 +101,6 @@ export default function HistoryModule() {
 
 
     function updateResultsState() {
-        console.log('oooooo')
         setResultsState({
             loading: true,
             list: [],

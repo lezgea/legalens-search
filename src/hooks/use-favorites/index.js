@@ -1,19 +1,19 @@
 import { backClient } from "@/api/client";
-import { getSearchHistory } from "@/api/history";
+import { getFavoritesList } from "@/api/favorites";
 import { useMutation, useQuery } from "react-query";
 
 
-export const useSearchHistoryMutation = () => {
+export const useFavoritesMutation = () => {
     return useMutation(data => {
-        return backClient.post(`/search-histories`, data);
+        return backClient.post(`/favorites`, data);
     });
 };
 
 
-export const useSearchHistoryData = () => {
+export const useFavoritesData = () => {
     const { data = [], isFetching, error, refetch } = useQuery(
-        ['search-history-data'],
-        () => getSearchHistory(),
+        ['favorites'],
+        () => getFavoritesList(),
         {
             refetchOnWindowFocus: false,
             enabled: true,
