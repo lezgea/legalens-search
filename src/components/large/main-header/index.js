@@ -28,9 +28,11 @@ export const MainHeader = (props) => {
     }
 
     async function getUserInfo() {
-        let response = await getUserProfileInfo()
-        if (response.data?.key === "success") {
-            setUserState({ ...response.data?.data })
+        if (!userState) {
+            let response = await getUserProfileInfo()
+            if (response.data?.key === "success") {
+                setUserState({ ...response.data?.data })
+            }
         }
     }
 
