@@ -10,3 +10,9 @@ export const getFolders = async () => {
     const { data } = await backClient.get("/folders")
     return data
 }
+
+
+export const getFolderInfo = async ({ id }) => {
+    const { data } = await backClient.get(`/folders/${id}`)
+    return data
+}

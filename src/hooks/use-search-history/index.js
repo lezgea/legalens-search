@@ -10,6 +10,13 @@ export const useSearchHistoryMutation = () => {
 };
 
 
+export const useSearchHistoryDelete = () => {
+    return useMutation(data => {
+        return backClient.delete(`/search-histories`, data);
+    });
+};
+
+
 export const useSearchHistoryData = () => {
     const { data = [], isFetching, error, refetch } = useQuery(
         ['search-history-data'],

@@ -1,7 +1,8 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useSearchContext } from '@/context/search-context';
-import { Table } from 'antd';
+import { Space, Table, Modal } from 'antd';
+import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 import { useResultsContext } from '@/context/results-context';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +11,8 @@ import { getAccessToken } from '@/utils/cookies';
 import moment from 'moment/moment';
 import Loader from '@/components/large/loader';
 
+
+const { confirm } = Modal;
 
 
 export default function HistoryModule() {
@@ -21,6 +24,25 @@ export default function HistoryModule() {
     const { data: historyData, refetch: refetchHistory, isFetching: historyIsFetching } = useSearchHistoryData()
 
 
+    function onDeleteHistoryItem(ID) {
+        confirm({
+            centered: true,
+            title: 'Are you sure delete this history item?',
+            icon: <ExclamationCircleFilled />,
+            // content: 'You will not be abble to restore this data',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                console.log('OK');
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
+
+
     const columns = [
         {
             dataIndex: 'createdAt',
@@ -28,7 +50,6 @@ export default function HistoryModule() {
             render: (value) => {
                 return (
                     <div
-                        // style={{ width: 100 }}
                         className='history-date'
                         onClick={(event) => {
                             event.stopPropagation()
@@ -55,6 +76,15 @@ export default function HistoryModule() {
                     </div>
                 );
             }
+        },
+        {
+            key: 'action',
+            width: '50px',
+            render: (_, record) => (
+                <Space size="small">
+                    <DeleteOutlined className='list-delete-icon' onClick={() => onDeleteHistoryItem(record.id)} />
+                </Space>
+            ),
         },
     ];
 
@@ -165,7 +195,7 @@ export default function HistoryModule() {
             <div className='content-wrapper'>
                 <Table
                     showHeader={false}
-                    rowSelection={rowSelection}
+                    // rowSelection={rowSelection}
                     columns={columns}
                     dataSource={historyData.data}
                 />

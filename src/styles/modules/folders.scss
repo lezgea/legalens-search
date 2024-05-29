@@ -46,7 +46,7 @@
             align-items: flex-end;
             justify-content: flex-start;
             flex-wrap: wrap;
-            opacity: .6;
+            opacity: .7;
             overflow: hidden;
 
             &:hover {
@@ -58,52 +58,59 @@
                 //         fill: #C7DAFD;
                 //     }
                 // }
+
+                .folder-content-wrapper {
+                    .icons-wrapper {
+                        visibility: visible;
+                    }
+                }
             }
 
-            .delete-button-wrapper {
-                padding: 5px;
-                border-radius: 4px;
+            .folder-delete-button-wrapper {
+                padding: 6px;
+                border-radius: 30px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #fff;
+                background-color: #cf2e57;
                 box-shadow: 0px 2px 5px 0px #b6bece;
 
-                .delete-icon {
-                    width: 10px;
-                    height: 10px;
-                    color: #FF7798;
+                &:active {
+                    box-shadow: none;
+                }
+
+                .folder-delete-icon {
+                    width: 15px;
+                    height: 15px;
+                    font-size: 20px;
 
                     svg {
-                        color: #FF7798 !important;
-                        stroke: #FF7798 !important;
-                        fill: #FF7798 !important;
-
                         path {
-                            fill: #FF7798 !important;
-                            transition: ease-in-out .3s;
+                            fill: #fff !important;
                         }
                     }
                 }
             }
 
-            .edit-button-wrapper {
-                padding: 5px;
-                border-radius: 4px;
+            .folder-edit-button-wrapper {
+                padding: 6px;
+                border-radius: 30px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #fff;
+                background-color: #ffffff;
                 box-shadow: 0px 2px 5px 0px #b6bece;
 
-                .edit-icon {
-                    width: 10px;
-                    height: 10px;
-                    color: #88A1FF;
+                &:active {
+                    box-shadow: none;
+                }
+
+                .folder-edit-icon {
+                    font-size: 18px;
 
                     svg {
                         path {
-                            transition: ease-in-out .3s;
+                            fill: #88A1FF !important;
                         }
                     }
                 }
@@ -118,15 +125,18 @@
                 justify-content: space-between;
                 top: 0;
                 height: 100%;
-                // max-height: 150px;
                 width: 100%;
-                // background-color: #FF7798;
                 max-width: 160px;
                 padding: 40px 5px 25px 15px;
 
 
                 .icons-wrapper {
+                    position: absolute;
+                    top: 10px;
+                    right: 2px;
+                    visibility: hidden;
                     display: flex;
+                    margin-left: auto;
                     align-items: center;
                     gap: 5px;
                 }
@@ -213,49 +223,58 @@
                 // }
             }
 
-            .delete-button-wrapper {
-                padding: 5px;
-                border-radius: 4px;
+            .folder-delete-button-wrapper {
+                padding: 6px;
+                border-radius: 30px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #fff;
+                background-color: #cf2e57;
                 box-shadow: 0px 2px 5px 0px #b6bece;
 
-                .delete-icon {
-                    width: 10px;
-                    height: 10px;
-                    color: #FF7798;
+                .folder-delete-icon {
+                    width: 15px;
+                    height: 15px;
+                    font-size: 20px;
+                    color: #fff;
 
                     svg {
-                        color: #FF7798 !important;
-                        stroke: #FF7798 !important;
-                        fill: #FF7798 !important;
+                        color: #fff;
 
                         path {
-                            fill: #FF7798 !important;
+                            // fill: #FF7798 !important;
                             transition: ease-in-out .3s;
                         }
                     }
                 }
             }
 
-            .edit-button-wrapper {
-                padding: 5px;
-                border-radius: 4px;
+            .folder-edit-button-wrapper {
+                padding: 6px;
+                border-radius: 30px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #fff;
+                background-color: #ffffff;
                 box-shadow: 0px 2px 5px 0px #b6bece;
 
-                .edit-icon {
-                    width: 10px;
-                    height: 10px;
-                    color: #88A1FF;
+                &:active {
+                    box-shadow: none;
+                }
+
+                .folder-edit-icon {
+                    // width: 10px;
+                    // height: 10px;
+                    font-size: 20px;
+                    color: #88A1FF !important;
 
                     svg {
+                        fill: #fff !important;
+                        stroke: #fff !important;
+                        color: #fff !important;
+
                         path {
+                            fill: #fff !important;
                             transition: ease-in-out .3s;
                         }
                     }
@@ -271,15 +290,17 @@
                 justify-content: space-between;
                 top: 0;
                 height: 100%;
-                // max-height: 150px;
                 width: 100%;
-                // background-color: #FF7798;
                 max-width: 160px;
                 padding: 40px 5px 25px 15px;
 
-
                 .icons-wrapper {
+                    position: absolute;
+                    top: 10px;
+                    right: 2px;
+                    visibility: hidden;
                     display: flex;
+                    margin-left: auto;
                     align-items: center;
                     gap: 5px;
                 }

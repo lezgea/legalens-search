@@ -340,3 +340,43 @@ img {
   color: #979797;
   font-size: 13px;
 }
+
+
+.list-delete-icon {
+  width: 26px;
+  height: 26px;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    color: #FF7798;
+
+    svg {
+      color: #FF7798 !important;
+      stroke: #FF7798 !important;
+      fill: #FF7798 !important;
+
+      path {
+        fill: #FF7798 !important;
+        transition: ease-in-out .3s;
+      }
+    }
+  }
+
+  &:active {
+    color: #FF7798;
+    font-size: 16px;
+
+    svg {
+      color: #FF7798 !important;
+      stroke: #FF7798 !important;
+      fill: #FF7798 !important;
+
+      path {
+        fill: #FF7798 !important;
+        transition: ease-in-out .3s;
+      }
+    }
+  }
+
+}

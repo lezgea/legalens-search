@@ -298,9 +298,15 @@ const ResultCard = (props) => {
                         <ActionButton
                             color='gray'
                             onClick={onAddToFavorites}
+                            icon={FolderIcon}
+                            label='Qovluqa +'
+                            style={{ marginRight: 10 }}
+                        />
+                        <ActionButton
+                            color='gray'
+                            onClick={onAddToFavorites}
                             icon={StarIcon}
-                            label='Seçilmişlərə Əlavə Et'
-                            style={{ width: 200, position: 'absolute', right: 15, top: 15 }}
+                            label='Seçilmişlərə +'
                         />
                     </div>
                 }

@@ -314,6 +314,13 @@
             box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
             transition: .2s ease-in-out;
 
+            .action-button-wrapper {
+                display: flex;
+                position: absolute;
+                right: 15px;
+                top: 15px;
+            }
+
             b {
                 color: #000;
                 transition: .2s ease-in-out;
@@ -449,6 +456,13 @@
             box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
             transition: .3s ease-in-out;
             border: 2px solid #c79fe7;
+
+            .action-button-wrapper {
+                display: flex;
+                position: absolute;
+                right: 15px;
+                top: 15px;
+            }
 
             b {
                 color: #000;

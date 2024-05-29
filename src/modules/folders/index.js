@@ -1,7 +1,8 @@
 import React from 'react'
 import Icon from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { CloseIcon, FacebookIcon, FolderLargeAddIcon, FolderLargeIcon, InstagramIcon, LinkedinIcon, PlusBoldIcon, ThinSearchIcon } from '../../assets/icons';
+import { CloseIcon, EditIcon, FacebookIcon, FolderLargeAddIcon, FolderLargeIcon, InstagramIcon, LinkedinIcon, PlusBoldIcon, ThinSearchIcon } from '../../assets/icons';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 import { useSearchContext } from '@/context/search-context';
 import { Button, Divider, Form, Modal } from 'antd';
 import { useResultsContext } from '@/context/results-context';
@@ -11,11 +12,12 @@ import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 import Loader from '@/components/large/loader';
-import { useFoldersData, useFoldersMutation } from '@/hooks/use-folders';
+import { useFolderInfo, useFoldersData, useFoldersDelete, useFoldersMutation, useFoldersUpdate } from '@/hooks/use-folders';
 import { FloatInput } from '@/components/small';
 import useNotification from 'antd/es/notification/useNotification';
 import moment from 'moment/moment';
 
+const { confirm } = Modal;
 
 
 export default function FoldersModule() {
@@ -29,6 +31,7 @@ export default function FoldersModule() {
             showAddFileModal: false,
             deleteId: false,
             folderId: '',
+            folderEditId: '',
             fileFormData: {
                 name: null,
                 file: null,
@@ -43,7 +46,8 @@ export default function FoldersModule() {
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
-    const { data: foldersData = [], refetch: refetchFolders, isFetching: isFetchingFolders } = useFoldersData()
+    const { data: foldersData, refetch: refetchFolders, isFetching: isFetchingFolders } = useFoldersData()
+    const { mutate: foldersDelete, isSuccess: folderDeleteSuccess, isLoading: folderDeleteLoading } = useFoldersDelete()
 
 
     const getDeviceID = () => {
@@ -55,6 +59,7 @@ export default function FoldersModule() {
         return deviceID
     }
 
+    console.log('$$$$$$', foldersData.data)
 
     const getSourceID = () => {
         let legalSourceID = localStorage.getItem('legalSourceID')
@@ -115,16 +120,30 @@ export default function FoldersModule() {
 
 
     function onDeleteFolder(id) {
-        setState({ deleteId: id })
+        confirm({
+            centered: true,
+            title: 'Are you sure delete this history item?',
+            icon: <ExclamationCircleFilled />,
+            // content: 'You will not be abble to restore this data',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                foldersDelete({ id })
+                refetchFolders()
+            },
+            onCancel() {
+            },
+        });
     }
 
 
     function onEditFolder(item) {
-        setState({
-            folderId: item.id,
-            folderName: item.name,
-            showEditFolderModal: true,
-        })
+        // setState({
+        //     folderId: item.id,
+        //     folderName: item.name,
+        //     showEditFolderModal: true,
+        // })
     }
 
 
@@ -168,21 +187,23 @@ export default function FoldersModule() {
                             >
                                 <FolderLargeIcon index={i} style={{ width: 170 }} />
                                 <div className='folder-content-wrapper'>
-                                    {/* <div className='icons-wrapper'>
-                                        {
-                                            item.editable &&
-                                            <>
-                                                <div className='delete-button-wrapper' onClick={() => onDeleteFolder(item.id)}>
-                                                    <CloseIcon className='delete-icon' />
-                                                </div>
-                                                <div className='edit-button-wrapper' onClick={() => onEditFolder(item)}>
-                                                    <EditIcon className='edit-icon' />
-                                                </div>
-                                            </>
-                                        }
-                                    </div> */}
                                     <div className='label-wrapper'>
                                         <div className='label'>{item.name}</div>
+                                    </div>
+                                    <div className='icons-wrapper' onClick={(e) => e.stopPropagation()}>
+                                        <div
+                                            className='folder-edit-button-wrapper'
+                                            onClick={() => setState({
+                                                folderEditId: item.id,
+                                                folderName: item.name,
+                                                showEditFolderModal: true,
+                                            })}
+                                        >
+                                            <EditOutlined className='folder-edit-icon' />
+                                        </div>
+                                        <div className='folder-delete-button-wrapper' onClick={() => onDeleteFolder(item.id)}>
+                                            <DeleteOutlined className='folder-delete-icon' />
+                                        </div>
                                     </div>
                                     <div className='folder-bottom'>
                                         <div className='folder-articles-count'>
@@ -230,6 +251,16 @@ export default function FoldersModule() {
                     setState={setState}
                     setVisible={() => setState({ showAddFolderModal: false })}
                     onClose={() => setState({ showAddFolderModal: false })}
+                />
+                <FolderEditModal
+                    folderId={state.folderEditId}
+                    folderName={state.folderName}
+                    reloadFolders={refetchFolders}
+                    visible={state.showEditFolderModal}
+                    mutationOptions={mutationOptions}
+                    setState={setState}
+                    setVisible={() => setState({ showEditFolderModal: false })}
+                    onClose={() => setState({ showEditFolderModal: false })}
                 />
             </div>
 
@@ -315,16 +346,80 @@ const FolderAddModal = (props) => {
                         onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
                         onKeyDown={(e) => e.key === 'Enter' && onAddNewFolder()}
                     />
-                    {/* <Button
-                        loading={createFolderLoading}
-                        disabled={!folderParams.name}
-                        className={!folderParams.name ? 'sign-in-button-disabled' : 'sign-in-button'}
-                        onClick={onAddNewFolder}
-                    >
-                        Əlavə et
-                    </Button> */}
                 </Form>
             </div>
         </Modal>
     )
 }
+
+
+
+const FolderEditModal = (props) => {
+    let { visible, setVisible, folderId, folderName, setState, reloadFolders, mutationOptions, onClose } = props
+
+    const [folderParams, setFolderParams] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
+        {
+            name: '',
+        },
+    )
+
+
+    const { mutate: createFolder, isLoading: createFolderLoading } = useFoldersMutation()
+    const { mutate: updateFolder, isLoading: updateFolderLoading } = useFoldersUpdate({ id: folderId })
+    // const { data: folderInfoData = {}, refetch: refetchFolderInfo, isFetching: isFetchingFolderInfo } = useFolderInfo({ id: folderId })
+
+
+    async function onUpdateFolder() {
+        updateFolder(folderParams, mutationOptions)
+        await reloadFolders()
+        onCloseFolder()
+    }
+
+    function onCloseFolder() {
+        setFolderParams({ name: '' })
+        onClose()
+    }
+
+
+    React.useEffect(() => {
+        if (!!folderName) {
+            setFolderParams({ name: folderName })
+        }
+    }, [folderName])
+
+
+    return (
+        <Modal
+            visible={visible}
+            setVisible={setVisible}
+            width="500px"
+            view={true}
+            title='Qovluğu dəyiş'
+            onCancel={onCloseFolder}
+            onClose={onCloseFolder}
+            onOk={onUpdateFolder}
+        >
+            <div className='sign-in-wrapper'>
+                <Form
+                    className='sign-in-card'
+                    style={{ marginTop: 30 }}
+                    name="basic"
+                    initialValues={{
+                        remember: true
+                    }}
+                    onFinish={onUpdateFolder}
+                    onFinishFailed={() => { }}
+                >
+                    {createFolderLoading && <Loader />}
+                    <FloatInput
+                        value={folderParams.name}
+                        defaultValue={folderParams.name}
+                        onChange={(e) => { e.stopPropagation(); setFolderParams({ name: e.target.value }) }}
+                        onKeyDown={(e) => e.key === 'Enter' && onUpdateFolder()}
+                    />
+                </Form>
+            </div>
+        </Modal>
+    )
+}
+

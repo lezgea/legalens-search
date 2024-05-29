@@ -21,6 +21,7 @@ export const FloatInput = (props) => {
                 onFocus={() => setFocus(true)}
             >
                 <Input
+                    value={value}
                     defaultValue={value}
                     onChange={props.onChange}
                     type={type}
