@@ -13,7 +13,7 @@ import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 
 
 
-export default function ProfileModule() {
+export default function EmailTemplateModule() {
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, setResultsState, setColors, userState } = useResultsContext()
     const router = useRouter()

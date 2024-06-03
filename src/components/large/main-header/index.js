@@ -38,7 +38,10 @@ export const MainHeader = (props) => {
     const DropdownContent = () => (
         <div className='profile-dropdown-wrapper'>
             <div className='profile-name'>{userState?.name} {userState?.surname}</div>
-            <div className='action-button-gray' style={{ width: '100%', marginTop: 10, borderRadius: 7 }} onClick={() => router.push('/history')}>
+            <div className='action-button-gray' style={{ width: '100%', marginTop: 10, borderRadius: 7 }} onClick={() => router.push('/profile')}>
+                <div className='label' style={{ fontSize: 15 }}>Profile</div>
+            </div>
+            <div className='action-button-gray' style={{ width: '100%', marginTop: 7, borderRadius: 7 }} onClick={() => router.push('/history')}>
                 <div className='label' style={{ fontSize: 15 }}>Tarixçə</div>
             </div>
             <div className='action-button-gray' style={{ width: '100%', marginTop: 7, borderRadius: 7 }} onClick={() => router.push('/favorites')}>
