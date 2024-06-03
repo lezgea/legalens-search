@@ -59,8 +59,6 @@ export default function FoldersModule() {
         return deviceID
     }
 
-    console.log('$$$$$$', foldersData.data)
-
     const getSourceID = () => {
         let legalSourceID = localStorage.getItem('legalSourceID')
         if (!legalSourceID) {

@@ -1,0 +1,172 @@
+.profile-page-wrapper {
+    // display: flex;
+
+    .profile-wrapper {
+        height: 100%;
+        overflow-y: scroll;
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        user-select: none;
+
+        .profile-content-wrapper {
+            height: 100vh;
+            // position: relative;
+            // height: 100%;
+            width: 100%;
+
+            .background-wrapper {
+                height: 40vh;
+                width: 100%;
+                background: linear-gradient(249deg, #CD75EB 10.24%, #FFB39B 101.13%);
+            }
+
+            .profile-image-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: -100px;
+                margin-left: 80px;
+                width: 200px;
+                height: 200px;
+                border-radius: 200px;
+                background-color: #ffffff;
+                box-shadow: 0px 4px 20px -10px rgba(24, 41, 86, 0.3);
+            }
+
+            .user-name {
+                margin-top: -160px;
+                margin-left: 310px;
+                font-size: 30px;
+                font-weight: 600;
+                color: #fff;
+            }
+
+            .user-email {
+                margin-top: 30px;
+                margin-left: 310px;
+                font-size: 18px;
+                font-weight: 500;
+                color: #989898;
+            }
+
+            .user-role {
+                display: inline-flex;
+                margin-left: 310px;
+                font-size: 10px;
+                font-weight: 500;
+                border: 1px solid #e249a5;
+                color: #e249a5;
+                border-radius: 5px;
+                padding: 1px 6px;
+            }
+        }
+
+        .footer-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            // background-color: #0091ff;
+            // align-items: center;
+            align-content: space-between;
+            justify-content: space-between;
+            padding: 20px 30px;
+
+            .footer-icons-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+
+                a {
+                    color: #000;
+
+                    &:hover {
+                        color: #0091ff;
+                    }
+
+                    .footer-icon {
+                        font-size: 18px;
+                    }
+                }
+
+            }
+
+            .footer-ai-wrapper {
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                padding-right: 20px;
+
+                .footer-ai-text {
+                    font-size: 14px;
+                }
+
+                .footer-ai-logo {
+                    margin-left: 10px;
+                }
+            }
+
+
+            @media (max-width: 768px) {
+                padding: 10px 15px;
+
+                .footer-icons-wrapper {
+                    a {
+                        .footer-icon {
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                .footer-ai-wrapper {
+                    display: flex;
+                    align-items: center;
+                    padding-right: 15px;
+
+                    .footer-ai-text {
+                        font-size: 12px;
+                    }
+
+                    .footer-ai-logo {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+
+
+        .main-footer {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: auto;
+            bottom: 0;
+            padding: 20px;
+            width: 100%;
+            border-radius: 20px 20px 0 0;
+            // background-color: #F2F4F8;
+
+            .footer-legalens-logo {
+                cursor: pointer;
+                height: 50px;
+                width: 180px;
+            }
+
+            .footer-description {
+                text-align: center;
+                font-weight: 500;
+                font-size: 15px;
+                padding: 20px 200px 40px 200px;
+            }
+
+            .footer-rights {
+                font-size: 14px;
+            }
+
+
+        }
+    }
+}
