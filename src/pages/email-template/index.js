@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import Loader from '@/components/large/loader';
 
 
-const ProfilePage = dynamic(
-  () => import('@/modules/profile'),
+const EmailTemplatePage = dynamic(
+  () => import('@/modules/email-template'),
   {
     ssr: false,
     loading: Loader,
@@ -13,14 +13,14 @@ const ProfilePage = dynamic(
 )
 
 
-export default function Profile() {
+export default function EmailTemplate() {
   return (
     <>
       <Head>
-        <title>Legalens / Profile</title>
+        <title>Legalens / Email Template</title>
       </Head>
 
-      <ProfilePage />
+      <EmailTemplatePage />
     </>
   )
 }
