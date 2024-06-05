@@ -134,7 +134,7 @@ export const Header = (props) => {
         <div className='profile-dropdown-wrapper'>
             <div className='profile-name'>{userState?.name} {userState?.surname}</div>
             <div className='action-button-gray' style={{ width: '100%', marginTop: 10, borderRadius: 7 }} onClick={() => router.push('/profile')}>
-                <div className='label' style={{ fontSize: 15 }}>Profile</div>
+                <div className='label' style={{ fontSize: 15 }}>Profil</div>
             </div>
             <div className='action-button-gray' style={{ width: '100%', marginTop: 7, borderRadius: 7 }} onClick={() => router.push('/history')}>
                 <div className='label' style={{ fontSize: 15 }}>Tarixçə</div>
@@ -142,7 +142,7 @@ export const Header = (props) => {
             <div className='action-button-gray' style={{ width: '100%', marginTop: 7, borderRadius: 7 }} onClick={() => router.push('/favorites')}>
                 <div className='label' style={{ fontSize: 15 }}>Seçilmişlər</div>
             </div>
-            <div className='signout-button' onClick={onLogout}>Sign Out</div>
+            <div className='signout-button' onClick={onLogout}>Çıxış et</div>
         </div>
     )
 
@@ -207,17 +207,16 @@ export const Header = (props) => {
             {
                 isLogged
                     ?
-                    <Popover content={DropdownContent} trigger="click" placement='bottomRight'>
-                        <div className='profile-wrapper'>
-                            <div className='user-profile-info-wrapper'>
-                                <div className='user-profile-name'>{userState?.name}</div>
-                            </div>
+                    <div className='profile-wrapper'>
+                        <div className='user-profile-info-wrapper'>
+                            <div className='user-profile-name'>{userState?.name}</div>
+                        </div>
+                        <Popover content={DropdownContent} trigger="click" placement='bottomRight'>
                             <Avatar size={40} className="profile-avatar" style={{ backgroundColor: '#fde3cf', color: '#f56a00' }} >
                                 {userState?.name.substring(0, 1)}
                             </Avatar>
-
-                        </div>
-                    </Popover>
+                        </Popover>
+                    </div>
                     :
                     <div className='auth-buttons-wrapper'>
                         <Link className='registration-button' href="/sign-up">Qeydiyyat</Link>

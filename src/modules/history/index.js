@@ -27,12 +27,12 @@ export default function HistoryModule() {
     function onDeleteHistoryItem(ID) {
         confirm({
             centered: true,
-            title: 'Are you sure delete this history item?',
+            title: 'Tarixçəni silmək istədiyinizə əminsiniz?',
             icon: <ExclamationCircleFilled />,
             // content: 'You will not be abble to restore this data',
-            okText: 'Yes',
+            okText: 'Bəli',
             okType: 'danger',
-            cancelText: 'No',
+            cancelText: 'Xeyr',
             onOk() {
                 console.log('OK');
             },
@@ -195,6 +195,7 @@ export default function HistoryModule() {
             <div className='content-wrapper'>
                 <Table
                     showHeader={false}
+                    locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
                     // rowSelection={rowSelection}
                     columns={columns}
                     dataSource={historyData.data}

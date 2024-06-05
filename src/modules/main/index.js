@@ -106,6 +106,7 @@ export default function MainModule() {
                         <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
                     </div>
                     <CheckBoxItem
+                        hidePopup
                         style={{ marginLeft: 20 }}
                         checked={resultsState.search_as_phrase}
                         label="Söz birləşməsi kimi axtar"

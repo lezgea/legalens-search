@@ -164,6 +164,7 @@ export default function FavoritesModule() {
             <div className='content-wrapper'>
                 <Table
                     showHeader={false}
+                    locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
                     rowSelection={rowSelection}
                     columns={columns}
                     dataSource={favoritesData.data}

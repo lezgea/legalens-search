@@ -1,25 +1,14 @@
 import React from 'react'
-import { Form, Input, Image, Button, Switch, Checkbox } from "antd";
+import { Form, Image, Button } from "antd";
 import Link from 'next/link';
-import { GoogleIcon, AuthBgLines, LegalensLogoWhite, LegalensLogo } from '@/assets/icons';
 import { useRouter } from 'next/router';
-import Icon from '@ant-design/icons';
 import { FloatInput } from '@/components/small';
-import { useRegisterUserMutation } from '@/hooks/use-register-user';
 import useNotification from '@/hooks/use-notification';
 import { useActivateUserMutation } from '@/hooks/use-activate-user';
 
 
 export default function ActivationModule() {
     const router = useRouter()
-    const [remember, setRemember] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
-    const [acceptPrivacy, setAcceptPrivacy] = React.useState(false)
-    const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
-        {
-            showActivationForm: false,
-        }
-    )
     const [params, setParams] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
         {
             otp_code: '',
@@ -27,9 +16,6 @@ export default function ActivationModule() {
     )
     const { showNotification } = useNotification()
     const { mutate: activateUser, isSuccess, isLoading: activateUserLoading } = useActivateUserMutation()
-
-    let legalSourceID = localStorage.getItem('legalSourceID')
-    let legalCompanyID = localStorage.getItem('legalCompanyID')
 
 
     function onFinishActivation(values) {
@@ -67,14 +53,14 @@ export default function ActivationModule() {
                     onFinish={onFinishActivation}
                     onFinishFailed={() => { }}
                 >
-                    <div className='welcome-label'>Check your email</div>
-                    <div className='description'>{`We've sent an OTP code to ${params.email} paste your code down below.`}</div>
+                    <div className='welcome-label'>Mail qutunuzu yoxlayın</div>
+                    <div className='description'>{`Sizə göndərilmiş OTP kodunu daxil edin`}</div>
                     <Form.Item
                         name='name'
-                        rules={[{ required: true, message: 'Please input your code!' }]}
+                        rules={[{ required: true, message: 'Kodu daxil edin!' }]}
                     >
                         <FloatInput
-                            label='Code'
+                            label='Kod'
                             value={params.otp_code}
                             onChange={(e) => setParams({ otp_code: e.target.value })}
                             style={{ fontSize: 26, textAlign: 'center' }}
@@ -86,7 +72,7 @@ export default function ActivationModule() {
                         onClick={onFinishActivation}
                         htmlType='submit'
                     >
-                        Activate
+                        Aktivləşdir
                     </Button>
 
                     <div className='card-bottom-line'>

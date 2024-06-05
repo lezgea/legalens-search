@@ -95,7 +95,7 @@ export default function SignInModule() {
                                 style={{ background: remember ? 'linear-gradient(249deg, #FFB39B 10.24%, #CD75EB 101.13%)' : '#dedede' }}
                                 onChange={() => setRemember(!remember)}
                             />
-                            <div className='remember-title'>Remember me</div>
+                            <div className='remember-title'>Yadda saxla</div>
                         </div>
                         <Link className='forgot-link' href='/forgot-password'>Şifrəni Unutduz?</Link>
                     </div>

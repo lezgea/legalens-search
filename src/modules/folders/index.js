@@ -120,12 +120,12 @@ export default function FoldersModule() {
     function onDeleteFolder(id) {
         confirm({
             centered: true,
-            title: 'Are you sure delete this history item?',
+            title: 'Qovluqu silmək istədiyinizə əminsiniz?',
             icon: <ExclamationCircleFilled />,
             // content: 'You will not be abble to restore this data',
-            okText: 'Yes',
+            okText: 'Bəli',
             okType: 'danger',
-            cancelText: 'No',
+            cancelText: 'Xeyr',
             onOk() {
                 foldersDelete({ id })
                 refetchFolders()
@@ -215,32 +215,6 @@ export default function FoldersModule() {
                     }
                 </div>
                 <Divider />
-                {
-                    // (isLoadingDocs || addFileLoading || fileLoading) &&
-                    // <Loader />
-                }
-                {
-                    // !!state.folderId &&
-                    // <div className='documents-content-wrapper'>
-                    //     <div className='buttons-wrapper'>
-                    //         {
-                    //             state.folderId !== folders[0]?.id &&
-                    //             <div className='attach-button-wrapper'>
-                    //                 <div className='attach-button'>
-                    //                     <input type="file" className='attach-file-input' onChange={onAddFile} />
-                    //                     <FileAddIcon className='icon' />
-                    //                     <div className='label'>Sənəd əlavə et</div>
-                    //                 </div>
-                    //             </div>
-                    //         }
-                    //         {
-                    //             docsData.map((item, i) =>
-                    //                 <AttachButton key={item.id} reloadDocs={refetchDocs} {...item} />
-                    //             )
-                    //         }
-                    //     </div>
-                    // </div>
-                }
 
                 <FolderAddModal
                     reloadFolders={refetchFolders}
@@ -322,6 +296,8 @@ const FolderAddModal = (props) => {
             width="500px"
             view={true}
             title='Yeni Qovluq'
+            cancelText='Ləğv et'
+            okText='Təsdiq et'
             onCancel={onCloseFolder}
             onClose={onCloseFolder}
             onOk={onAddNewFolder}
@@ -393,6 +369,8 @@ const FolderEditModal = (props) => {
             width="500px"
             view={true}
             title='Qovluğu dəyiş'
+            cancelText='Ləğv et'
+            okText='Təsdiq et'
             onCancel={onCloseFolder}
             onClose={onCloseFolder}
             onOk={onUpdateFolder}
