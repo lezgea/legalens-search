@@ -323,15 +323,19 @@
 
             b {
                 color: #000;
+                // line-height: 10px !important;
+                // margin-bottom: 0;
+                // padding-bottom: 0;
                 transition: .2s ease-in-out;
             }
 
             &:hover {
-                border: 2px solid #c79fe7;
+                border: 2px solid #F4D5F8;
                 box-shadow: 0px 4px 60px -10px rgba(20, 35, 80, 0.13);
 
                 b {
-                    color: #6BA6FF;
+                    // color: #6BA6FF;
+                    // line-height: 18px;
                 }
 
                 .label {
@@ -343,19 +347,21 @@
                 font-size: 15px;
                 font-style: normal;
                 font-weight: 600;
-                line-height: 200%;
+                line-height: 140%;
                 transition: .3s ease-in-out;
 
                 &:hover {
-                    color: #6BA6FF;
+                    // color: #6BA6FF;
                 }
             }
 
             .description {
+                margin-top: 5px;
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 145%;
+                color: #6BA6FF;
             }
 
             .text-container {
@@ -455,7 +461,7 @@
             background: #FFF;
             box-shadow: 0px 4px 52px -10px rgba(24, 41, 86, 0.11);
             transition: .3s ease-in-out;
-            border: 2px solid #c79fe7;
+            border: 2px solid #F4D5F8;
 
             .action-button-wrapper {
                 display: flex;
@@ -473,7 +479,7 @@
                 box-shadow: 0px 4px 60px -10px rgba(20, 35, 80, 0.13);
 
                 b {
-                    color: #6BA6FF;
+                    // color: #6BA6FF;
                 }
 
                 .label {
@@ -485,7 +491,7 @@
                 font-size: 15px;
                 font-style: normal;
                 font-weight: 600;
-                line-height: 200%;
+                line-height: 140%;
                 transition: .3s ease-in-out;
 
                 &:hover {
@@ -494,10 +500,12 @@
             }
 
             .description {
+                margin-top: 5px;
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 145%;
+                color: #6BA6FF;
             }
 
             .text-container {
