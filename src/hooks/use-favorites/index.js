@@ -10,6 +10,13 @@ export const useFavoritesMutation = () => {
 };
 
 
+export const useFavoritesDelete = () => {
+    return useMutation(data => {
+        return backClient.delete(`/favorites/articles/${data.id}`, data);
+    });
+};
+
+
 export const useFavoritesData = () => {
     const { data = [], isFetching, error, refetch } = useQuery(
         ['favorites'],

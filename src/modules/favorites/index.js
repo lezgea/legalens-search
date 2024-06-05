@@ -1,14 +1,17 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useSearchContext } from '@/context/search-context';
-import { Table } from 'antd';
+import { Space, Table, Modal } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { getAccessToken } from '@/utils/cookies';
 import moment from 'moment/moment';
 import Loader from '@/components/large/loader';
-import { useFavoritesData } from '@/hooks/use-favorites';
+import { useFavoritesData, useFavoritesDelete } from '@/hooks/use-favorites';
+import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons'
+
+const { confirm } = Modal;
 
 
 
@@ -18,6 +21,28 @@ export default function FavoritesModule() {
     const router = useRouter()
 
     const { data: favoritesData, refetch: refetchFavorites, isFetching: favoritesIsFetching } = useFavoritesData()
+    const { mutate: deleteFavorite, isSuccess, isLoading: favoriteDeleteLoading } = useFavoritesDelete()
+
+
+    function onDeleteFavoriteItem(ID) {
+        console.log('$$$$$', ID)
+        confirm({
+            centered: true,
+            title: 'Seçilmişi silmək istədiyinizə əminsiniz?',
+            icon: <ExclamationCircleFilled />,
+            okText: 'Bəli',
+            okType: 'danger',
+            cancelText: 'Xeyr',
+            onOk() {
+                console.log('OK');
+                deleteFavorite({ id: ID })
+                refetchFavorites()
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
 
 
     const columns = [
@@ -40,7 +65,7 @@ export default function FavoritesModule() {
             }
         },
         {
-            dataIndex: 'search',
+            dataIndex: 'article',
             render: (value) => {
                 return (
                     <div
@@ -50,10 +75,19 @@ export default function FavoritesModule() {
                             getSearchDataAndKeys(value)
                         }}
                     >
-                        {value}
+                        {value.name}
                     </div>
                 );
             }
+        },
+        {
+            key: 'action',
+            width: '50px',
+            render: (_, record) => (
+                <Space size="small">
+                    <DeleteOutlined className='list-delete-icon' onClick={() => onDeleteFavoriteItem(record.article?.id)} />
+                </Space>
+            ),
         },
     ];
 

@@ -29,7 +29,6 @@ export default function HistoryModule() {
             centered: true,
             title: 'Tarixçəni silmək istədiyinizə əminsiniz?',
             icon: <ExclamationCircleFilled />,
-            // content: 'You will not be abble to restore this data',
             okText: 'Bəli',
             okType: 'danger',
             cancelText: 'Xeyr',
