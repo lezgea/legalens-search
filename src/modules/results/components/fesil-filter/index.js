@@ -26,7 +26,6 @@ export const FesilFilter = (props) => {
             })
         } else {
             let filteredFesils = selectedItems.fesils?.filter(fes => (fes.id !== item.id) && (fes.parent_id !== item.parent_id))
-
             setSelectedItems({
                 fesils: filteredFesils,
             })

@@ -93,6 +93,7 @@ export const SideFilterBar = () => {
                     setFilteredItems={setFilteredItems}
                 />
             }
+            {/* {console.log('@@@', filteredItems.bolmes)} */}
             {
                 !!filteredItems.bolmes?.length &&
                 <BolmeFilter
@@ -100,6 +101,7 @@ export const SideFilterBar = () => {
                     setFilteredItems={setFilteredItems}
                 />
             }
+            {/* {console.log('@@@', filteredItems.fesils)} */}
             {
                 !!filteredItems.fesils?.length &&
                 <FesilFilter
