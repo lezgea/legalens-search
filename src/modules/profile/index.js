@@ -230,7 +230,6 @@ export default function ProfileModule() {
         },
     ]
 
-    console.log("@@@", foldersData)
 
     return (
         <div className='profile-page-wrapper'>
