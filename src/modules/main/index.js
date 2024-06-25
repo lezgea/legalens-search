@@ -6,21 +6,23 @@ import { useSearchContext } from '@/context/search-context';
 import { Input } from 'antd';
 import { useResultsContext } from '@/context/results-context';
 import { Image } from 'antd'
-import { useSearch } from '@/hooks/use-search';
+import { useSearch, useSearchDocuments, useSearchMecelles } from '@/hooks/use-search';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
-import { CheckBoxItem } from '@/components/small';
+import { ActionButton, CheckBoxItem } from '@/components/small';
 
 
 
 export default function MainModule() {
     const { searchState, setSearchState } = useSearchContext()
-    const { resultsState, setResultsState, setColors } = useResultsContext()
+    const { resultsState, setResultsState, searchTerm, setSearchTerm, setColors } = useResultsContext()
     const router = useRouter()
 
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { data: dataMecelles = [], refetch: refetchMecelles, isFetching: isFetchingMecelles } = useSearchMecelles({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
+    const { data: dataDocuments = [], refetch: refetchDocuments, isFetching: isFetchingDocuments } = useSearchDocuments({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
 
 
     const getDeviceID = () => {
@@ -59,13 +61,26 @@ export default function MainModule() {
 
 
     function updateResultsState() {
-        setResultsState({ loading: isFetching })
-        if (!!data?.length) {
-            setResultsState({ list: data[0], searchKeys: data[1] })
-            setColors([...Object.values(data[2])])
-        } else {
-            setResultsState({ list: [], searchKeys: [] })
-            setColors([])
+        if (searchTerm === 'mecs') {
+            setResultsState({ loading: isFetchingMecelles })
+            if (!!dataMecelles?.length) {
+                setResultsState({ list: dataMecelles[0], searchKeys: dataMecelles[1] })
+                setColors([...Object.values(dataMecelles[2])])
+            } else {
+                setResultsState({ list: [], searchKeys: [] })
+                setColors([])
+            }
+            setResultsState({loading: false})
+        } else if (searchTerm === 'docs') {
+            setResultsState({ loading: isFetchingDocuments })
+            if (!!dataDocuments?.length) {
+                setResultsState({ list: dataDocuments[0], searchKeys: dataDocuments[1] })
+                setColors([...Object.values(dataDocuments[2])])
+            } else {
+                setResultsState({ list: [], searchKeys: [] })
+                setColors([])
+            }
+            setResultsState({ loading: false })
         }
     }
 
@@ -81,9 +96,35 @@ export default function MainModule() {
     }
 
 
+    async function getSearchDataAndKeysMecelles() {
+        setSearchTerm('mecs')
+        postSearchHistory({
+            search: searchState.searchValue,
+            uniqueId: deviceID,
+            source: legalSourceID,
+            campaignId: legalCompanyID,
+        })
+        refetchMecelles()
+        router.push('/results')
+    }
+
+
+    async function getSearchDataAndKeysDocuments() {
+        setSearchTerm('docs')
+        postSearchHistory({
+            search: searchState.searchValue,
+            uniqueId: deviceID,
+            source: legalSourceID,
+            campaignId: legalCompanyID,
+        })
+        refetchDocuments()
+        router.push('/results')
+    }
+
+
     React.useEffect(() => {
         updateResultsState()
-    }, [searchState.searchValue])
+    }, [searchState.searchValue, searchTerm])
 
 
     return (
@@ -101,9 +142,25 @@ export default function MainModule() {
                             className='input'
                             placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
+                        // onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                         />
-                        <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} />
+                        {/* <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} /> */}
+                        <div style={{ display: 'flex', height: 70, alignItems: 'center', justifyContent: 'center', marginRight: 30, }}>
+                            <ActionButton
+                                color='white'
+                                label='Mecellede Axtar'
+                                style={{ height: 50, paddingLeft: 15, paddingRight: 15 }}
+                                labelStyle={{ fontSize: 14 }}
+                                onClick={getSearchDataAndKeysMecelles}
+                            />
+                            <ActionButton
+                                color='white'
+                                label='Senedlerde Axtar'
+                                style={{ height: 50, marginLeft: 10, paddingLeft: 15, paddingRight: 15 }}
+                                labelStyle={{ fontSize: 14 }}
+                                onClick={getSearchDataAndKeysDocuments}
+                            />
+                        </div>
                     </div>
                     <CheckBoxItem
                         hidePopup

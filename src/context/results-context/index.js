@@ -18,6 +18,7 @@ export function ResultsContextProvider({ children }) {
     )
     const [colors, setColors] = React.useState([])
     const [selectedResult, setSelectedResult] = React.useState({})
+    const [searchTerm, setSearchTerm] = React.useState('')
 
 
     function getRandomRGB() {
@@ -43,6 +44,8 @@ export function ResultsContextProvider({ children }) {
         setSelectedItems,
         userState,
         setUserState,
+        searchTerm,
+        setSearchTerm,
     }
 
 
@@ -65,10 +68,12 @@ export function ResultsContextProvider({ children }) {
  *      colors: Array,
  *      selectedItems: Object,
  *      userState: Object,
+ *      searchTerm: String,
  *      setResultsState: (result: Object) => VoidFunction 
  *      setColors: (result: Object) => VoidFunction 
  *      setSelectedItems: (result: Object) => VoidFunction
  *      setUserState: (result: Object) => VoidFunction 
+ *      setSearchTerm: (result: Object) => VoidFunction 
  * }}
  */
 export function useResultsContext() {

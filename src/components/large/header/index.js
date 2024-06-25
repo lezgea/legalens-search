@@ -6,11 +6,12 @@ import { SearchIcon } from '../../../assets/icons';
 import { useSearchContext } from '@/context/search-context';
 import { useResultsContext } from '@/context/results-context';
 import { useRouter } from 'next/router';
-import { useSearch } from '@/hooks/use-search';
+import { useSearch, useSearchDocuments, useSearchMecelles } from '@/hooks/use-search';
 import { useFilters } from '@/hooks/use-filters';
 import { getAccessToken, removeAuthCookies } from '@/utils/cookies';
 import { useSearchHistoryMutation } from '@/hooks/use-search-history';
 import { getUserProfileInfo } from '@/api/auth';
+import { ActionButton } from '@/components/small';
 
 
 
@@ -24,6 +25,8 @@ export const Header = (props) => {
     const { data = [], refetch, isFetching } = useSearch({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { data: dataMecelles = [], refetch: refetchMecelles, isFetching: isFetchingMecelles } = useSearchMecelles({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
+    const { data: dataDocuments = [], refetch: refetchDocuments, isFetching: isFetchingDocuments } = useSearchDocuments({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
 
 
     async function getUserInfo() {
@@ -90,6 +93,38 @@ export const Header = (props) => {
     }
 
 
+    async function getSearchDataAndKeysWithNavigatingMec() {
+        setSearchState({ offset: 0, activateSearch: true })
+        setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
+        postSearchHistory({
+            search: searchState.searchValue,
+            uniqueId: deviceID,
+            source: legalSourceID,
+            campaignId: legalCompanyID,
+        })
+        refetchMecelles()
+        refetchFilters()
+        setTimeout(() => setResultsState({ loading: false }), 1000)
+        router.push('/results')
+    }
+
+
+    async function getSearchDataAndKeysWithNavigatingDocs() {
+        setSearchState({ offset: 0, activateSearch: true })
+        setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
+        postSearchHistory({
+            search: searchState.searchValue,
+            uniqueId: deviceID,
+            source: legalSourceID,
+            campaignId: legalCompanyID,
+        })
+        refetchDocuments()
+        refetchFilters()
+        setTimeout(() => setResultsState({ loading: false }), 1000)
+        router.push('/results')
+    }
+
+
     async function getSearchDataAndKeys() {
         setSearchState({ offset: 0, activateSearch: true })
         setSelectedItems({ mecelles: [], bolmes: [], fesils: [] })
@@ -100,30 +135,30 @@ export const Header = (props) => {
 
 
     function updateResultState() {
-        if (!!data.length) {
+        if (!!dataMecelles.length) {
             if (searchState.offset > 0) {
                 setResultsState({
-                    list: resultsState.list.concat(data[0]),
+                    list: resultsState.list.concat(dataMecelles[0]),
                     filters: filtersData,
                     filtersLoading: false,
                     loading: false,
                 })
             } else {
                 setResultsState({
-                    list: data[0],
-                    searchKeys: data[1],
+                    list: dataMecelles[0],
+                    searchKeys: dataMecelles[1],
                     filters: filtersData,
                     filtersLoading: false,
                     loading: false,
                 })
             }
-            setColors([...Object.values(data[2])])
+            setColors([...Object.values(dataMecelles[2])])
         } else {
             setResultsState({
                 list: [],
                 searchKeys: [],
                 filters: {},
-                loading: isFetching,
+                loading: isFetchingMecelles,
             })
             setColors([])
         }
@@ -177,7 +212,7 @@ export const Header = (props) => {
 
     React.useEffect(() => {
         updateResultState()
-    }, [data[0]])
+    }, [dataMecelles[0],dataDocuments[0]])
 
 
     return (
@@ -195,12 +230,29 @@ export const Header = (props) => {
                         <Input
                             value={searchState.searchValue}
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                            onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeysWithNavigating()}
+                            // onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeysWithNavigating()}
                         />
-                        <div className='button' onClick={getSearchDataAndKeys}>
+                        {/* <div className='button' onClick={getSearchDataAndKeys}>
                             <Icon component={SearchIcon} className='icon' />
                             <div className='label'>Axtar</div>
-                        </div>
+                        </div> */}
+                            
+                            <div style={{ display: 'flex', height: 60, alignItems: 'center', justifyContent: 'center', marginRight: 30, }}>
+                                <ActionButton 
+                                    color='white'
+                                    label='Mecellede Axtar'
+                                    style={{ height: 35, paddingLeft: 15, paddingRight: 15 }}
+                                    labelStyle={{ fontSize: 13 }}
+                                    onClick={getSearchDataAndKeysWithNavigatingMec}
+                                />
+                                <ActionButton
+                                    color='white'
+                                    label='Senedlerde Axtar'
+                                    style={{ height: 35, marginLeft: 10, marginRight: 10, paddingLeft: 15, paddingRight: 15 }}
+                                    labelStyle={{ fontSize: 13 }}
+                                    onClick={getSearchDataAndKeysWithNavigatingDocs}
+                                />
+                            </div>
                     </div>
                 </div>
             }

@@ -53,7 +53,7 @@ const bottomLeftActions = [
 
 export default function ResultsModule() {
     const { searchState, setSearchState } = useSearchContext()
-    const { resultsState, colors, setResultsState, setColors } = useResultsContext()
+    const { resultsState, colors, setResultsState, setColors, searchTerm, setSearchTerm } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
     const [cardIndex, setCardIndex] = React.useState(null)
     const [buttonsShowIndex, setButtonsShowIndex] = React.useState(null)
@@ -105,7 +105,10 @@ export default function ResultsModule() {
             <Header />
             <div className='results-inner-wrapper'>
                 <div className='side-filter-bar-wrapper'>
-                    <SideFilterBar />
+                    {
+                        // searchTerm === 'mecs' &&
+                        // <SideFilterBar />
+                    }
                 </div>
                 <div className='results-content-wrapper'>
                     <div
