@@ -87,7 +87,6 @@ export default function ProfileModule() {
         router.push('/results')
     }
 
-    console.log('$$$$$$', userState)
 
 
     React.useEffect(() => {

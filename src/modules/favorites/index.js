@@ -25,7 +25,6 @@ export default function FavoritesModule() {
 
 
     function onDeleteFavoriteItem(ID) {
-        console.log('$$$$$', ID)
         confirm({
             centered: true,
             title: 'Seçilmişi silmək istədiyinizə əminsiniz?',
