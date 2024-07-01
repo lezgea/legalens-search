@@ -11,8 +11,8 @@ export const useSearchHistoryMutation = () => {
 
 
 export const useSearchHistoryDelete = () => {
-    return useMutation(data => {
-        return backClient.delete(`/search-histories`, data);
+    return useMutation(id => {
+        return backClient.delete(`/search-histories/${id}`);
     });
 };
 

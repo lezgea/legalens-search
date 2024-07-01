@@ -6,7 +6,7 @@ import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 import { useResultsContext } from '@/context/results-context';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchHistoryData, useSearchHistoryMutation } from '@/hooks/use-search-history';
+import {useSearchHistoryData, useSearchHistoryDelete, useSearchHistoryMutation} from '@/hooks/use-search-history';
 import { getAccessToken } from '@/utils/cookies';
 import moment from 'moment/moment';
 import Loader from '@/components/large/loader';
@@ -20,7 +20,8 @@ export default function HistoryModule() {
     const { setResultsState, setColors } = useResultsContext()
     const router = useRouter()
 
-    const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { mutate: postSearchHistory, isSuccess: isSuccessPost, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
+    const { mutate: deleteSearchHistory, isSuccess: isSuccessDelete, isLoading: deleteSearchHistoryLoading } = useSearchHistoryDelete()
     const { data: historyData, refetch: refetchHistory, isFetching: historyIsFetching } = useSearchHistoryData()
 
 
@@ -33,7 +34,9 @@ export default function HistoryModule() {
             okType: 'danger',
             cancelText: 'Xeyr',
             onOk() {
-                console.log('OK');
+                deleteSearchHistory(ID)
+                if(isSuccessDelete)
+                    refetchHistory()
             },
             onCancel() {
                 console.log('Cancel');
