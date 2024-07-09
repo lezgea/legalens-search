@@ -97,7 +97,7 @@ export default function SignInModule() {
                             />
                             <div className='remember-title'>Yadda saxla</div>
                         </div>
-                        <Link className='forgot-link' href='/forgot-password'>Şifrəni Unutduz?</Link>
+                        <Link className='forgot-link' href='/forgot-password'>Şifrənizi unutmusunuz ?</Link>
                     </div>
                     <Button
                         loading={loginUserLoading}

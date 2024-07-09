@@ -368,7 +368,7 @@ const FolderEditModal = (props) => {
             setVisible={setVisible}
             width="500px"
             view={true}
-            title='Qovluğu dəyiş'
+            title='Qovluq adını dəyiş'
             cancelText='Ləğv et'
             okText='Təsdiq et'
             onCancel={onCloseFolder}

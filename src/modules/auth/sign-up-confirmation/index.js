@@ -27,7 +27,7 @@ export default function SignUpConfirmationModule() {
                 </Link>
                 <div className='sign-in-card' style={{ width: '40%', alignItems: 'center' }}>
                     <CheckCircleFilled className='success-icon' />
-                    <div className='welcome-label' style={{ color: '#73be76' }}>Hesabınız Activləşdirildi!</div>
+                    <div className='welcome-label' style={{ color: '#73be76' }}>Hesabınız Aktivləşdirildi!</div>
                     <div className='description' style={{ color: '#9fa2a2' }}>{`Email və şifrənizi daxil edərək hesabınıza giriş edə bilərsiniz`}</div>
                     <Button
                         className='sign-in-button'
