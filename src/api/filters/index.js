@@ -5,7 +5,7 @@ import { aiClient } from "../client";
 
 export const useSearchFilters = (query_string) => {
     return useMutation(data => {
-        return aiClient.post(`/filter?query_string=${query_string}&offset=0`, data);
+        return aiClient.post(`/v1/filter?query_string=${query_string}&offset=0`, data);
     })
 }
 
@@ -16,6 +16,6 @@ export const useSearchFilters = (query_string) => {
 // };
 
 export const getFiltersData = async ({ query_string }) => {
-    const { data } = await aiClient.get(`/statistics?query_string=${query_string}`)
+    const { data } = await aiClient.get(`/v1/statistics?query_string=${query_string}`)
     return data
 }

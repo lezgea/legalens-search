@@ -3,20 +3,20 @@ import { aiClient } from "../client";
 
 export const getDetailsData = async ({ mecelle_id, madde_id, bolme_id, fesil_id, query }) => {
     const { data } = await aiClient.get(
-        `/v3/enlarge?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}&query=${query}`,
+        `/v1/enlarge/mecelles?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}&query=${query}`,
     )
     return data
 }
 
 
 export const getDetailsKmq = async ({ mecelle_id }) => {
-    const { data } = await aiClient.get(`/kmqs?mecelle_id=${mecelle_id}`)
+    const { data } = await aiClient.get(`/v1/kmqs?mecelle_id=${mecelle_id}`)
     return data
 }
 
 
 export const getDetailsReferences = async ({ mecelle_id }) => {
-    const { data } = await aiClient.get(`/references?mecelle_id=${mecelle_id}`)
+    const { data } = await aiClient.get(`/v1/references?mecelle_id=${mecelle_id}`)
     return data
 }
 
@@ -24,7 +24,7 @@ export const getDetailsReferences = async ({ mecelle_id }) => {
 
 export const getDetailsIndex = async ({ mecelle_id, madde_id, bolme_id, fesil_id }) => {
     const { data } = await aiClient.get(
-        `/get_index?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}`,
+        `/v1/get_indexes?mecelle_id=${mecelle_id}&bolme_id=${bolme_id}&fesil_id=${fesil_id}&madde_id=${madde_id}`,
     )
     return data
 }
@@ -32,13 +32,13 @@ export const getDetailsIndex = async ({ mecelle_id, madde_id, bolme_id, fesil_id
 
 export const getDetailsReferenceIndex = async ({ mecelle_id, ref_name, qtype }) => {
     const { data } = await aiClient.get(
-        `/get_change_scroll?mecelle_id=${mecelle_id}&ref_name=${ref_name}&qtype=${qtype}`,
+        `/v1/get_scroll_indexes?mecelle_id=${mecelle_id}&ref_name=${ref_name}&qtype=${qtype}`,
     )
     return data
 }
 
 
 export const getDetailsAdds = async ({ mecelle_id }) => {
-    const { data } = await aiClient.get(`/adds?mecelle_id=${mecelle_id}`)
+    const { data } = await aiClient.get(`/v1/adds?mecelle_id=${mecelle_id}`)
     return data
 }
