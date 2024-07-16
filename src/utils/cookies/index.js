@@ -9,7 +9,7 @@ export function removeAuthCookies() {
 
 export const setAuthCookies = accessToken => {
     Cookies.set(accessTokenName, accessToken, {
-        expires: 7,
+        expires: 30,
         sameSite: 'none',
         secure: true,
     });

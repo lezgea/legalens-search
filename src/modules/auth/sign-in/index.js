@@ -24,7 +24,6 @@ export default function SignInModule() {
     const { mutate: loginUser, isSuccess, isLoading: loginUserLoading } = useLoginUserMutation()
     const { showNotification } = useNotification()
 
-    // const clientId = '459932672774-11ois47tutfg7879pjd2fglk97it0712.apps.googleusercontent.com';
     const clientId = 'YOUR_GOOGLE_CLIENT_ID'
 
 
