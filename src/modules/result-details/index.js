@@ -93,6 +93,7 @@ export default function ResultDetailsModule() {
         if (!!searchText) {
             clearSearchHighlighting()
             const count = highlightAllOccurrences(searchText)
+            console.log('@@@@@', count)
             setSearchResultCount(count)
             if (count > 0)
                 setShowSearch(true)
@@ -129,7 +130,13 @@ export default function ResultDetailsModule() {
         const updatedContent = content.replace(regex, '<span class="inner-marked">$1</span>');
         contentElement.innerHTML = updatedContent;
 
-        return (updatedContent.match(/<span class="marked">/g) || []).length;
+        const firstHighlight = contentElement.querySelector('.inner-marked');
+        if (firstHighlight) {
+            // Scroll to the first highlighted occurrence
+            firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        return (updatedContent.match(/<span class="inner-marked">/g) || []).length;
     };
 
 
