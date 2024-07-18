@@ -123,6 +123,7 @@ export default function ResultDetailsModule() {
         });
     };
 
+
     const highlightAllOccurrences = (text) => {
         const contentElement = searchRef.current;
         const content = contentElement.innerHTML;
