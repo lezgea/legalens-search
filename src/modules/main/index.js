@@ -70,7 +70,7 @@ export default function MainModule() {
                 setResultsState({ list: [], searchKeys: [] })
                 setColors([])
             }
-            setResultsState({loading: false})
+            setResultsState({ loading: false })
         } else if (searchTerm === 'docs') {
             setResultsState({ loading: isFetchingDocuments })
             if (!!dataDocuments?.length) {
@@ -155,7 +155,7 @@ export default function MainModule() {
                             />
                             <ActionButton
                                 color='white'
-                                label='Senedlerde Axtar'
+                                label='Aktlarda Axtar'
                                 style={{ height: 50, marginLeft: 10, paddingLeft: 15, paddingRight: 15 }}
                                 labelStyle={{ fontSize: 14 }}
                                 onClick={getSearchDataAndKeysDocuments}

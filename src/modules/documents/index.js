@@ -51,7 +51,7 @@ const bottomLeftActions = [
 ]
 
 
-export default function ResultsModule() {
+export default function DocumentsModule() {
     const { searchState, setSearchState } = useSearchContext()
     const { resultsState, colors, setResultsState, setColors, searchTerm, setSearchTerm } = useResultsContext()
     const [showModal, setShowModal] = React.useState(false)
