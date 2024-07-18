@@ -73,9 +73,11 @@ export default function MainModule() {
             setResultsState({ loading: false })
         } else if (searchTerm === 'docs') {
             setResultsState({ loading: isFetchingDocuments })
-            if (!!dataDocuments?.length) {
-                setResultsState({ list: dataDocuments[0], searchKeys: dataDocuments[1] })
-                setColors([...Object.values(dataDocuments[2])])
+            if (!!dataDocuments?.mecelle_dict.length) {
+                setResultsState({
+                    list: dataDocuments.mecelle_dict, searchKeys: dataDocuments.search_keywords
+                })
+                setColors([...Object.values(dataDocuments.all_colors)])
             } else {
                 setResultsState({ list: [], searchKeys: [] })
                 setColors([])
@@ -118,7 +120,7 @@ export default function MainModule() {
             campaignId: legalCompanyID,
         })
         refetchDocuments()
-        router.push('/results')
+        router.push('/documents')
     }
 
 
