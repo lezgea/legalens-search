@@ -104,9 +104,12 @@ export default function ResultsModule() {
         <div className='uniq-wrapper'>
             <Header />
             <div className='results-inner-wrapper'>
-                <div className='side-filter-bar-wrapper'>
-                    <SideFilterBar />
-                </div>
+                {
+                    !!resultsState.searchKeys?.length &&
+                    <div className='side-filter-bar-wrapper'>
+                        <SideFilterBar />
+                    </div>
+                }
                 <div className='results-content-wrapper'>
                     <div
                         ref={listRef}

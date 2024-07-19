@@ -59,22 +59,22 @@ export default function ResetPasswordModule() {
                     <div className='welcome-label'>Şifrənin yenilənməsi</div>
                     <Form.Item
                         name='password'
-                        rules={[{ required: true, message: 'Please input new password!' }]}
+                        rules={[{ required: true, message: 'Zəhmət olmasa, yeni şifrəni daxil edin' }]}
                     >
                         <FloatInput
-                            label='Yeni Şifrə'
-                            placeholder='Yeni Şifrə'
+                            label='Yeni şifrə daxil edin'
+                            placeholder='Yeni şifrə daxil edin'
                             value={state.password}
                             onChange={(e) => setState({ password: e.target.value })}
                         />
                     </Form.Item>
                     <Form.Item
                         name='password_conf'
-                        rules={[{ required: true, message: 'Please confirm new password!' }]}
+                        rules={[{ required: true, message: 'Şifrə digəri ilə uyğun deyil, zəhmət olmasa düzgün daxil edin' }]}
                     >
                         <FloatInput
-                            label='Şifrəni Təsdiqlə'
-                            placeholder='Şifrəni Təsdiqlə'
+                            label='Şifrəni təsdiqləyin'
+                            placeholder='Şifrəni təsdiqləyin'
                             value={state.password_conf}
                             onChange={(e) => setState({ password_conf: e.target.value })}
                         />
@@ -84,7 +84,7 @@ export default function ResetPasswordModule() {
                         className='sign-in-button'
                         onClick={onFinishForm}
                     >
-                        Şifrəni Yenilə
+                        Şifrəni yenilə
                     </Button>
                 </Form>
             </div>

@@ -259,7 +259,7 @@ export default function ProfileModule() {
                             style={{ marginLeft: 'auto', marginRight: 50, width: 200, marginTop: -30, borderRadius: 7 }}
                             onClick={() => router.push('/reset-password')}
                         >
-                            <div className='label' style={{ fontSize: 15 }}>Şifrəni yenilə</div>
+                            <div className='label' style={{ fontSize: 15 }}>Şifrəni dəyişdir</div>
                         </div>
                     </div>
 
@@ -267,11 +267,11 @@ export default function ProfileModule() {
                         <div className='card-box-wrapper'>
                             <div className='card-box-header'>
                                 <Icon component={FolderIcon} className='icon' style={{ fontSize: 20, marginRight: 10 }} />
-                                FOLDERS
+                                Qovluqlar
                             </div>
                             <Table
                                 showHeader={false}
-                                locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
+                                locale={{ emptyText: 'Təəssüf ki, heç bir məlumat tapılmadı' }}
                                 columns={FOLDER_COLUMNS}
                                 dataSource={foldersData.data}
                                 pagination={false}
@@ -280,11 +280,11 @@ export default function ProfileModule() {
                         <div className='card-box-wrapper'>
                             <div className='card-box-header'>
                                 <Icon component={HistoryIcon} className='icon' style={{ fontSize: 20, marginRight: 10 }} />
-                                HISTORY
+                                Tarixçə
                             </div>
                             <Table
                                 showHeader={false}
-                                locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
+                                locale={{ emptyText: 'Təəssüf ki, heç bir məlumat tapılmadı' }}
                                 columns={HISTORY_COLUMNS}
                                 dataSource={historyData.data}
                             />
@@ -292,11 +292,11 @@ export default function ProfileModule() {
                         <div className='card-box-wrapper'>
                             <div className='card-box-header'>
                                 <Icon component={StarIcon} className='icon' style={{ fontSize: 20, marginRight: 10 }} />
-                                FAVORITES
+                                Seçilmişlər
                             </div>
                             <Table
                                 showHeader={false}
-                                locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
+                                locale={{ emptyText: 'Təəssüf ki, heç bir məlumat tapılmadı' }}
                                 columns={FAVORITE_COLUMNS}
                                 dataSource={favoritesData.data}
                             />
@@ -305,7 +305,7 @@ export default function ProfileModule() {
                 </div>
 
 
-                <div className='footer-bottom'>
+                <div className='profile-footer-bottom'>
                     <div className='footer-icons-wrapper'>
                         {/* <a href='https://www.linkedin.com/company/legalens/' target='_blank'> */}
                         {/* <Icon component={TiktokIcon} className='footer-icon' /> */}

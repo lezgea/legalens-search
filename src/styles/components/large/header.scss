@@ -319,6 +319,81 @@
                 font-size: 30px;
             }
         }
+
+
+        .profile-footer-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            // background-color: #0091ff;
+            // align-items: center;
+            align-content: space-between;
+            justify-content: space-between;
+            padding: 20px 30px;
+
+            .footer-icons-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+
+                a {
+                    color: #000;
+
+                    &:hover {
+                        color: #0091ff;
+                    }
+
+                    .footer-icon {
+                        font-size: 18px;
+                    }
+                }
+
+            }
+
+            .footer-ai-wrapper {
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                padding-right: 20px;
+
+                .footer-ai-text {
+                    font-size: 14px;
+                }
+
+                .footer-ai-logo {
+                    margin-left: 10px;
+                }
+            }
+
+
+            @media (max-width: 768px) {
+                padding: 10px 15px;
+
+                .footer-icons-wrapper {
+                    a {
+                        .footer-icon {
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                .footer-ai-wrapper {
+                    display: flex;
+                    align-items: center;
+                    padding-right: 15px;
+
+                    .footer-ai-text {
+                        font-size: 12px;
+                    }
+
+                    .footer-ai-logo {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
     }
 
     @media (max-width: 768px) {

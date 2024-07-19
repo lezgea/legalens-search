@@ -122,7 +122,7 @@ export default function SignUpModule() {
                         </Form.Item>
                         <Form.Item
                             name='password'
-                            rules={[{ required: true, message: 'Please input valid password!' }]}
+                            rules={[{ required: true, message: 'Zəhmət olmasa, şifrəni daxil edin' }]}
                         >
                             <PasswordInput
                                 label='Şifrə'
@@ -138,14 +138,14 @@ export default function SignUpModule() {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please confirm your password!',
+                                    message: 'Zəhmət olmasa, şifrəni daxil edin',
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
                                         if (!value || getFieldValue('password') === value) {
                                             return Promise.resolve();
                                         }
-                                        return Promise.reject(new Error('The new password that you entered do not match!'));
+                                        return Promise.reject(new Error('Şifrə digəri ilə uyğun deyil, zəhmət olmasa düzgün daxil edin'));
                                     },
                                 }),
                             ]}
@@ -163,7 +163,7 @@ export default function SignUpModule() {
                         <div className='checkbox-wrapper'>
                             <Checkbox checked={acceptPrivacy} onChange={() => setAcceptPrivacy(!acceptPrivacy)}></Checkbox>
                             <div className='checkbox-label'>
-                                <span className='link' onClick={() => setState({ showTermsConditionsModal: true })}>Istifadəçi şərtləri və qaydaları</span>
+                                <span className='link' onClick={() => setState({ showTermsConditionsModal: true })}>İstifadəçi şərtləri</span>
                                 &
                                 <span className='link' onClick={() => setState({ showPrivacyPolicyModal: true })}>məxfilik siyasəti</span> ilə razıyam
                             </div>

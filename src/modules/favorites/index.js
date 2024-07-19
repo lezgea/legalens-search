@@ -27,7 +27,7 @@ export default function FavoritesModule() {
     function onDeleteFavoriteItem(ID) {
         confirm({
             centered: true,
-            title: 'Seçilmişi silmək istədiyinizə əminsiniz?',
+            title: 'Seçilmişi silmək istədiyinizə əminsinizmi?',
             icon: <ExclamationCircleFilled />,
             okText: 'Bəli',
             okType: 'danger',
@@ -197,7 +197,7 @@ export default function FavoritesModule() {
             <div className='content-wrapper'>
                 <Table
                     showHeader={false}
-                    locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
+                    locale={{ emptyText: 'Təəssüf ki, heç bir məlumat tapılmadı' }}
                     rowSelection={rowSelection}
                     columns={columns}
                     dataSource={favoritesData.data}

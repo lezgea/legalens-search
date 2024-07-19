@@ -6,7 +6,7 @@ import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 import { useResultsContext } from '@/context/results-context';
 import { MainHeader } from '@/components/large';
 import { v4 as uuidv4 } from 'uuid';
-import {useSearchHistoryData, useSearchHistoryDelete, useSearchHistoryMutation} from '@/hooks/use-search-history';
+import { useSearchHistoryData, useSearchHistoryDelete, useSearchHistoryMutation } from '@/hooks/use-search-history';
 import { getAccessToken } from '@/utils/cookies';
 import moment from 'moment/moment';
 import Loader from '@/components/large/loader';
@@ -28,14 +28,14 @@ export default function HistoryModule() {
     function onDeleteHistoryItem(ID) {
         confirm({
             centered: true,
-            title: 'Tarixçəni silmək istədiyinizə əminsiniz?',
+            title: 'Tarixçəni silmək istədiyinizə əminsinizmi?',
             icon: <ExclamationCircleFilled />,
             okText: 'Bəli',
             okType: 'danger',
             cancelText: 'Xeyr',
             onOk() {
                 deleteSearchHistory(ID)
-                if(isSuccessDelete)
+                if (isSuccessDelete)
                     refetchHistory()
             },
             onCancel() {
@@ -197,7 +197,7 @@ export default function HistoryModule() {
             <div className='content-wrapper'>
                 <Table
                     showHeader={false}
-                    locale={{ emptyText: 'Təəsüfki, heç bir məlumat tapılmadı' }}
+                    locale={{ emptyText: 'Təəssüf ki, heç bir məlumat tapılmadı' }}
                     // rowSelection={rowSelection}
                     columns={columns}
                     dataSource={historyData.data}

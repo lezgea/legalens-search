@@ -10,7 +10,7 @@
         user-select: none;
 
         .profile-content-wrapper {
-            height: 100vh;
+            // height: 100vh;
             // position: relative;
             // height: 100%;
             width: 100%;
@@ -79,7 +79,7 @@
                     overflow: hidden;
                     width: 28%;
                     height: 500px;
-                    border-radius: 30px 30px 0 0;
+                    border-radius: 30px;
                     cursor: pointer;
                     border-bottom: none;
                     transition: .3s ease-in-out;
@@ -103,16 +103,16 @@
             }
         }
 
-        .footer-bottom {
-            position: absolute;
+        .profile-footer-bottom {
             bottom: 0;
+            z-index: 2000;
             width: 100%;
+            margin-top: 40px;
             display: flex;
-            // background-color: #0091ff;
-            // align-items: center;
             align-content: space-between;
             justify-content: space-between;
             padding: 20px 30px;
+            background-color: #fff;
 
             .footer-icons-wrapper {
                 display: flex;
