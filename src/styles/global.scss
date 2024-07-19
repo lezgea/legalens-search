@@ -260,6 +260,22 @@ img {
   display: flex;
   align-items: center;
 
+  .highlight-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+
+    .highlight-left-button {
+      .icon {
+        transform: rotateZ(180) !important;
+      }
+
+    }
+
+    .highlight-counter {}
+  }
+
   .inner-search-input {
     margin-right: 8px;
     height: 35px;

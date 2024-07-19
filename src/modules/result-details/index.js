@@ -1,5 +1,5 @@
 import React from 'react'
-import { DownloadIcon, SearchIcon, SquareIcon, StarIcon } from '@/assets/icons'
+import { ArrowRightIcon, DownloadIcon, SearchIcon, SquareIcon, StarIcon } from '@/assets/icons'
 import { Header } from '@/components/large'
 import { ActionButton } from '@/components/small';
 import { useDetails } from '@/hooks/use-details';
@@ -23,6 +23,10 @@ export default function ResultDetailsModule() {
     const [showSearch, setShowSearch] = React.useState(false)
     const [searchText, setSearchText] = React.useState('');
     const [searchResultCount, setSearchResultCount] = React.useState(0);
+    const [highlights, setHighlights] = React.useState([]);
+    const [highlightCount, setHighlightCount] = React.useState(0);
+    const [currentHighlightIndex, setCurrentHighlightIndex] = React.useState(0);
+
 
     let idItems = id.split('_')
     const bolme_id = idItems[0]
@@ -39,6 +43,7 @@ export default function ResultDetailsModule() {
             bolme_id: 0,
             fesil_id: 0,
             madde_id: 0,
+            count: 0,
             article: {
                 type: 'item',
                 index: false,
@@ -128,18 +133,45 @@ export default function ResultDetailsModule() {
         const contentElement = searchRef.current;
         const content = contentElement.innerHTML;
         const regex = new RegExp(`(${text})`, 'gi');
+
+        // Count the number of occurrences of the search term
+        const matchCount = (content.match(regex) || []).length;
+
         const updatedContent = content.replace(regex, '<span class="inner-marked">$1</span>');
         contentElement.innerHTML = updatedContent;
 
-        const firstHighlight = contentElement.querySelector('.inner-marked');
-        if (firstHighlight) {
-            // Scroll to the first highlighted occurrence
-            firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        const allHighlights = contentElement.querySelectorAll('.inner-marked');
+        setHighlights(allHighlights);
+        setHighlightCount(allHighlights.length);
 
-        return (updatedContent.match(/<span class="inner-marked">/g) || []).length;
+        if (allHighlights.length > 0) {
+            // Scroll to the first highlighted occurrence
+            allHighlights[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setCurrentHighlightIndex(0);
+        } else {
+            setCurrentHighlightIndex(-1);
+        }
+        setState({ count: matchCount })
     };
 
+    const scrollToHighlight = (index) => {
+        if (highlights.length > 0 && index >= 0 && index < highlights.length) {
+            highlights[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setCurrentHighlightIndex(index);
+        }
+    };
+
+    const moveToNextHighlight = () => {
+        const nextIndex = (currentHighlightIndex + 1) % highlights.length;
+        scrollToHighlight(nextIndex);
+    };
+
+    const moveToPrevHighlight = () => {
+        const prevIndex = (currentHighlightIndex - 1 + highlights.length) % highlights.length;
+        scrollToHighlight(prevIndex);
+    };
+
+    console.log('@@@@@', state.count)
 
     function onAddToFavorites() {
 
@@ -279,6 +311,26 @@ export default function ResultDetailsModule() {
                             showSearch
                                 ?
                                 <div className='inner-search-wrapper'>
+                                    {
+                                        highlightCount > 0 &&
+                                        <div className='highlight-buttons-wrapper'>
+                                            <ActionButton
+                                                color='blue'
+                                                icon={ArrowRightIcon}
+                                                className='highlight-left-button'
+                                                style={{ height: 30, width: 30, padding: 0, transform: 'rotate(0.5turn)' }}
+                                                onClick={moveToPrevHighlight}
+                                            />
+                                            <div className='highlight-counter'>{currentHighlightIndex + 1}/{highlightCount}</div>
+                                            <ActionButton
+                                                color='blue'
+                                                icon={ArrowRightIcon}
+                                                className='highlight-right-button'
+                                                style={{ height: 30, width: 30, padding: 0, marginRight: 10 }}
+                                                onClick={moveToNextHighlight}
+                                            />
+                                        </div>
+                                    }
                                     <Input
                                         value={searchText}
                                         className='inner-search-input'
