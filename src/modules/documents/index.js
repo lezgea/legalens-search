@@ -206,11 +206,8 @@ const ResultCard = (props) => {
         Percentages,
         text,
         searchValue,
-        madde_id,
-        bolme_id,
-        fesil_id,
-        mecelle_id,
-        index,
+        doc_id: document_id,
+        Index_to_scroll: index,
         cardIndex,
         setCardIndex,
         buttonsShowIndex,
@@ -290,7 +287,7 @@ const ResultCard = (props) => {
 
     return (
         <Link
-            href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}_${searchValue}`}
+            href={`/document-details/${document_id}_${index}_${searchValue}`}
             className='result-card-wrapper'
             onMouseOver={() => setButtonsShowIndex(index)}
         >
@@ -326,7 +323,7 @@ const ResultCard = (props) => {
                 >
                     <Icon component={ArrowDownIcon} className='icon' style={{ transform: index === cardIndex ? 'rotate(0.5turn)' : 'rotate(0)' }} />
                 </div>
-                <Link className='label' href={`/result-details/${bolme_id}_${fesil_id}_${madde_id}_${mecelle_id}_${searchValue}`}>
+                <Link className='label' href={`/document-details/${document_id}_${index}_${searchValue}`}>
                     <div dangerouslySetInnerHTML={{ __html: label }}></div>
                 </Link>
                 <div className='description' dangerouslySetInnerHTML={{ __html: description }}></div>

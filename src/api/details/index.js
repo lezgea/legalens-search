@@ -9,6 +9,14 @@ export const getDetailsData = async ({ mecelle_id, madde_id, bolme_id, fesil_id,
 }
 
 
+export const getDocumentDetailsData = async ({ index, document_id, query }) => {
+    const { data } = await aiClient.get(
+        `/v1/enlarge/documents?document_id=${document_id}&index=${index}&query=${query}`,
+    )
+    return data
+}
+
+
 export const getDetailsKmq = async ({ mecelle_id }) => {
     const { data } = await aiClient.get(`/v1/kmqs?mecelle_id=${mecelle_id}`)
     return data

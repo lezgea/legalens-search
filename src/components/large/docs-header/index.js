@@ -135,7 +135,7 @@ export const DocsHeader = (props) => {
 
 
     function updateResultState() {
-        if (!!dataDocuments.mecelle_dict.length) {
+        if (!!dataDocuments?.mecelle_dict?.length) {
             if (searchState.offset > 0) {
                 setResultsState({
                     list: resultsState.list.concat(dataDocuments.mecelle_dict),
