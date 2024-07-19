@@ -73,7 +73,7 @@ export default function MainModule() {
             setResultsState({ loading: false })
         } else if (searchTerm === 'docs') {
             setResultsState({ loading: isFetchingDocuments })
-            if (!!dataDocuments?.mecelle_dict.length) {
+            if (!!dataDocuments?.mecelle_dict?.length) {
                 setResultsState({
                     list: dataDocuments.mecelle_dict, searchKeys: dataDocuments.search_keywords
                 })
@@ -85,6 +85,7 @@ export default function MainModule() {
             setResultsState({ loading: false })
         }
     }
+
 
     async function getSearchDataAndKeys() {
         postSearchHistory({
@@ -125,6 +126,9 @@ export default function MainModule() {
 
 
     React.useEffect(() => {
+        console.log('Search State:', searchState);
+        console.log('Results State:', resultsState);
+        console.log('Search Term:', searchTerm);
         updateResultsState()
     }, [searchState.searchValue, searchTerm])
 

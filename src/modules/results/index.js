@@ -102,12 +102,12 @@ export default function ResultsModule() {
 
     return (
         <div className='uniq-wrapper'>
-            {/* <Header /> */}
+            <Header />
             <div className='results-inner-wrapper'>
                 <div className='side-filter-bar-wrapper'>
                     {
-                        // searchTerm === 'mecs' &&
-                        // <SideFilterBar />
+                        searchTerm === 'mecs' && !!resultsState.searchKeys?.length &&
+                        <SideFilterBar />
                     }
                 </div>
                 <div className='results-content-wrapper'>

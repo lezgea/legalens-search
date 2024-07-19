@@ -15,7 +15,7 @@ import { ActionButton } from '@/components/small';
 
 
 
-export const Header = (props) => {
+export const DocsHeader = (props) => {
     let { hideSearch } = props
     const router = useRouter()
     const isLogged = !!getAccessToken()
@@ -26,7 +26,7 @@ export const Header = (props) => {
     const { data: filtersData = [], refetch: refetchFilters, isFetching: isFetchingFilters } = useFilters({ query_string: searchState.searchValue }, () => { })
     const { mutate: postSearchHistory, isSuccess, isLoading: postSearchHistoryLoading } = useSearchHistoryMutation()
     const { data: dataMecelles = [], refetch: refetchMecelles, isFetching: isFetchingMecelles } = useSearchMecelles({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
-    const { data: dataDocuments = {}, refetch: refetchDocuments, isFetching: isFetchingDocuments } = useSearchDocuments({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
+    const { data: dataDocuments = [], refetch: refetchDocuments, isFetching: isFetchingDocuments } = useSearchDocuments({ query: searchState.searchValue, offset: searchState.offset, search_as_phrase: resultsState.search_as_phrase }, () => { })
 
 
     async function getUserInfo() {
@@ -135,30 +135,30 @@ export const Header = (props) => {
 
 
     function updateResultState() {
-        if (!!dataMecelles.length) {
+        if (!!dataDocuments.mecelle_dict.length) {
             if (searchState.offset > 0) {
                 setResultsState({
-                    list: resultsState.list.concat(dataMecelles[0]),
+                    list: resultsState.list.concat(dataDocuments.mecelle_dict),
                     filters: filtersData,
                     filtersLoading: false,
                     loading: false,
                 })
             } else {
                 setResultsState({
-                    list: dataMecelles[0],
-                    searchKeys: dataMecelles[1],
+                    list: dataDocuments.mecelle_dict,
+                    searchKeys: dataDocuments.search_keywords,
                     filters: filtersData,
                     filtersLoading: false,
                     loading: false,
                 })
             }
-            setColors([...Object.values(dataMecelles[2])])
+            setColors([...Object.values(dataDocuments.all_colors)])
         } else {
             setResultsState({
                 list: [],
                 searchKeys: [],
                 filters: {},
-                loading: isFetchingMecelles,
+                loading: isFetchingDocuments,
             })
             setColors([])
         }
@@ -212,7 +212,7 @@ export const Header = (props) => {
 
     React.useEffect(() => {
         updateResultState()
-    }, [dataMecelles[0], dataDocuments[0]])
+    }, [dataMecelles[0], dataDocuments.mecelle_dict])
 
 
     return (

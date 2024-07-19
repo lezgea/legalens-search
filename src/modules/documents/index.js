@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { Checkbox, Modal, Spin } from 'antd';
-import { Header } from '@/components/large';
+import { DocsHeader, Header } from '@/components/large';
 import { SideFilterBar } from './components';
 import { ActionButton, SearchKey } from '@/components/small';
 import { useResultsContext } from '@/context/results-context';
@@ -102,7 +102,7 @@ export default function DocumentsModule() {
 
     return (
         <div className='uniq-wrapper'>
-            {/* <Header /> */}
+            <DocsHeader />
             <div className='results-inner-wrapper'>
                 <div className='side-filter-bar-wrapper'>
                     {
