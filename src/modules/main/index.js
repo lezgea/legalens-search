@@ -75,7 +75,8 @@ export default function MainModule() {
             setResultsState({ loading: isFetchingDocuments })
             if (!!dataDocuments?.mecelle_dict?.length) {
                 setResultsState({
-                    list: dataDocuments.mecelle_dict, searchKeys: dataDocuments.search_keywords
+                    list: dataDocuments.mecelle_dict,
+                    searchKeys: dataDocuments.search_keywords
                 })
                 setColors([...Object.values(dataDocuments.all_colors)])
             } else {
@@ -126,9 +127,6 @@ export default function MainModule() {
 
 
     React.useEffect(() => {
-        console.log('Search State:', searchState);
-        console.log('Results State:', resultsState);
-        console.log('Search Term:', searchTerm);
         updateResultsState()
     }, [searchState.searchValue, searchTerm])
 
@@ -148,7 +146,6 @@ export default function MainModule() {
                             className='input'
                             placeholder='Axtarış üçün söz və ya söz birləşməsi daxil edin'
                             onChange={(e) => setSearchState({ searchValue: e.target.value })}
-                        // onKeyDown={(e) => e.key === 'Enter' && getSearchDataAndKeys()}
                         />
                         {/* <Icon component={ThinSearchIcon} className='search-icon' onClick={getSearchDataAndKeys} /> */}
                         <div style={{ display: 'flex', height: 70, alignItems: 'center', justifyContent: 'center', marginRight: 30, }}>

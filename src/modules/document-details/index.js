@@ -25,8 +25,8 @@ export default function DocumentDetailsModule() {
     const [searchResultCount, setSearchResultCount] = React.useState(0);
 
     let idItems = id.split('_')
-    const index = idItems[0]
-    const document_id = idItems[1]
+    const document_id = idItems[0]
+    const index = idItems[1]
     const query = idItems[2]
 
     const [state, setState] = React.useReducer((prevState, newState) => ({ ...prevState, ...newState }),
